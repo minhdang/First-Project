@@ -1,0 +1,32 @@
+!!! Strict
+%html{ html_attrs("en_us") }
+  %head
+    = yield :top_head
+    %title
+      = t('layouts.title')
+      = yield(:page_title) || yield(:title) || t('layouts.sub_title')
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }/
+    %link{ :rel => 'shortcut icon', :href => "#{request.protocol}www.edisonnation.com/favicon.ico"}/
+    
+    = render :partial => 'shared/head'
+    = yield :head
+  %body{:id => controller.controller_name, :class => "plain #{controller.action_name}"}
+    #wrapper
+      #header
+        %a{:href => '/'}
+          %h1#logo= t('layouts.edison_nation')
+      #content-wrapper
+        #content
+          %h1.panel-title
+            #loading.float-right
+            = yield :title
+          
+          = render :partial => 'shared/flash_messages', :locals => {:flash => flash}
+      
+          = yield
+        %div.bottom
+    #footer
+      = render :partial => 'shared/footer'
+    
+    = render :partial => 'shared/google_analytics'
+    = yield :scripts

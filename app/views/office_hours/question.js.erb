@@ -1,0 +1,16 @@
+$('textarea#message_body').val('');
+$('div.question').toggle('fast');
+$('div.question-flash').toggle('fast');
+
+setInterval(
+  function () {
+    if ($('div.question').is(':visible')) {
+      //clearInterval();
+    } else {
+      $('div.question').toggle('fast');
+      $('div.question-flash').toggle('fast');
+    }
+    
+  },
+  12000
+);

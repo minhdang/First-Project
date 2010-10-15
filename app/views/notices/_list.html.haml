@@ -1,0 +1,12 @@
+- style ||= :icon
+- editable = editable.nil? ? false : editable
+%ul#notices-list{:class => style}
+  - notices.each_with_index do |notice,index|
+    - if notice.creator
+      - if notice.creator != current_user && index <= 4
+        %li{:class => dom_class(notice.noticeable)}
+          = link_to image_tag(notice.creator.avatar.url(style), :class => 'avatar'), user_path(notice.creator)
+          - if editable && current_user == notice.creator
+            = button_to('delete',user_notice_path(notice.creator,notice), :method => :delete, :class => 'delete-button', :id => dom_id(notice,:delete), :confirm => 'Are you sure? This update will no longer be displayed to your friends.')
+          = notice_message(notice)
+          .meta= timeago notice.created_at

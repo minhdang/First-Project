@@ -1,0 +1,22 @@
+- content_for :page_title, "Season #{@season.season_number} - #{@season.description}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete season", admin_season_path(@season), :method => :delete, :confirm => "Are you sure? The season will be deleted.", :class => 'action'
+        = link_to "edit season", edit_admin_season_path(@season), :class => 'action'
+        = link_to "Create Episode", new_admin_season_episode_path(@season), :class => 'action'
+  %tbody
+    %tr
+      %th  Season ID
+      %td= @season.id
+    %tr
+      %th  Season Number
+      %td= @season.season_number
+    %tr
+      %th  Description
+      %td= @season.description
+    %tr
+      %th Episode Count
+      %td= link_to @season.episodes.size, admin_season_episodes_path(@season)

@@ -1,0 +1,3 @@
+- form_for @video_category, :url => admin_video_categories_path, :html => { :method => :post } do |f|
+  = render :partial => "fields", :locals => { :f => f }
+  %div= f.submit 'Create Video Category'

@@ -1,0 +1,39 @@
+- content_for :page_title, 'Orders'
+
+- content_for :head do 
+  = javascript_include_tag('jquery/jquery.autocomplete.js', 'admin/autocomplete')
+  = stylesheet_link_tag('admin/autocomplete')
+
+%h1
+  = link_to 'csv', admin_orders_path(:format => :csv, :scope => @scope), :class => 'action'
+  = @scope ? "#{@scope.to_s.titleize} Orders" : "Orders"
+
+- form_tag admin_orders_path, :method => :get do
+  = text_field_tag :order_number, nil, :class => 'autocomplete-admin-orders'
+  = submit_tag :submit
+  
+= will_paginate @orders
+
+%table.data
+  %thead
+    %tr
+      %th Order #
+      %th Created On
+      %th User
+      %th Items
+      %th Amount
+      %th
+  %tbody
+    - @orders.each do |order|
+      %tr
+        %td= order.number
+        %td= order.created_at.strftime('%m/%d/%Y')
+        %td
+          = link_to order.user.name, admin_user_path(order.user)
+          = "(#{order.user.login})"
+        %td= order.order_items.size
+        %td= number_to_currency(order.total)
+        %td.actions
+          = link_to 'view order', admin_order_path(order)
+
+= will_paginate @orders

@@ -1,0 +1,23 @@
+#shop.pod
+  %h5
+    %a{:href => "shop"}
+      = t('shared.dashboard.shop.innovation_store')
+  .product
+    %h6
+      %a{:href => "http://www.edisonnation.com/stores/innovation-store/categories/books/products/the-independent-inventors-handbook"}
+        = t('shared.dashboard.shop.independent_inventors_handbook')
+    %p
+      %a{:href => "http://www.edisonnation.com/stores/innovation-store/categories/books/products/the-independent-inventors-handbook"}
+        = image_tag 'http://www.edisonnation.com/images/store/handbookT1.gif', :class => 'left'
+      %span.price-regular
+        %strong
+          = t('shared.dashboard.shop.regular_price')
+        %br
+        = t('shared.dashboard.shop.price_plus_s_and_h')
+      %br
+      %span.price-insider
+        %strong
+          = t('shared.dashboard.shop.insider_pricing')
+        %br
+        %a{:href => "http://www.edisonnation.com/stores/innovation-store/categories/books/products/the-independent-inventors-handbook"}
+          = t('shared.dashboard.shop.insider_price_plus_s_and_h')

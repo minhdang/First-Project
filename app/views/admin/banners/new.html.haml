@@ -1,0 +1,7 @@
+- content_for :page_title, 'New Banner'
+
+%h1 New Banner
+
+- form_for @banner, :url => admin_banners_path, :html => { :method => :post, :multipart => true } do |f| 
+  = render :partial => 'fields', :locals => { :f => f }
+  %div= f.submit 'Create Banner'

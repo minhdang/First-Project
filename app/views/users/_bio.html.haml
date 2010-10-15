@@ -1,0 +1,18 @@
+.user-bio
+  = badge_for user
+  %table.attributes
+    %tr
+      %th= t('users.bio.name')
+      %td= "#{user.name} (#{link_to(user.login, user_path(user))})"
+    - unless user.user_skills.empty?
+      %tr
+        %th= t('users.bio.skills')
+        %td=  linked_list_of_skills(user.user_skills)
+    - unless user.groups.empty?
+      %tr
+        %th= t('users.bio.groups')
+        %td
+          - user.groups.each do |group|
+            = link_to h(group.title), group_path(group)
+            %br/
+  %div.clear

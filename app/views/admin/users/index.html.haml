@@ -1,0 +1,19 @@
+- content_for :page_title, 'Users'
+- content_for :head do 
+  = javascript_include_tag('jquery/jquery.autocomplete.js', 'admin/autocomplete')
+  = stylesheet_link_tag('admin/autocomplete')
+
+%h1
+  = link_to 'csv', admin_users_path(:format => :csv, :scope => @scope), :class => 'action'
+  = "#{@scope.to_s.titleize} Users"
+
+= will_paginate @users
+
+- if @scope == :all
+  - form_tag admin_users_path(:scope => @scope), :method => :get do
+    = text_field_tag :q, nil, :class => 'autocomplete-admin-users'
+    = submit_tag 'search'
+
+= render :partial => 'list', :locals => {:users => @users}
+
+= will_paginate @users

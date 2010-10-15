@@ -1,0 +1,26 @@
+- content_for :head, render(:partial => 'shared/video_player_js')
+
+%h1= "Preview Chapter: #{@chapter.chapter_number}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete chapter", admin_episode_chapter_path(@chapter.episode, @chapter), :method => :delete, :confirm => "Are you sure? The chapter will be destroyed.", :class => 'action'
+        = link_to "edit chapter", edit_admin_episode_chapter_path(@chapter.episode, @chapter), :class => 'action'
+  %tbody
+    %tr
+      %th  Chapter ID
+      %td= @chapter.id
+    %tr
+      %th  Description 
+      %td= @chapter.description
+    %tr
+      %th  Chapter Number
+      %td= @chapter.chapter_number
+    %tr
+      %th  Episode Name
+      %td= link_to @chapter.episode.title, admin_episode_path(@chapter.episode)
+
+= render :partial => "shared/video_player", :locals => { :video_path => @chapter.video.url(:original, include_time_stamps = false) }
+      

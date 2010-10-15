@@ -1,0 +1,9 @@
+<%=h @user.first_name %>,
+
+Bạn đã đòi hỏi để thay đổi địa chỉ email liên quan đến tài khoản Dân tộc Edison từ <%= h @user.email %> to <%= h @user.new_email %>.
+
+Xin vui lòng nhấn  vào đường link sau đây để xác nhận thay đổi này:
+
+  <%= "#{site}/activate/#{@user.activation_code}" %>
+  
+<%= signature %>

@@ -1,0 +1,28 @@
+$.fn.colorbox({
+  width:'90%', 
+  height:'90%',
+  inline: true,
+	onComplete: function() { 
+	  $('#cboxLoadedContent').append("<%= escape_javascript(render :partial => 'feedback_template') %>");
+    
+    $('select#feedback_template').change(function(ele){
+      // build params that are scattered around in class attributes.
+      var template_id = $(this).val();
+      var lps = $('table#submission').attr('class')
+      var submission_key = $('#response_form').attr('class')
+      // make the magic happen
+      jQuery.ajax({
+        type: 'GET',
+        url: '/admin/live_product_searches/'+lps+'/submissions/'+submission_key+'/get_template?feedback_template_id='+template_id,
+        dataType: "script",
+        beforeSend: function(){
+          $('#ajax-loader').toggle();
+        },
+        success: function(){
+          $('#ajax-loader').toggle();
+        }
+      }); //ajax
+    }) //change
+  } //onComplete
+})
+

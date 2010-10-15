@@ -1,0 +1,21 @@
+- content_for :title, @document.title
+
+%h1= @document.title
+
+.html= @document.body_html
+
+%h2 Versions
+
+%table.data{:cellspacing => 0}
+  %thead
+    %tr
+      %th Version
+      %th.main Last updated
+      %th
+  %tbody
+    - @document.versions.each do |v|
+      %tr
+        %td= v.version
+        %td= v.updated_at.to_s(:long_ordinal)
+        %td= link_to 'pdf', v.pdf.url
+      

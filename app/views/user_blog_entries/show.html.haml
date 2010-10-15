@@ -1,0 +1,11 @@
+- content_for :page_title, @blog_entry.title
+
+- content_for :title do
+  = link_to t('blog_entries.show.edit'), edit_user_blog_entry_path(@user, @blog_entry), :class => 'edit-blog-entry-button' if current_user == @user
+  = yield :page_title
+  
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+  
+- div_for @blog_entry do
+  %h5= @blog_entry.created_at.strftime("%B %d, %Y")
+  .textile= @blog_entry.body_html

@@ -1,0 +1,15 @@
+- content_for :page_title, @group.title
+- content_for :title do
+  = join_or_leave_group_button(@group) if logged_in? && !current_user.group_owner?(@group)
+  = link_to(t('groups.show.edit_group'), edit_group_path(@group), :class => 'edit-group-button button green medium') if logged_in? && current_user.group_owner?(@group)
+  = content_tag(:span, @group.title, :class => (@group.private? ? 'locked' : nil))
+
+- content_for :sidebar do
+  = render :partial => 'groups/sidebar', :locals => {:group => @group}
+
+
+%div.group-description
+  = simple_format @group.description unless @group.description.blank?
+
+= link_to t('groups.show.create_new_topic'), new_forum_topic_path(@forum), :class => 'new-topic-button button green medium' if logged_in? && @forum.editable_by?(current_user)
+= render(:partial => 'forums/topics', :locals => {:forum => @forum, :topics => @topics}) if @forum

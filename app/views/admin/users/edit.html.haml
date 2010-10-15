@@ -1,0 +1,63 @@
+- content_for :page_title, "Edit User - #{@user.login}"
+
+%h1= "Edit User - #{@user.login}"
+
+- form_for @user, :url => admin_user_path(@user) do |f|
+  - f.object.password = f.object.password_confirmation = nil
+  = f.error_messages
+  
+  = required_field_legend
+
+  .required
+    = f.label :login
+    = f.text_field :login
+  .required
+    = f.label :email
+    = f.text_field :email
+  .required
+    = f.label :password
+    = f.password_field :password
+  .required
+    = f.label :password_confirmation, 'Confirm Password'
+    = f.password_field :password_confirmation
+  .required
+    = f.label :first_name
+    = f.text_field :first_name
+  .required
+    = f.label :last_name
+    = f.text_field :last_name
+  %div
+    = f.label :state
+    = f.select :state, f.object.available_states.map {|s| [s.to_s.titleize, s.to_s]}
+  %div
+    = f.label :moderator, 'Moderator?'
+    = f.check_box :moderator
+  %div
+    = f.label :admin, 'Admin?'
+    = f.check_box :admin
+  - if @user.admin?
+    %div
+      = f.label :role_ids, 'Available Roles'
+      - Role.by_name.each do |role|
+        = check_box_tag 'user[role_ids][]', role.id, @user.has_role?(role)
+        %strong= h(role.name)
+        &nbsp;&nbsp;
+      = hidden_field_tag 'user[role_ids][]', nil
+  
+  - unless @user.badges.empty?  
+    %div
+      = f.label :curren_badge_id, 'Current Badge'
+      = f.select :current_badge_id, @user.badges.map{|b| [h(b.name),b.id]}, :include_blank => '-- Select a Badge --'
+      
+  %div
+    = f.label :badge_ids, 'Available Badges'
+    - Badge.all.each do |badge|
+      = check_box_tag 'user[badge_ids][]', badge.id, @user.badges.include?(badge)
+      %strong= h(badge.name)
+      &nbsp;&nbsp;
+    = hidden_field_tag 'user[badge_ids][]', nil
+  %div
+    = f.label :mailable, "Mailable?"
+    = f.check_box :mailable
+
+  %div= f.submit 'Update'

@@ -1,0 +1,69 @@
+- content_for :title, (@response.free? ? t('survey_responses.agreement.agreement') : t('survey_responses.agreement.payment_agreement'))
+- content_for :scripts do
+  = javascript_include_tag('states_selector')
+
+- form_for @response, :url => survey_response_path(@survey, @response) do |f|
+
+  = f.error_messages
+  = required_field_legend
+  
+  = hidden_field_tag :agreement, true
+  = hidden_field_tag :accepting_terms, true unless @response.complete?
+  
+  - unless @response.complete? || @response.free?
+    - Rails.logger.info(t('survey_responses.agreement.payment') + " #{@response.payment}")
+    - f.fields_for :payment do |payment_form|
+      = render :partial => 'payments/fields', :locals => {:f => payment_form}
+  
+  %fieldset
+    %legend= t('survey_responses.agreement.contact_info')
+    - f.fields_for :contact_information do |cf|
+      = cf.error_messages :object_name => 'contact information'
+    
+      .required
+        = cf.label :first_name, t('survey_responses.agreement.first_name')
+        = cf.text_field :first_name
+      .required
+        = cf.label :last_name, t('survey_responses.agreement.last_name')
+        = cf.text_field :last_name
+      .required
+        = cf.label :email, t('survey_responses.agreement.email')
+        = cf.text_field :email
+      .required
+        = cf.label :phone, t('survey_responses.agreement.phone')
+        = cf.text_field :phone
+      .required
+        = cf.label :address_1, t('survey_responses.agreement.address_1')
+        = cf.text_field :address_1
+      %div
+        = cf.label :address_2, t('survey_responses.agreement.address_2')
+        = cf.text_field :address_2
+      .required
+        = cf.label :city, t('survey_responses.agreement.city')
+        = cf.text_field :city
+      .required
+        = cf.label :state, t('survey_responses.agreement.state')
+        = state_selector(cf)
+      .required
+        = cf.label :country, t('survey_responses.agreement.country')
+        = country_selector(cf)
+      .required
+        = cf.label :postal_code, t('survey_responses.agreement.postal_code')
+        = cf.text_field :postal_code
+        
+  
+  %fieldset
+    %legend= t('survey_responses.agreement.legal_agreement')
+    
+    = render :partial => 'legal_agreement', :locals => {:f => f, :response => @response}
+      
+    .required.checkbox
+      = f.check_box :agree_to_terms, :disabled => @response.complete?
+      = f.label :agree_to_terms, render(:partial => 'agreement_label', :locals => {:response => @response})
+        
+  .confirmation
+    - if @response.complete?
+      = f.submit t('survey_responses.agreement.save_and_continue'), :class => 'save-and-continue-button one-click'
+    - else
+      = f.submit t('survey_responses.agreement.submit_my_idea'), :class => 'submit-my-idea-button one-click'
+    = render :partial => 'shared/ssl'

@@ -1,0 +1,63 @@
+- content_for :head, stylesheet_link_tag('pages/features')
+
+%h3.features-title
+  Edison Nation Insider Features
+  %strong.gold
+    Insider Membership is just $9.25 per month and includes all of the following benefits:
+%ul.features.lps-gold
+  %li
+    %h5
+      = gold_member_link_to("20% Discount on Live Product Search Submissions", '/shop')
+    %p
+      Save $5 off each Live Product Search Submission.
+  %li
+    %h5
+      = gold_member_link_to('Your Idea Database = Free Live Product Search Submissions', live_product_search_dashboard_path)
+    %p
+      Every idea that you submit to Live Product Searches is stored in your
+      Idea Database. Once you’ve entered an idea, you can submit it for
+      consideration to all future Live Product Searches at no additional fee.
+      You can also opt ideas in and out of your Idea Database whenever 
+      you’d like.
+%ul.features.store-discount
+  %li
+    %h5
+      = gold_member_link_to('Innovation Store Discounts (Up to 55%) & Free Shipping', '/shop')
+    %p
+      Insider members receive special discounted pricing of up to 55% off
+      in our online innovation store AND free shipping on all products.
+%ul.features.inventors-digest
+  %li
+    %h5
+      Free Inventors Digest Magazine Subscription
+    %p
+      For nearly 25 years,
+      %em
+        Inventors Digest
+      has been the only magazine in
+      the World dedicated to independent inventors and idea people.
+      With your insider membership, you will receive a free print subscription
+      of
+      %em
+        Inventors Digest
+      delivered to your door each month.
+  %li
+    %h5
+      = gold_member_link_to('Access to the Inventors Digest Electronic Archives', issues_path)
+    %p
+      Discover a wealth of knowledge in the electronic archives of
+      %em
+        Inventors Digest
+      which includes PDF issues of each magazine,
+      newsletters, and the “best of” collection.
+%ul.features.pro-videos
+  %li
+    %h5
+      = gold_member_link_to('Videos: Learn from the Pros', video_category_videos_path(VideoCategory.find_by_url('learn-from-the-pros')))
+    %p
+      Hours of footage go into each Learn from the Pros segment on
+      %em
+        Everyday Edisons
+      but we only have time to air 2 minutes per episode.
+      Dig deeper and learn from experts like Jeff Bezos and James Dyson
+      in the full-length interviews online.

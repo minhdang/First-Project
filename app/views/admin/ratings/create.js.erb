@@ -1,0 +1,11 @@
+<%- if @rating.new_record? -%>
+  alert("<%= flash[:error] %>");
+<%- else -%>
+  $('#ratings_count').text("<%= pluralize(@submission.ratings.count, 'Rating') %>");
+  $('#ratings form').attr('action','<%= admin_rating_path(@rating,:format => 'js') %>');
+  var method = $('<input />');
+  method.attr('type','hidden');
+  method.attr('name','_method');
+  method.attr('value','put');
+  $('#ratings form').prepend(method);
+<%- end -%>

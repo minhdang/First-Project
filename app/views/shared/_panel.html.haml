@@ -1,0 +1,6 @@
+%li.lps-panel
+  .panel-controls
+    %a{:name => title.downcase.squeeze.gsub(/\s/,'-')}>
+    %h2= title
+  .panel-content
+    = yield

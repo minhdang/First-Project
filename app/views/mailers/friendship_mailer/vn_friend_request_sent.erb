@@ -1,0 +1,9 @@
+<%= h @friendship.friend.name %>,
+
+<%= "#{@friendship.user.name}(#{@friendship.user.login})" %> đã gửi cho bạn một yêu cầu kết bạn qua Edison Nation.
+
+Để xem tất cả các yêu cầu kết bạn của bạn và chấp nhận hoặc từ chối yêu cầu này, vui lòng truy cập:
+
+  <%= "#{site}/users/#{@friendship.friend.login}/friend_requests" %>
+  
+<%= signature %>

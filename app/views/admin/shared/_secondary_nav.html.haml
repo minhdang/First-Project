@@ -1,0 +1,150 @@
+%ul#nav-secondary
+  - case controller.controller_name.to_sym
+    - when :dashboards
+      - unless current_user.has_role?('battelle')
+        %li= link_to 'Site Bulletins', admin_site_bulletins_path
+      
+    - when :site_bulletins
+      %li=        link_to 'Site Bulletins', admin_site_bulletins_path
+      %li=        link_to 'Create Site Bulletin', new_admin_site_bulletin_path
+    - when :users
+      %li.first=  link_to 'All Users', admin_users_path
+      %li=        link_to 'Active Users', admin_users_path(:scope => :active)
+      %li=        link_to 'Suspended Users', admin_users_path(:scope => :suspended)
+      %li=        link_to 'Deleted Users', admin_users_path(:scope => :deleted)
+      %li=        link_to 'Admin Users', admin_users_path(:scope => :admin)
+      %li=        link_to 'Mailing List', admin_users_path(:scope => :mailable)
+      %li=        link_to 'Memberships', admin_memberships_path
+      %li=        link_to 'Roles', admin_roles_path
+      %li.last=   link_to 'Badges', admin_badges_path
+    - when :memberships
+      %li.first=  link_to 'Current Memberships', admin_memberships_path
+      %li=        link_to 'Paid Memberships', admin_memberships_path(:scope => :paid)
+      %li=        link_to 'Free Memberships', admin_memberships_path(:scope => :free)
+      %li=        link_to 'Past Due Memberships', admin_memberships_path(:scope => :past_due)
+      %li=        link_to 'Canceled Memberships', admin_memberships_path(:scope => :canceled)
+      %li.last=   link_to 'Users', admin_users_path
+    - when :roles
+      %li.first.last= link_to 'All Roles', admin_roles_path
+    - when :groups
+      %li.first=  link_to 'All Groups', admin_groups_path
+      %li.last=   link_to 'New Group', new_admin_group_path
+    - when :videos
+      %li.first=  link_to "Video Categories", admin_video_categories_path
+      %li=        link_to "Seasons", admin_seasons_path
+      %li.last=   link_to "Episodes", admin_episodes_path
+    - when :video_categories
+      %li.first=  link_to "Video Categories", admin_video_categories_path
+      %li.last=   link_to "New Video Category", new_admin_video_category_path
+    - when :episodes
+      %li.first=  link_to "Episodes", admin_episodes_path
+      %li.last=   link_to "New Episode", new_admin_episode_path
+    - when :seasons
+      %li.first=  link_to "Seasons", admin_seasons_path
+      %li.last=   link_to "New Season", new_admin_season_path
+    - when :chapters
+      %li.first=  link_to "Episodes", admin_episodes_path
+      %li.last=   link_to "New Chapter", new_admin_episode_chapter_path
+    - when :issues
+      %li.first=  link_to "Issues", admin_issues_path
+      %li.last=   link_to "New Issue", new_admin_issue_path 
+    - when :stores
+      %li.first=  link_to "All Stores", admin_stores_path
+      %li=        link_to "New Store", new_admin_store_path
+      %li=        link_to "Orders", admin_orders_path
+      %li=        link_to "Paid Orders", admin_orders_path(:scope => :paid)
+      %li=        link_to "Unpaid Orders", admin_orders_path(:scope => :unpaid)
+      %li=        link_to "Shipped Orders", admin_orders_path(:scope => :shipped)
+      %li=        link_to "Processing Orders", admin_orders_path(:scope => :processing)
+      %li.last=   link_to "Backordered Orders", admin_orders_path(:scope => :backordered)
+    - when :products
+      %li.first=  link_to "All Stores", admin_stores_path
+      %li=        link_to "#{h @store.name} - All Products", admin_store_products_path(@store)
+      %li=        link_to "#{h @store.name} - New Product", new_admin_store_product_path(@store)
+    - when :coupons
+      %li.first=  link_to "All Coupons", admin_coupons_path
+      %li.last=   link_to "New Coupon", new_admin_coupon_path
+    - when :badges
+      %li.first=  link_to 'All Badges', admin_badges_path
+      %li.last=   link_to 'New Badge', new_admin_badge_path
+    - when :banners
+      %li.first=  link_to 'All Banners', admin_banners_path
+      %li.last=   link_to 'New Banner', new_admin_banner_path
+    - when :sponsors
+      %li.first=  link_to 'All Sponsors', admin_sponsors_path
+      %li=        link_to 'New Sponsor', new_admin_sponsor_path
+      %li.last=   link_to 'Live Product Searches', admin_live_product_searches_path
+    - when :live_product_searches
+      - if controller.action_name == 'edit'
+        %li.first=  link_to 'Edit LPS'
+        %li=        link_to 'Custom Questions', admin_live_product_search_questions_path(@lps)
+        %li=        link_to 'Filters', admin_live_product_search_filters_path(@lps)
+        %li.last=   link_to 'Back to LPS', admin_live_product_search_path(@lps)
+      - else
+        %li.first=  link_to 'Published LPS', admin_live_product_searches_path(:scope => :published)
+        %li=        link_to 'Draft LPS', admin_live_product_searches_path(:scope => :draft)
+        %li=        link_to 'Archived LPS', admin_live_product_searches_path(:scope => :archived)
+        %li=        link_to 'New LPS', new_admin_live_product_search_path
+        %li=        link_to 'Ideas', admin_ideas_path
+        %li=        link_to 'Sponsors', admin_sponsors_path
+        %li= 		link_to 'Feedback', admin_feedback_index_path
+        %li.last=   link_to 'Legal Documents', admin_documents_path
+    - when :ideas
+      - if controller.action_name == 'index'
+        - if @search
+          %li.first= link_to 'Export CSV', admin_ideas_path(:format => :csv, :search => @search.conditions)
+          %li=       link_to 'Patented CSV', patented_admin_ideas_path 
+    - when :submissions
+      - if controller.action_name == 'index'
+        - if @search
+          %li.first= link_to 'Export CSV', admin_live_product_search_submissions_path(@lps, :format => :csv, :search => @search.conditions)
+    - when :questions
+      %li.first=  link_to 'Edit LPS'
+      %li=        link_to 'Custom Questions', admin_live_product_search_questions_path(@lps)
+      %li=        link_to 'Filters', admin_live_product_search_filters_path(@lps)
+      %li.last=   link_to 'Back to LPS', admin_live_product_search_path(@lps)
+    - when :filters
+      %li.first=  link_to 'Edit LPS'
+      %li=        link_to 'Custom Questions', admin_live_product_search_questions_path(@lps)
+      %li=        link_to 'Filters', admin_live_product_search_filters_path(@lps)
+      %li.last=   link_to 'Back to LPS', admin_live_product_search_path(@lps)
+    - when :documents
+      %li.first=  link_to 'All Documents', admin_documents_path
+      %li.last=   link_to 'New Document', new_admin_document_path
+    - when :campaigns
+      %li.first=  link_to 'All Campaigns', admin_campaigns_path
+      %li.first=  link_to 'Campaigns by Month', admin_campaigns_path(:month => true)
+      %li.last=   link_to 'New Campaign', new_admin_campaign_path
+    - when :orders
+      %li.first=  link_to "All Stores", admin_stores_path
+      %li=        link_to "New Store", new_admin_store_path
+      %li=        link_to "Orders", admin_orders_path
+      %li=        link_to "Paid Orders", admin_orders_path(:scope => :paid)
+      %li=        link_to "Unpaid Orders", admin_orders_path(:scope => :unpaid)
+      %li=        link_to "Shipped Orders", admin_orders_path(:scope => :shipped)
+      %li=        link_to "Processing Orders", admin_orders_path(:scope => :processing)
+      %li.last=   link_to "Backordered Orders", admin_orders_path(:scope => :backordered)
+    - when :pages
+      %li.first=  link_to 'All Pages', admin_pages_path
+      %li.last=   link_to 'New Page', new_admin_page_path
+    -# Insiders Lounge
+    - when :base #-lounge root
+      %li= link_to 'Announcements', admin_lounge_announcements_url()
+    - when :announcements
+      %li= link_to 'Back to Lounge', admin_lounge_root_url()
+      %li= link_to 'Announcements', admin_lounge_announcements_path()
+      %li= link_to 'Create Announcement', new_admin_lounge_announcement_url()
+    - when :feedback
+      %li.first=  link_to 'View Templates', admin_feedback_templates_path
+      %li=        link_to 'Pending', pending_admin_feedback_path
+      %li=        link_to 'Completed',complete_admin_feedback_path
+    - when :feedback_entries
+      %li.first=  link_to 'Cancel', admin_feedback_index_path
+    - when :feedback_templates
+      %li.first=  link_to 'Templates', admin_feedback_templates_path
+      %li=        link_to 'Add Template', new_admin_feedback_template_path
+      - if controller.action_name == 'show'
+        %li=      link_to 'Edit', edit_admin_feedback_template_path(@feedback_template)
+        %li=      link_to 'Delete', admin_feedback_template_path(@feedback_template), :method => :delete, :confirm => 'Are you sure?'
+      %li=        link_to 'Back to Feedback', admin_feedback_index_path
+

@@ -1,0 +1,23 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :title
+  = f.text_field :title
+.required
+  = f.label :details
+  = f.text_area :details
+%div
+  = f.label :location
+  = f.text_field :location
+%div
+  = f.label :budget
+  = f.text_field :budget
+%div
+  = f.label :barter
+  = f.check_box :barter
+%div
+  = f.label :tags_as_string, "Tags (comma separated)"
+  = f.text_field :tags_as_string, :class => 'tags', :autocomplete => 'off'
+  %span Example: Marketing, Product Design, Prototyping

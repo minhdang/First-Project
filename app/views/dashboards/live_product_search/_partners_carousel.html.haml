@@ -1,0 +1,12 @@
+- current_sponsor_ids = LPS.current.find(:all, :select => :sponsor_id).map(&:sponsor_id)
+.carousel-wrapper.window
+  %h2= t('dashboard.lps.partners')
+  %ul#carousel
+    - Sponsor.with_published_searches.each do |sponsor|
+      %li
+        %strong.sponsor{:style => "background-image: url(#{sponsor.logo.url})"}= sponsor.name
+        - if current_sponsor_ids.include?(sponsor.id)
+          %span.current Current Live Product Search
+          %span.timer
+            = time_ago_in_words(sponsor.live_product_searches.current.first.deadline)
+            left

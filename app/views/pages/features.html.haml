@@ -1,0 +1,120 @@
+- content_for :head do
+  = stylesheet_link_tag('pages/features.css')
+
+- content_for :title, 'Edison Nation Features At-A-Glance' 
+%h3.features-title
+  Edison Nation is an online community for idea people brought to you by the creators of Emmy-Award winning PBS invention series,
+  %em
+    Everyday Edisons
+  \. Our goal is to provide idea people with opportunities to turn their ideas into real-world products. After all, your great ideas aren’t so great if you don’t do anything with them.
+%ul.features.lps
+  %li
+    %h5
+      Live Product Search
+    %p
+      Major retailers need new product ideas to stay ahead. You have new 
+      product ideas. Submit them to retail-sponsored Live Product Searches 
+      and see your ideas on store shelves and get paid handsomely 
+      if your ideas are selected.
+%ul.features.store
+  %li
+    %h5
+      Innovation Store
+    %p
+      Discover and buy innovative products developed on
+      %em Everyday Edisons 
+      and Edison Nation in our online innovation store.
+%ul.features.social
+  %li
+    %h5
+      Your Online Profile
+    %p
+      Create an online profile to express yourself and your ideas.
+      Post videos, photos, patents and more. Browse member profiles
+      and find new friends and customers.
+  %li
+    %h5
+      Micro Blog
+    %p
+      Create a micro blog in seconds and begin telling the Edison Nation
+      community about your ideas.
+  %li
+    %h5
+      Groups
+    %p
+      Join or create a regional or subject-matter group.
+%ul.features.media
+  %li
+    %h5
+      Videos: Select 
+      %em Everyday Edisons 
+      Episodes
+    %p
+      Haven’t seen PBS’ Emmy-Award winning
+      %em
+        Everyday Edisons
+      yet?
+      Watch select episodes from Season 2 for free.
+  %li
+    %h5
+      Videos: Around the 
+      %em Everyday Edisons’ 
+      Office
+    %p
+      Product development experts from
+      %em Everyday Edisons
+      teach you how
+      to turn your idea into a product. Learn about design, engineering,
+      prototyping, calling on retailers and more. There’s even a
+      behind-the-scenes blooper reel.
+  %li
+    %h5
+      Videos: Portrait of an Everyday Edison
+    %p
+      Watch videos of idea people just like you who have been selected
+      by
+      %br
+      %em Everyday Edisons
+      and Edison Nation to have their ideas developed
+      and brought to store shelves.
+%ul.features.forums
+  %li
+    %h5
+      Discussion Forums
+    %p
+      Read &amp; post messages in our forums to help get your ideas
+      off the ground.
+  %li
+    %h5
+      %em Everyday Edisons 
+      Team Access
+    %p
+      Get access directly to the
+      %em
+        Everyday Edisons
+      expert product
+      development team in our official Q&amp;A forums and exclusive
+      behind the scenes videos.
+%ul.features.attributes
+  %li
+    %h5
+      Skills &amp; Needs Databases
+    %p
+      Looking for financing or a prototyper or a graphic artist? Browse our
+      Skills Database or post your request for help in our Needs Database.
+      Have the skills to help others? Use our Skills and Needs Databases
+      to find new work.
+  %li
+    %h5
+      Education
+    %p
+      Learn about the invention process in our comprehensive
+      education section.
+
+%a.features-signup-button{ :href => "/login" }
+  Join Edison Nation for Free - It only takes about 10 seconds to create a free account.
+
+= render :partial => 'memberships/benefits'
+
+%a.features-signup-button{ :href => "/login" }
+  Join Edison Nation for Free - It only takes about 10 seconds to create a free account.

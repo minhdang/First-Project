@@ -1,0 +1,54 @@
+- content_for :head, javascript_include_tag('states_selector')
+
+%fieldset
+  %legend Credit Card
+  = f.error_messages :object_name => 'payment'
+  
+  .required
+    = f.label :card_number
+    = f.text_field :card_number
+    
+  .required
+    = f.label :cc_type, 'Type'
+    = cc_type_selector(f)
+  .required
+    = f.label :cc_exp_month
+    = cc_exp_month_selector(f)
+  .required
+    = f.label :cc_exp_year
+    = cc_exp_year_selector(f)
+  .required
+    = f.label :security_code
+    = f.text_field :security_code
+  
+  
+%fieldset
+  %legend Billing Address
+  - f.fields_for :billing_address do |address_form|
+    
+    = address_form.error_messages :object_name => 'billing address'
+    
+    .required
+      = address_form.label :first_name
+      = address_form.text_field :first_name
+    .required
+      = address_form.label :last_name
+      = address_form.text_field :last_name
+    .required
+      = address_form.label :address_1
+      = address_form.text_field :address_1
+    %div
+      = address_form.label :address_2
+      = address_form.text_field :address_2
+    .required
+      = address_form.label :city
+      = address_form.text_field :city
+    .required
+      = address_form.label :state, 'State/Province'
+      = state_selector(address_form)
+    .required
+      = address_form.label :country
+      = country_selector(address_form)
+    .required
+      = address_form.label :postal_code
+      = address_form.text_field :postal_code

@@ -1,0 +1,10 @@
+- content_for :page_title, 'Edit Survey'
+
+%h1 Edit Survey
+
+- form_for @survey, :url => admin_survey_path(@survey), :html => {:multipart => true} do |f|
+  
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Update Survey'

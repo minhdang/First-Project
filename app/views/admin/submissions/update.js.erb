@@ -1,0 +1,43 @@
+<%- stage  = @submission.stage -%>
+
+<%- next_stage = @submission.alive? && @submission.stage != Submission::LastStage && @submission.next_stage -%>
+<%- status = @submission.status_for_stage(stage) -%>
+
+<%- current_status = @submission.status_for_stage(next_stage || stage) -%>
+
+<%- move = @submission.moves.to_stage(stage).first -%>
+<%- if @success -%>
+  $('strong.current-stage').text("<%= next_stage || stage %>").removeClass('pending passed failed').addClass("<%= current_status %>");
+  
+  // Add a calendar block to show when the move will be made
+  var calendarBlock = $('<abbr />');
+  calendarBlock.addClass("move <%= "#{move.move_at.to_date.to_s(:db)} #{status}"%>");
+  calendarBlock.attr('title',"<%= "#{status.titleize} Stage #{stage}" %>");
+  calendarBlock.text("<%= stage %>");
+  $(".<%= move.move_at.to_date.to_s(:db) %>").replaceWith(calendarBlock);
+  calendarBlock.effect('highlight', {}, 3000);
+  
+  // Add the move to the thermo timeline
+  var move = $("<%= render(:partial => 'thermo_move', :locals => {:move => move, :editable => true}).gsub("\n","").gsub("\"", "\\\"") %>");
+  <%- # " fix highlighting -%>
+  $('ul.thermo-moves').append(move);
+  move.effect('highlight', {}, 3000);
+  activateEditMoveButtons();
+  activateAjaxForms();
+  
+  <%- unless @submission.under_review? -%>
+    $('.controls').hide();
+  <%- end -%>
+<%- else -%>
+alert("There was an error judging the submission");
+<%- end -%>
+
+$('.controls').removeClass('disabled');
+
+// Show me the lightbox!!
+<% if stage == 8 && status == 'failed' && current_status == 'failed' && @submission.user.member == true %>
+  <% @submission.save_default_feedback %>
+  <%= render :partial => 'feedback' %>
+  
+<% end %>
+

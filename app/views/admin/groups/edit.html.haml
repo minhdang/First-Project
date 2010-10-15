@@ -1,0 +1,9 @@
+- content_for :page_title, "Edit Group"
+
+%h1= "Edit Group"
+
+- form_for @group, :url => admin_group_path(@group) do |f|
+
+  = render :partial => 'fields', :locals => {:f => f}
+
+  %div= f.submit 'Update Group'

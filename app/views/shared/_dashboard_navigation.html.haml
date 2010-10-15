@@ -1,0 +1,5 @@
+%ul#dashboard-nav
+  %li{:class => active_if_here(:dashboards => :show)}= link_to t('shared.dashboard_nav.dashboard'), dashboard_path, :class => 'dashboard'
+  %li{:class => active_if_here(:dashboards => :live_product_search)}= link_to t('shared.dashboard_nav.lps'), live_product_search_dashboard_path, :class => 'live-product-search'
+  %li{:class => active_if_here(:dashboards => :ideas, :ideas => :show, :submissions => :index)}= link_to t('shared.dashboard_nav.ideas'), ideas_dashboard_path, :class => 'ideas'
+  %li{:class => active_if_here(:dashboards => :survey)}= link_to t('shared.dashboard_nav.name_search'), survey_dashboard_path, :class => 'survey'

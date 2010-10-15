@@ -1,0 +1,258 @@
+- content_for :title, t('users.edit.edit_profile')
+
+- content_for :head do 
+  = autocomplete_javascript
+  = autocomplete_css
+  = javascript_include_tag 'states_selector'
+
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+
+- form_for @user, :html => {:multipart => true} do |f|
+  %fieldset
+    %legend 
+      = t('users.edit.account_information')
+    
+    = f.error_messages
+
+    = required_field_legend
+  
+    .required
+      = f.label :first_name, t('users.edit.first_name')
+      = f.text_field :first_name
+  
+    .required
+      = f.label :last_name, t('users.edit.last_name')
+      = f.text_field :last_name
+  
+    .required
+      = f.label :new_email, t('users.edit.email')
+      = f.text_field :new_email, :value => @user.email
+      %span.important
+        = t('users.edit.email_warning')
+
+    %div
+      = f.label :current_password, t('users.edit.current_password')
+      = f.password_field :current_password
+  
+    %div
+      = f.label :password, t('users.edit.password')
+      = f.password_field :password
+
+    %div
+      = f.label :password_confirmation, t('users.edit.password_confirmation')
+      = f.password_field :password_confirmation
+  
+    %div
+      = f.label :avatar, t('users.edit.avatar')
+      = f.file_field :avatar
+  
+    %div
+      = f.submit t('users.update_profile')
+      
+- @user.build_contact_information unless @user.contact_information  
+- form_for @user, :html => {:multipart => true} do |f|
+  %fieldset
+    %legend
+      = t('users.edit.contact_information.fieldset')
+
+    = f.error_messages
+
+    = required_field_legend
+    
+    - f.fields_for :contact_information do |contact_form|
+
+      %div
+        = contact_form.label :gender, t('users.edit.contact_information.gender')
+        = contact_form.select :gender, [t('users.gender.male'),t('users.gender.female')], :include_blank => t('users.gender.select_gender')
+        %span 
+          = t('users.edit.contact_information.gender_note')
+
+      %div
+        = contact_form.label :phone, t('users.edit.contact_information.phone')
+        = contact_form.text_field :phone
+
+      %div
+        = contact_form.label :address_1, t('users.edit.contact_information.address_1')
+        = contact_form.text_field :address_1
+
+      %div
+        = contact_form.label :address_2, t('users.edit.contact_information.address_2')
+        = contact_form.text_field :address_2
+
+      %div
+        = contact_form.label :city, t('users.edit.contact_information.city')
+        = contact_form.text_field :city
+
+      %div
+        = contact_form.label :state, t('users.edit.contact_information.state')
+        = state_selector(contact_form)
+
+      %div
+        = contact_form.label :country, t('users.edit.contact_information.country')
+        = country_selector(contact_form)
+
+      %div
+        = contact_form.label :postal_code, t('users.edit.contact_information.postal_code')
+        = contact_form.text_field :postal_code
+
+      %div
+        = contact_form.label :website, t('users.edit.contact_information.website')
+        = contact_form.text_field :website
+
+    %div
+      = f.submit t('users.update_contact_information')
+
+- if @user.inventors_digest_subscription
+  - form_for @user.inventors_digest_subscription, :url => user_inventors_digest_subscription_path(@user) do |f|
+    %fieldset
+      %legend= t('users.edit.free_inventors_digest')
+      = f.error_messages
+      
+      - f.fields_for :mailing_address do |address_form|
+      
+        %div
+          = address_form.label :first_name, t('users.edit.first_name')
+          = address_form.text_field :first_name
+          
+        %div
+          = address_form.label :last_name,  t('users.edit.last_name')
+          = address_form.text_field :last_name
+
+        %div
+          = address_form.label :address_1, t('users.edit.contact_information.address_1')
+          = address_form.text_field :address_1
+
+        %div
+          = address_form.label :address_2, t('users.edit.contact_information.address_2')
+          = address_form.text_field :address_2
+
+        %div
+          = address_form.label :city, t('users.edit.contact_information.city')
+          = address_form.text_field :city
+
+        %div
+          = address_form.label :state, t('users.edit.contact_information.state')
+          = state_selector(address_form)
+          = address_form.hidden_field :country
+
+        %div
+          = address_form.label :postal_code, t('users.edit.contact_information.postal_code')
+          = address_form.text_field :postal_code
+
+      %div
+        = f.submit t('users.edit.update_mailing_address')
+      
+      
+
+- form_for @user do |f|
+  %fieldset
+    %legend
+      = t('users.edit.privacy.fieldset')
+
+    = f.error_messages
+
+    %p 
+      = t('users.edit.privacy.select_data')
+  
+    %div
+      = f.label :contact_public, t('users.edit.privacy.contact_information')
+      = f.select :contact_public, privacy_options
+    %div
+      = f.label :education_public, t('users.edit.privacy.education_information')
+      = f.select :education_public, privacy_options
+    %div
+      = f.label :photos_public, t('users.edit.privacy.photos')
+      = f.select :photos_public, privacy_options
+    %div
+      = f.label :videos_public, t('users.edit.privacy.videos')
+      = f.select :videos_public, privacy_options
+    %div
+      = f.label :blog_public,  t('users.edit.privacy.blog')
+      = f.select :blog_public, privacy_options
+    %div
+      = f.label :needs_public, t('users.edit.privacy.needs')
+      = f.select :needs_public, privacy_options
+    %div
+      = f.submit t('users.edit.privacy.submit_update')
+
+
+- form_for @user_skill || @user.user_skills.new, :url => user_skills_path(@user), :html => {:method => :post} do |f|
+  %fieldset
+    %legend
+      = t('users.skills.fieldset')
+    
+    = f.error_messages
+
+    = required_field_legend
+    
+    %div
+      = label_tag t('users.skills.your_skills')
+      = linked_list_of_skills(@user.user_skills)
+
+    .required
+      = f.label :skill_title, t('users.skills.title')
+      = f.text_field :skill_title, :class => 'autocomplete-skills', :autocomplete => 'off'
+  
+    %div= f.submit t('users.skills.add_skill')
+
+
+- form_for @education ||= @user.educations.new, :url => user_educations_path(@user) do |f|
+  %fieldset
+    %legend
+      = t('users.education.fieldset')
+        
+    = required_field_legend
+    
+    = f.error_messages
+    
+    %div
+      = label_tag t('users.education.your_education')
+      - if @user.educations.empty?
+        = t('users.education.no_education')
+      - else
+        = linked_list_of_campuses(@user.educations)
+    
+    .required
+      = f.label :campus_title, t('users.education.campus')
+      = f.text_field :campus_title, :class => 'autocomplete-campuses', :autocomplete => 'off'
+      
+    .required
+      = f.label :year, t('users.education.year')
+      = f.text_field :year
+    
+    %div
+      = f.label :major_concentration_title, t('users.education.major')
+      = f.text_field :major_concentration_title, :class => 'autocomplete-concentrations', :autocomplete => 'off'
+
+    %div
+      = f.label :minor_concentration_title, t('users.education.minor')
+      = f.text_field :minor_concentration_title, :class => 'autocomplete-concentrations', :autocomplete => 'off'
+      
+    %div= f.submit t('users.education.submit_button')
+
+.cancel-account
+  %h1
+    = t('users.footer_info.delete_your_account')
+  
+  
+  %p
+    = t('users.footer_info.canceling_your_account')
+  %ul.list
+    %li
+      = t('users.footer_info.cancel_bullet_one')
+    %li
+      = t('users.footer_info.cancel_bullet_two')
+    - if @user.member?
+      %li 
+        = t('users.footer_info.cancel_bullet_two')
+  %p 
+    = t('users.footer_info.support_questions') 
+  - if @user.member?
+    %p 
+      = t('users.footer_info.modify_membership')
+      = link_to t('users.footer_info.click_here'), edit_membership_path
+  
+  %p 
+    = t('users.footer_info.delete_membership')
+    = link_to t('users.footer_info.delete_membership_link'), cancel_account_user_path(@user)

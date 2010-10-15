@@ -1,0 +1,19 @@
+= render :partial => 'shared/video_player_js'
+
+- content_for :title, @episode.title
+
+- content_for :sidebar do
+
+  = render :partial => 'videos/sidebar'  
+
+- unless @episode.chapters.empty?
+  
+  .video= display_video(@chapter.video)
+  
+  %ul#chapters
+    = list_episode_chapters(@episode, @chapter)
+
+    - if @episode.free?
+      %li.share-this= render :partial => 'shared/share_this'
+
+  %p= free_video_message(@episode, "Enjoying this episode? Edison Insiders have access to all <em>Everyday Edisons</em> Season 2 episodes online at any time. They also have access to all Learn from the Pros video interviews. ")  

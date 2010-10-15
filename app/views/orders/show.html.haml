@@ -1,0 +1,29 @@
+- content_for :title, "#{h @store.name} &raquo; " + t('orders.show.order') + " ##{@order.number}"
+
+%h2.highlight
+  = t('orders.show.order_processed')
+  %strong>== &nbsp;#{@order.number}
+  = t('orders.show.print_for_reference')
+  
+%h4= t('orders.show.order_information')
+
+= render :partial => 'orders/order', :locals => {:order => @order}
+
+%table
+  %tr
+    %td.nowrap{:style => 'padding-right:4em'}
+      %h4= t('orders.show.billing_address')
+      %address= simple_format(@order.payment.billing_address.to_address)
+    %td.nowrap{:style => 'padding-right:4em'}
+      %h4= t('orders.show.shipping_address')
+      %address= simple_format(@order.ship_to_address.to_address)
+    %td.main
+      %h4= t('orders.show.additional_info')
+      %p
+        = t('orders.show.fulfillment_text')
+= link_to t('orders.show.continue_shopping'), store_path(@store), :class => 'float-right'
+
+- unless @order.user.member?
+  %h3= t('orders.show.upgrade_to_insider')
+  = render :partial => 'memberships/benefits'
+  %p= link_to t('orders.show.upgrade_text'), membership_path

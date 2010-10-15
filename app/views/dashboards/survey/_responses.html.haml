@@ -1,0 +1,14 @@
+%ul#responses
+  - responses.each do |response|
+    %li
+      - survey = response.survey
+      %table.search-layout
+        %tr
+          %td
+            %h4= h(response.title)
+            .submitted-to
+              %strong Submitted to:
+              = link_to survey.title, survey_path(survey)
+            .meta
+              %strong Status:
+              = response.status

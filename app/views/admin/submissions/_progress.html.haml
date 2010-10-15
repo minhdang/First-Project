@@ -1,0 +1,27 @@
+- stages = ['Pre-Screen', 'Initial IP', 'R &amp; D', 'Final Screen', 'Final IP', 'Finalist', 'Success']
+
+- form_for progress, :url => admin_progress_path(progress) do |f|
+  %table.progress
+    %tr
+      - stages.each do |stage|
+        %th= stage
+      %th
+    %tr
+      - 2.upto(8) do |stage|
+        - passed = progress.send("stage_#{stage}_pass")
+        %td= f.select("stage_#{stage}_pass", [["Passed", true],["Failed",false],["Pending",nil]],{}, {:class=>progress.stage_label(stage)})
+      
+      %td
+        = f.submit 'Save'
+    %tr
+      - date = Date.today
+      - offset = 5.days
+      - 2.upto(8) do |stage|
+        %td
+          - if progress.send("show_stage_#{stage}_at")
+            = progress.send("show_stage_#{stage}_at").strftime("%m/%d/%Y")
+          - else
+            = f.date_select "show_stage_#{stage}_at", :default => date
+            - date = date + offset
+            - date = date + 2.days if date.wday == 0 || date.wday == 1 || date.wday == 6
+      %td

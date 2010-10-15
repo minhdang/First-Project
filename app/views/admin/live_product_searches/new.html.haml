@@ -1,0 +1,9 @@
+- content_for :page_title, 'New LPS'
+
+%h1 New LPS
+
+- form_for @lps, :url => admin_live_product_searches_path, :html => {:multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Create LPS'

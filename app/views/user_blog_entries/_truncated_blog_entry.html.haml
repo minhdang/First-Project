@@ -1,0 +1,4 @@
+%li
+  %h3.blog-title= link_to truncated_blog_entry.title, user_blog_entry_path(truncated_blog_entry.bloggable, truncated_blog_entry)
+  %small= truncated_blog_entry.created_at.strftime("%B %d, %Y")
+  .textile= truncate_html(truncated_blog_entry.body_html, :length => App.truncate[:user_blog_entries], :omission => "&hellip; #{link_to 'continue reading', user_blog_entry_path(truncated_blog_entry.bloggable, truncated_blog_entry)}")

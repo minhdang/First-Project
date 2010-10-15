@@ -1,0 +1,167 @@
+%table.data
+  %thead
+    %tr
+      %th Intellectual Property
+  %tbody
+    %tr
+      %td.window
+        .mask
+          %table.data
+            %tr
+              %th{:colspan => 2}= pluralize idea.issued_patents.count, 'Issued Patent'
+            - for patent in idea.issued_patents
+              %tr
+                %th Patent Type
+                %td= patent.patent_type
+              %tr
+                %th Patent Number
+                %td= patent.patent_number
+              %tr
+                %th Issued On
+                %td= patent.issued_on ? patent.issued_on.to_s(:date_ordinal) : na
+
+            %tr
+              %th{:colspan => 2}= pluralize idea.pending_patents.count, 'Pending Patent'
+            - for patent in idea.pending_patents
+              %tr
+                %th Patent Type
+                %td= patent.patent_type
+              %tr
+                %th Filed On
+                %td= patent.filed_on ? patent.filed_on.to_s(:date_ordinal) : na
+              - if patent.application?
+                %tr
+                  %th Application
+                  %td
+                    %em= link_to patent.application_file_name, admin_patent_path(patent)
+                    = "(#{number_to_human_size(patent.application_file_size)})"
+        
+            - if idea.patent_search?
+              %tr
+                %th{:colspan => 2} Patent Search
+              %tr
+                %th Results
+                %td= simple_format na(idea.patent_search_results)
+              %tr
+                %th Performed By
+                %td= na(idea.patent_search_performed_by)
+            - else
+              %tr
+                %th{:colspan => 2} No Patent Search
+        
+            %tr
+              %th{:colspan => 2} Circumstances
+            %tr
+              %th The Inventor came up with<br/> the idea on their own?
+              %td= boolean_flag idea.independent_idea
+            - if idea.invented_remember_when?
+              %tr
+                %th Invented On
+                %td= idea.invented_on ? idea.invented_on.to_s(:date_ordinal) : na
+              %tr
+                %th Invented Around
+                %td= na idea.invented_around
+            %tr
+              %th Where
+              %td= simple_format na(idea.invented_where)
+            %tr
+              %th How
+              %td= simple_format na(idea.invented_how)
+
+            %tr
+              %th{:colspan => 2}= pluralize idea.disclosures.count, 'Disclosure'
+            - for disclosure in idea.disclosures
+              %tr
+                %th Disclosed To
+                %td= simple_format na(disclosure.disclosed_to)
+              %tr
+                %th On
+                %td= disclosure.disclosed_on ? disclosure.disclosed_on.to_s(:date_ordinal) : na
+              %tr
+                %th Confidentiality Agreement
+                %td= boolean_flag disclosure.confidentiality_agreement, yes_or_no(disclosure.confidentiality_agreement)
+    
+            %tr
+              %th{:colspan => 2}= pluralize idea.contributors.count, 'Contributor'
+            - for contributor in idea.contributors
+              - if contact = contributor.contact_information
+                %tr
+                  %th Name
+                  %td= na contact.name
+                %tr
+                  %th Address 1
+                  %td= na contact.address_1
+                - unless contact.address_2.blank?
+                  %tr
+                    %th Address 2
+                    %td= contact.address_2
+                %tr
+                  %th City
+                  %td= na contact.city
+                %tr
+                  %th State
+                  %td= na contact.state
+                %tr
+                  %th Postal Code
+                  %td= na contact.postal_code
+                %tr
+                  %th Country
+                  %td= na contact.country
+                %tr
+                  %th Phone
+                  %td= na contact.phone
+                %tr
+                  %th Email
+                  %td= na contact.email
+              %tr
+                %th Contribution Details
+                %td= simple_format na(contributor.details)
+
+            - if idea.used_invention?
+              %tr
+                %th{:colspan => 2} Used Invention
+              %tr
+                %th First Used
+                %td= idea.used_invention_on ? idea.used_invention_on.to_s(:date_ordinal) : na
+              %tr
+                %th Circumstances
+                %td= simple_format na(idea.used_invention_how)
+            -else
+              %tr
+                %th{:colspan => 2} Never Used Invention
+        
+            - if idea.posted_online?
+              %tr
+                %th{:colspan => 2} Online Posts
+              %tr
+                %th When
+                %td= idea.posted_online_on ? idea.posted_online_on.to_s(:date_ordinal) : na
+              %tr
+                %th Where
+                %td= simple_format na(idea.posted_online_where)
+            - else
+              %tr
+                %th{:colspan => 2} No Online Posts
+
+            - if idea.website?
+              %tr
+                %th{:colspan => 2} Website
+              %tr
+                %th URL
+                %td= idea.website_url.blank? ? na : auto_link(idea.website_url)
+              %tr
+                %th Launched On
+                %td= idea.website_launched_on ? idea.website_launched_on.to_s(:date_ordinal) : na
+            - else
+              %tr
+                %th{:colspan => 2} No Website
+        
+            - if idea.other_venues?
+              %tr
+                %th{:colspan => 2} Other Venues
+              %tr
+                %th What Venues
+                %td= auto_link(na(idea.other_venues_list), :href_options => {:target => '_blank'})
+            - else
+              %tr
+                %th{:colspan => 2} No Other Venues

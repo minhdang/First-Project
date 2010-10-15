@@ -1,0 +1,21 @@
+- content_for :page_title, t('submissions.my_submissions_title')
+
+- content_for :sidebar do
+  - @user = current_user
+  = render :partial => 'shared/dashboard/profile_actions'
+  = render :partial => 'shared/dashboard/insider_points'
+
+
+%h2.panel-title
+  = t('submissions.my_submissions_title')
+  = link_to t('submissions.my_idea_database'), ideas_dashboard_path, :class => 'button small green action'
+    
+= will_paginate @submissions
+%br.clear 
+- if @submissions.empty?
+  %p.meta
+    = t('submissions.no_submissions_text')
+- else
+  = render :partial => 'dashboards/live_product_search/submissions', :locals => {:submissions => @submissions}
+
+= will_paginate @submissions

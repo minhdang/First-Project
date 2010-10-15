@@ -1,0 +1,11 @@
+- content_for :title, "#{@user.login}" + t('friends.title')
+
+- content_for :sidebar do
+  = render :partial => 'users/profile_sidebar', :locals => {:user => @user}
+
+= will_paginate @friends
+%br.clear-right/
+
+= render :partial => 'users/list', :locals => {:users => @friends}
+
+= will_paginate @friends

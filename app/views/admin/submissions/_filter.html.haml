@@ -1,0 +1,45 @@
+- form_for @search, :url => admin_live_product_search_submissions_path(@lps), :method => :get, :html => {:id => 'search-box'} do |f|
+  %h2 Filter
+  
+  - @search.conditions.each do |k,v|
+    = f.hidden_field k
+  
+  %fieldset
+    %legend Idea
+    
+    %div
+      = f.label :attachments
+      = f.select :attachments, [['yes','1'],['no','0']], :include_blank => 'n/a'
+    %div
+      = f.label :prototype
+      = f.select :prototype, [['yes','1'],['no','0']], :include_blank => 'n/a'
+    %div
+      = f.label :issued_patent
+      = f.select :issued_patent, [['yes',true]], :include_blank => 'n/a'
+    %div
+      = f.label :pending_patent
+      = f.select :pending_patent, [['yes',true]], :include_blank => 'n/a'
+    %div
+      = f.label :category
+      = f.select :category, IdeaCategory.all.sort.map(&:name), :include_blank => 'n/a'
+    %div
+      = f.label :idea_star_is, 'Star'
+      = f.select :idea_star_is, [['yes',true],['no',false]], :include_blank => 'n/a'
+    
+  %fieldset
+    %legend Submission
+    
+    %div
+      = f.label :original
+      = f.select :original, [['yes','1'],['no','0']], :include_blank => 'n/a'
+    %div
+      = f.label :average_rating_gte, 'Min Avg Rating'
+      = f.select :average_rating_gte, (1..7).to_a.map(&:to_s), :include_blank => 'n/a'
+  
+  = f.submit 'search'
+  
+  %h2 Insiders
+  -if params[:insiders]
+    %p= link_to "Show Everyone", admin_live_product_search_submissions_path(@lps), :class => 'filter'
+  - else
+    %p= link_to "Show only Insiders", admin_live_product_search_submissions_path(@lps,:insiders => 'true'), :class => 'filter'

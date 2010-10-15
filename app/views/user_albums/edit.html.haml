@@ -1,0 +1,12 @@
+- content_for :page_title, t('user_albums.edit.title')
+
+- content_for :title do
+  = button_to t('user_albums.edit.delete_album'), user_album_path(@user, @album), :class => 'delete-album-button small right', :method => :delete, :confirm => "Are you sure? The album and images will be destroyed.", :id => "delete_#{dom_id @album}"
+  = yield :page_title
+  
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+  
+- form_for @album, :url => user_album_path(@user, @album) do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+  = f.submit t('user_albums.edit.update'), :class => 'button green small'
+  = link_to t('user_albums.edit.cancel'), :back, :class => 'button gray small'

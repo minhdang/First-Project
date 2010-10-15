@@ -1,0 +1,7 @@
+- choice = f.object
+.choice.nested_resource
+  .required
+    = f.label :label, 'Choice'
+    = f.text_field :label
+  %div
+    = remove_resource_link(f)

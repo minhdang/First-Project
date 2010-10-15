@@ -1,0 +1,31 @@
+<div id="fb-root"></div>
+
+<% if current_user %>
+<% user = current_user.login %>
+<% else %>
+<% user = 'anonymous' %>
+<% end %>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({appId: '148729568486617', status: true, cookie: true, xfbml: true});
+    FB.Event.subscribe('edge.create', function(href, widget) {
+      $.ajax({
+        type: "POST",
+        url: '/facebook_like',
+        dataType: 'script',
+        data: { body : {login:"<%= user %>",liked:"<%= url %>"}},
+        success: function(msg){
+            
+        } // success
+      }); // ajax call
+    });
+  };
+  
+  (function() {
+    var e = document.createElement('script'); e.async = true;
+    e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+    document.getElementById('fb-root').appendChild(e);
+  }());
+</script>
+<fb:like href="<%= url %>" colorscheme="light" layout="button_count" show-faces="false" action="like"></fb:like>

@@ -1,0 +1,53 @@
+- content_for :page_title, "Group - #{h @group.title}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete group", admin_group_path(@group), :method => :delete, :confirm => "Are you sure?", :class => 'action'
+        = link_to "edit group", edit_admin_group_path(@group), :class => 'action'
+        = h(@group.title)
+  %tbody
+    %tr
+      %th  group ID
+      %td= @group.id
+    %tr
+      %th  Title
+      %td= @group.title
+    %tr
+      %th  Owner
+      %td
+        = link_to @group.owner.name, admin_user_path(@group.owner)
+        = "(#{@group.owner.login})"
+    %tr
+      %th  Description
+      %td= @group.description
+    %tr
+      %th  Website
+      %td= link_to(@group.website, @group.website, :target => '_blank') unless @group.website.blank?
+    %tr
+      %th  Members Count
+      %td= @group.members_count
+    %tr
+      %th  Private?
+      %td= boolean_flag(@group.private?)
+
+%br/
+
+%h2 Group Members
+%table.data
+  %thead
+    %tr
+      %th Name
+      %th State
+      %th Moderator?
+      %th Created
+  %tbody
+    - @group.group_memberships.each do |member|
+      %tr
+        %td
+          = link_to member.user.name, admin_user_path(member.user)
+          = "(#{member.user.login})"
+        %td= member.state
+        %td= boolean_flag(member.moderator?)
+        %td= member.created_at.to_s(:long)

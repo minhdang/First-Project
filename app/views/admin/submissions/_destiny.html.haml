@@ -1,0 +1,28 @@
+%table.data
+  %thead
+    %tr
+      %th Submission Destiny
+  %tbody
+    %tr
+      %td
+        #destiny
+          - current_stage = submission.under_review? ? submission.next_stage : submission.stage
+          %strong.current-stage{:class => submission.status_for_stage(current_stage)}= current_stage
+          
+          - if submission.under_review?
+            .controls
+              - action = admin_live_product_search_submission_path(submission.live_product_search, submission)
+              - form_for(submission, :url => action, :method => :put, :html => {:class => 'ajax fail'}) do |f|
+                = hidden_field_tag :commit, 'fail'
+                = f.submit 'Fail'
+              - form_for(submission, :url => action, :method => :put, :html => {:class => 'ajax pass'}) do |f|
+                = hidden_field_tag :commit, 'pass'
+                = f.submit 'Pass'
+            
+          .calendars
+            = submission_calendar(submission, 1.month.ago)
+            = submission_calendar(submission, Date.today)
+            = submission_calendar(submission, 1.month.from_now)
+          
+          = render :partial => 'thermo', :locals => {:submission => submission, :editable => true}
+          = render :partial => 'shared/progress_explanation'

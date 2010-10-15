@@ -1,0 +1,19 @@
+- content_for :head do
+  = javascript_include_tag('forums/forums')
+  = javascript_include_tag('forum_preferences')
+- content_for :title, t('posts.forum_search')
+
+= forums_search_box
+#forum-nav
+  = link_to t('posts.show_forums'), forums_path(:force => true), :class => 'show-forums-button'
+  |
+  = link_to t('posts.show_topics'), topics_path, :class => 'show-topics-button'
+%br.clear
+
+%table.posts{:cellspacing => 0}
+  %tr
+    %th{:colspan => 2}= t('posts.results_for') + " \"#{h(params[:q])}\""
+  - @posts.each do |post|
+    = render :partial => 'post', :locals => {:post => post, :search_results => true}
+    
+= will_paginate @posts

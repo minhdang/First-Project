@@ -1,0 +1,4 @@
+%h2 Videos
+%ul
+  - VideoCategory.all.each do |video_category|
+    %li= link_to(video_category.title, video_category_path(video_category))

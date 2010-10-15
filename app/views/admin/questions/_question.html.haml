@@ -1,0 +1,29 @@
+.question-wrapper
+  = link_to 'edit', '#', :class => 'update-question-button'
+  = button_to 'delete', admin_live_product_search_question_path(@lps, question), :method => :delete,  |
+    :confirm => 'Are your sure you want to delete this question? Any answers that have been collected |
+    will also be deleted.', :class => 'delete-question-button'                                        |
+  .question{:class => question.required? ? 'required' : nil}
+    = label_tag dom_id(question), question.label, :class => 'question-label'
+    - case question.question_type
+      - when Question::Types[:true_false]
+        = check_box_tag dom_id(question)
+      - when Question::Types[:short_answer]
+        = text_field_tag dom_id(question)
+      - when Question::Types[:essay]
+        = text_area_tag dom_id(question), nil , :class => 'full short'
+      - when Question::Types[:multiple_answer]
+        - question.choices.each do |c|
+          = check_box_tag dom_id(c)
+          = label_tag dom_id(c), c.label, :class => 'inline'
+          %br
+          %br
+      - when Question::Types[:single_answer]
+        = select_tag dom_id(question), options_for_select(question.choices.map(&:label))
+      - when Question::Types[:date]
+        = text_field_tag dom_id(:question), nil, :class => 'calendar'
+      - else
+        %strong Don't know how to represent question type.
+    %span= question.memo
+    %br.clear/  
+  = render :partial => 'form', :locals => {:question => question}

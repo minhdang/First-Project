@@ -1,0 +1,8 @@
+- content_for :title, params[:q] ? t('users.user_search') + " - #{params[:q]}" : t('users.title')
+
+= will_paginate @users
+%br.clear-right/
+
+= render :partial => 'list', :locals => {:users => @users}
+
+= will_paginate @users

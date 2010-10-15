@@ -1,0 +1,52 @@
+- content_for :page_title, "Campaigns &mdash; #{@campaign.title}"
+
+%h1= "Campaigns &mdash; #{@campaign.title}"
+
+%table.data
+  %thead
+    %tr
+      %th Campaign
+      %th.actions
+        = link_to 'edit', edit_admin_campaign_path(@campaign)
+        |
+        = link_to 'destroy', admin_campaign_path(@campaign), :method => :delete, :confirm => 'Are you sure?'
+  %tbody
+    %tr
+      %th  Title
+      %td= @campaign.title
+    %tr
+      %th Description
+      %td= simple_format @campaign.description
+    %tr
+      %th  URL
+      %td= link_to "#{request.host}#{campaign_path(@campaign, :protocol => 'http')}", campaign_url(@campaign, :protocol => 'http'), :target => '_blank'
+    %tr
+      %th  Target
+      %td= link_to @campaign.target, @campaign.target, :target => '_blank'
+    %tr
+      %th  Leads
+      %td= @campaign.leads_count
+
+- if @campaign.leads.any?
+  %h2= pluralize @campaign.leads_count, 'Lead'
+
+  %table.data
+    %thead
+      %tr
+        %th User
+        %th.main Referrer
+        %th Submissions
+        %th Actions
+        %th Created
+    %tbody
+      - @leads.each do |lead|
+        %tr
+          %td
+            = lead.user ? link_to(lead.user.login, admin_user_path(lead.user)) : '<em>anonymous</em>'
+            = "[M]" if lead.user && lead.user.member?
+          %td= link_to(wrap(lead.referrer, 60), lead.referrer) unless lead.referrer.blank?
+          %td= lead.user ? lead.user.submissions.complete.count : 'n/a'
+          %td= link_to lead.actions.count, admin_campaign_lead_path(@campaign, lead)
+          %td.nowrap= lead.created_at.to_s(:short) if lead.created_at
+        
+  = will_paginate @leads

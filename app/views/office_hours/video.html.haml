@@ -1,0 +1,63 @@
+
+- content_for :scripts do
+  :javascript
+    $(document).ready(function(){
+      $('form#question_form').live('submit', function(){
+         $.ajax({
+            type: "POST",
+            url: '/office-hours/question',
+            dataType: 'script',
+            data: {body : { message:$('textarea#message_body').val(), user_login:$('input#message_user_login').val(), user_first_name:$('input#message_user_first_name').val(), user_last_name:$('input#message_user_last_name').val(), user_email:$('input#message_user_email').val() }  },
+            success: function(msg){
+                
+               }
+            
+          });
+          return false;
+      })
+    })
+
+
+- content_for :sidebar do
+  = render :partial => 'shared/dashboard/profile_actions'      
+  = render :partial => 'shared/dashboard/lounge_insider_points'
+  = render :partial => 'shared/dashboard/shop'                 
+  = render :partial => 'shared/dashboard/inventors_digest'     
+
+
+.video-embed
+  = render :partial => 'ustream'
+.video-recap
+  .span-12
+    %h3
+      Today's Guest is Louis Foreman
+    %p
+      Louis is the creator of the Emmy® Award-winning PBS TV show, 
+      %em
+        Everyday Edisons 
+      and serves as the Executive Producer and lead judge. The live video conference will begin at 1pm EST today.
+  .span-4.last
+    %p.password
+      Today's password is
+      %br
+    %h3.password
+      insider
+  .clear
+  
+.question-flash.round{:style => 'display:none;'}
+  %h1
+    Your question has been submitted.
+  %p
+    Thank you for your question. We'll answer as many questions as we can get to in the allotted time.
+.question{:style => 'display:block'}
+  %h2
+    Do you have a question for Louis Foreman?
+  - form_for :message, :url => {:action => 'question'}, :html => {:id => 'question_form', :method => :post} do |f|
+    %br
+    = f.text_area :body, :class => 'question'
+    = f.hidden_field :user_login, :value => current_user.login
+    = f.hidden_field :user_first_name, :value => current_user.first_name
+    = f.hidden_field :user_last_name, :value => current_user.last_name
+    = f.hidden_field :user_email, :value => current_user.email
+    .div
+    = f.submit "Submit Your Question", :class => 'right'

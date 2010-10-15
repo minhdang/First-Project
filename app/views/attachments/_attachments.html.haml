@@ -1,0 +1,13 @@
+%ul#attachments
+  - attachments.each do |attachment|
+    %li
+      = filetype_icon(attachment)
+      - unless attachment.label.blank?
+        %strong= attachment.label
+      = button_to t('general.remove'), (@lps ? live_product_search_idea_attachment_path(@lps,@idea,attachment) : idea_attachment_path(@idea,attachment)), :method => :delete, :confirm => 'Are you sure you want to remove this attachment from your idea? This action cannot be undone.' if editable
+      %br/
+      %em
+        = editable ? attachment.file_file_name : link_to(attachment.file_file_name, idea_attachment_path(@idea, attachment), :target => '_blank')
+        = "(#{number_to_human_size(attachment.file_file_size)})"
+      %br.clear
+  %li.clear

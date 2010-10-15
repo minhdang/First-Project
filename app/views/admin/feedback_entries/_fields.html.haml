@@ -1,0 +1,8 @@
+- form_tag admin_feedback_entries_path, :method => :post do
+  %fieldset
+    %div
+      = text_area_tag 'feedback_entry[body]', @feedback_template.body, :class => 'textile'
+      = hidden_field_tag 'feedback_entry[title]', @feedback_template.title
+      = hidden_field_tag '[submission_key]', @submission.key
+    
+    = submit_tag('Leave Feedback')

@@ -1,0 +1,18 @@
+- content_for :title, 'Documents'
+
+%h1 Documents
+
+%table.data{:cellspacing => 0}
+  %thead
+    %tr
+      %th.main Title
+      %th.nowrap Current Version
+      %th 
+  %tbody
+    - @documents.each do |document|
+      %tr
+        %td= link_to document.title, admin_document_path(document)
+        %td= document.version
+        %td.actions.nowrap
+          = link_to 'view', admin_document_path(document)
+          = link_to 'edit', edit_admin_document_path(document)

@@ -1,0 +1,4 @@
+Id,Title,User,URL,Star,Patent Pending,Patent Issued,Prototype,Attachments,Ratings
+<%- @search.find_each(:include => [:user, :ratings], :batch_size => 500) do |idea| -%>
+<%= idea.to_csv_row %>
+<%- end -%>

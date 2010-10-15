@@ -1,0 +1,55 @@
+- content_for :page_title , t('people_and_groups.title')
+- content_for :title do
+  = t('people_and_groups.title')
+
+- content_for :head do 
+  = autocomplete_javascript
+  = autocomplete_css
+
+
+- if logged_in?
+  #my-friends
+    =link_to image_tag('my-friends-button.gif'), user_friends_path(current_user), :class => 'my-friends-button'
+
+%h3= t('people_and_groups.people_search')
+- form_tag users_path, :method => :get do
+  = text_field_tag 'q', nil, :class => 'autocomplete-users', :autocomplete => 'off'
+  = submit_tag t('people_and_groups.search'), :class => 'button green small'
+%br/
+%br/
+
+%hr.clear-right
+
+- if logged_in?
+  #my-groups
+    =link_to image_tag('my-groups-button.gif'), user_groups_path(current_user), :class => 'my-groups-button'
+
+%h2= t('people_and_groups.find_groups')
+
+%h3= t('people_and_groups.by_state')
+- form_tag groups_path, :method => :get do
+  = state_select_tag 'region'
+  = submit_tag t('people_and_groups.search'), :class => 'button green small'
+%br/
+%br/
+
+%h3= t('people_and_groups.group_search')
+- form_tag groups_path, :method => :get do
+  = text_field_tag 'q', nil, :class => 'autocomplete-groups', :autocomplete => 'off'
+  = submit_tag t('people_and_groups.search'), :class => 'button green small'
+  
+%br/
+%br/
+
+%h3 = t('people_and_groups.cant_find_group')
+= link_to t('people_and_groups.start_a_group'), new_group_path, :class => 'new-group-button button green medium'
+%br/
+%br/
+
+%h3= t('people_and_groups.most_popular_groups')
+%ul.group-list
+  - @popular_groups.each do |group|
+    %li
+      &raquo;
+      = link_to h(group.title), group_path(group)
+      = content_tag :span, "(#{pluralize group.members_count, 'member'})", :class => 'highlight'

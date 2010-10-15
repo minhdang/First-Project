@@ -1,0 +1,25 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :name
+  = f.text_field :name
+  
+.required
+  = f.label :product_category_id, 'Category'
+  = f.select :product_category_id, ProductCategory.all.map {|cat| [h(cat.name), cat.id]}, :include_blank => "-- Select a category --"
+
+.required
+  = f.label :description
+  = f.text_area :description, :class => "textile"
+
+.required
+  = f.label :detailed_description
+  = f.text_area :detailed_description, :class => "textile"
+  
+.required
+  = f.label :sidebar_html
+  = f.text_area :sidebar_html, :class => 'full'
+  %span HTML for the sidebar. Photo gallery and the image below.
+  

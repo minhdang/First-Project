@@ -1,0 +1,6 @@
+- if !user.user_photos.empty? || current_user == user
+  %h3 
+    = link_to t('links.view_all'), user_albums_path(user), :class => 'action'
+    = t('users.photo.photos')
+  = render :partial => 'user_photos/photos', :locals => { :style => :tiny, :photos => user.user_photos.random.limited(16) }
+  = link_to t('users.photo.add_an_album'), new_user_album_path(user) if current_user == user && user.user_photos.empty?

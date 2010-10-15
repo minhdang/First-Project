@@ -1,0 +1,42 @@
+- content_for :page_title, "#{@submission.key} &mdash;#{@submission.idea.title}"
+%h1
+  - star_txt = @submission.idea.star? ? 'starred' : 'unstarred'
+  = button_to star_txt, admin_idea_path(@submission.idea, :idea => {:star => (!@submission.idea.star).to_s}), :method => :put, :class => star_txt, :id => 'star'
+  = @submission.idea.title
+
+- content_for :head do
+  = stylesheet_link_tag('admin/colorbox')
+  = stylesheet_link_tag('admin/feedback_entries')
+  
+
+- content_for :scripts do
+  = javascript_include_tag('admin/lps/submission')
+  = javascript_include_tag('admin/lps/colorbox')
+  
+
+%table#submission{:width => '100%', :class => "#{@lps.key}"}
+  %tr
+    %td{:style => 'padding-right:10px; width:370px'}
+      = render :partial => 'admin/ideas/inventor',        :locals => {:user => @submission.user, :contact => @submission.contact_information}
+      = render :partial => 'admin/ideas/attachments',     :locals => {:idea => @submission.idea}
+      
+    %td{:style => 'padding-left:10px; width:370px'}
+      = render :partial => 'ratings',                     :locals => {:submission => @submission}
+      = render :partial => 'admin/ideas/comments',                    :locals => {:submission => @submission}
+
+= render :partial => 'lps_questions',                     :locals => {:submission => @submission}
+%br/
+%br/
+= render :partial => 'admin/ideas/idea',                  :locals => {:idea => @submission.idea}
+%br/
+%br/
+= render :partial => 'admin/ideas/intellectual_property', :locals => {:idea => @submission.idea}
+%br/
+%br/
+= render :partial => 'admin/ideas/submissions',           :locals => {:idea => @submission.idea, :except => @submission}
+%br/
+%br/
+= render :partial => 'destiny',                           :locals => {:submission => @submission}
+%br/
+= render :partial => 'feedback',                           :locals => {:submission => @submission}
+%br/

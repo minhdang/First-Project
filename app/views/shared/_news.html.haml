@@ -1,0 +1,6 @@
+- max ||= 5
+%div#twitter_div
+  %ul#twitter_update_list
+
+- content_for :scripts do
+  = javascript_include_tag "http://twitter.com/javascripts/blogger.js", "http://twitter.com/statuses/user_timeline/edisonnation.json?callback=prepareTwitterStream&amp;count=#{max}"

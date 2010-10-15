@@ -1,0 +1,4 @@
+Number, Created On, First Name, Last Name, Address 1, Address 2, City, State, Postal Code, Country, Tracking Number, Carrier, Order Items
+<% @orders.each do |order| -%>
+<%= [order.number, order.created_at.to_date, order.ship_to_address.first_name, order.ship_to_address.last_name, order.ship_to_address.address_1, order.ship_to_address.address_2, order.ship_to_address.city, order.ship_to_address.state, order.ship_to_address.postal_code, order.ship_to_address.country, order.tracking_number, order.carrier, order.order_items.map(&:name).join('|')].join(',') %>
+<% end %> 

@@ -1,0 +1,46 @@
+!!! Strict
+%html{ html_attrs("en_us") }
+  %head
+    %title
+      Admin -
+      = yield(:page_title) || 'Edison Nation'
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }/
+    
+    = stylesheet_link_tag 'reset', 'general', 'admin/admin', 'forms', '/markitup/skins/markitup/style.css', '/markitup/sets/textile/style.css', 'jquery/jquery-ui', 'thickbox'
+    = stylesheet_link_tag 'admin/print', :media => 'print'
+    
+    = javascript_include_tag 'jquery/jquery', 'jquery/ui/ui.core.js', 'admin/admin', 'form', '/markitup/jquery.markitup.js', '/markitup/sets/textile/set.js', 'jquery/ui/ui.datepicker.js', 'jquery/ui/ui.slider.js', 'jquery/ui/effects.core.js', 'jquery/ui/effects.highlight.js', 'thickbox'
+    = yield(:head)
+    
+    = javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery?
+  %body
+    #ajax-loader{:style=>'display:none'}
+      %h1 
+        = image_tag('ajax-loader.gif')
+        Loading
+    #wrap
+      #header
+        #site-name Edison Nation Admin
+        
+        = render :partial => 'admin/shared/navigation', :locals => {:section => controller.controller_name.to_sym}
+      
+      #content-wrap
+        #utility
+          = render :partial => 'admin/shared/secondary_nav', :locals => {:section => controller.controller_name.to_sym}
+          = yield(:sidebar)
+        
+        #content          
+          = render :partial => 'shared/flash_messages', :locals => {:flash => flash}
+          
+          = yield
+          
+          #footer
+            %p
+              = "Copyright&copy; #{Time.now.year}"
+              Enventys
+
+    #status-message{:style => 'display:none;'}
+      %h1
+        %strong.message
+    = yield(:scripts)
+

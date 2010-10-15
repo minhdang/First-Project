@@ -1,0 +1,17 @@
+- content_for :title, t('memberships.edit.enter_payment_info')
+
+-# Set the default card_number to the masked one we have in the db
+- @membership.payment.card_number ||= @membership.payment.cc_number
+
+- form_for @membership, :url => membership_path, :html => {:method => :put} do |f|
+  = required_field_legend
+  
+  - f.fields_for :payment do |payment_form|
+    = render :partial => 'payments/fields', :locals => {:f => payment_form}
+  
+  %div.float-right
+    = f.submit t('memberships.edit.submit_payment_info'), :class => 'one-click'
+
+= render :partial => 'shared/ssl'
+
+- content_for :ad_space

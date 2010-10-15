@@ -1,0 +1,31 @@
+- content_for :title, t('videos.title')
+
+- content_for :sidebar do
+  = render :partial => 'videos/sidebar'
+  
+= link_to image_tag('featuredVideo.jpg',:class => 'banner'), season_episode_chapters_path('everyday-edisons-season-2', '12')
+
+- @seasons.each do |season|
+  - unless season.episodes.active.empty?
+    - div_for season do  
+      %h2= official_title(season)
+      %ul.videos
+        - season.episodes.active.find(:all, :limit => 4).each_with_index do |episode, i|
+          %li
+            = render :partial => 'episodes/episode', :locals => {:episode => episode}
+          - if ((i+1) % 2 == 0)
+            %li.clear-left/
+    %p= link_to t('videos.watch_all') + " #{official_title(season)} " + t('videos.episodes'), season_episodes_path(season)
+
+- @video_categories.each do |video_category|
+  - unless video_category.videos.active.empty?
+    - div_for video_category do
+      %h2= video_category.title
+      %ul.videos
+        - video_category.videos.active.find(:all, :limit => 4).each do |video|
+          %li
+            = link_to image_tag(video.image.url, :alt => video.title), video_category_video_path(video.video_category, video)
+            = image_tag('freeVideo.gif', :class => 'free-video') if video.free?
+            %h3= h video.title
+            %p= h truncate(video.description, 120)
+    %p= link_to t('videos.watch_all') + " #{video_category.title} " + t('videos.videos'), video_category_path(video_category)

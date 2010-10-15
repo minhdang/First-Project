@@ -1,0 +1,11 @@
+- content_for :page_title, "#{ @forum ? @forum.name : 'Forums'} " + t('topics.new.title')
+- content_for :title do
+  = @forum ? link_to(h(@forum.name), forum_path(@forum)) : t('topics.new.forums')
+  &raquo; New Topic
+  
+- if @forum && @forum.is_discussion?
+  - content_for :sidebar, discussable_sidebar(@forum.discussable)
+  
+- form_for @topic, :url => (@forum ? forum_topics_path(@forum) : topics_path) do |f|
+  = required_field_legend
+  = render :partial => 'topics/fields', :locals => { :f => f }

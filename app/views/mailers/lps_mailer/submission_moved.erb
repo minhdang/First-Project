@@ -1,0 +1,7 @@
+<%=h @submission.user.first_name %>,
+
+The status of your submission "<%=h @submission.idea.title %>" to <%=h @submission.live_product_search.key %> has recently been updated.
+
+Please visit <%= "#{site}/dashboard/ideas" %> to review the status of your submission.
+
+<%= signature %>

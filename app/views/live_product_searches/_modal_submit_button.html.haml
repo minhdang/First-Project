@@ -1,0 +1,28 @@
+- if !lps.published? || (lps.launch && lps.launch > Time.zone.now)
+  %p.times-up-button
+    This live product search has not launched yet.
+    %em check back soon
+- elsif lps.past_deadline?
+  %p.times-up-button
+    The deadline for this search has passed
+    %em Thank you to all who submitted ideas
+- else
+  - if logged_in?
+    - if current_user.member?
+      %a.signup-and-submit-button{:href => (logged_in? ? new_live_product_search_submission_path(lps) : signup_path(:return_to => new_live_product_search_submission_path(lps)))}
+        Click here to submit your idea
+        %em just $20 Edison Nation Insiders only
+    - else
+      %a.signup-and-submit-button.ajax{:href => insider_search_modal_live_product_searches_path}
+        Click here to submit your idea
+        %em This search is for Edison Nation Insiders only
+  - else
+    %a.signup-and-submit-button{:href => (logged_in? ? new_live_product_search_submission_path(lps) : signup_path(:return_to => new_live_product_search_submission_path(lps)))}
+      Create your Edison Nation account for free
+      %em It only takes about 10 seconds.
+
+
+
+
+
+      

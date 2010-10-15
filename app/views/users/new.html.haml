@@ -1,0 +1,54 @@
+- if @step == 1
+  - content_for :page_title, t('sign_up.page_title')
+  - content_for :title, t('sign_up.title')
+  
+  - form_for @user, :url => signup_path, :method => :get, :html => {:class => 'mini'} do |f|
+
+    = f.error_messages :header_message => t('sign_up.flash_message_information'), :message => nil
+    
+    .hidden
+      = hidden_field_tag :step_1, '1'
+    .required
+      = f.label :first_name, t('sign_up.first_name')
+      = f.text_field :first_name
+    .required
+      = f.label :last_name, t('sign_up.last_name')
+      = f.text_field :last_name
+    .required
+      = f.label :email, t('sign_up.email')
+      = f.text_field :email
+    .checkbox
+      = f.check_box :mailable
+      = f.label :mailable, t('sign_up.mailable')
+    
+    .confirmation
+      = f.submit t('sign_up.continue'), :class => 'continue-button button green'
+
+- else
+  - content_for :title, t('sign_up.one_more_step')
+
+  - form_for @user, :url => users_path, :html => {:class => 'mini'} do |f|
+  
+    = f.error_messages :header_message => t('sign_up.flash_message_account'), :message => nil
+    
+    .hidden
+      = f.hidden_field :first_name
+      = f.hidden_field :last_name
+      = f.hidden_field :email
+      = f.hidden_field :mailable
+    .required
+      = f.label :login, t('sign_up.login')
+      = f.text_field :login
+    .required
+      = f.label :password, t('sign_up.password')
+      = f.password_field :password
+    .required
+      = f.label :password_confirmation, t('sign_up.confirm_password')
+      = f.password_field :password_confirmation    
+    #tos= render :partial => 'shared/tos'
+    .required.checkbox
+      = f.check_box :terms_of_service
+      = f.label :terms_of_service, t('sign_up.term_of_service')
+
+    .confirmation
+      = f.submit t('sign_up.sign_up'), :class => 'signup-button button green'

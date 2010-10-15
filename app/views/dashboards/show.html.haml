@@ -1,0 +1,22 @@
+- content_for :page_title, t('dashboard.show.page_title')
+- content_for :head do
+  = stylesheet_link_tag 'preview'
+
+- content_for :head do 
+  = javascript_include_tag 'jquery/jquery.anythingslider.js','jquery/jquery.easing.1.2.js'
+  = stylesheet_link_tag 'slider'
+
+   
+- content_for :sidebar do
+  = render :partial => 'shared/dashboard/profile_actions'
+
+
+= render :partial => 'shared/dashboard/announcements'
+
+.span-6.last
+
+          
+= render :partial => 'shared/dashboard/idea_summary'
+= render :partial => 'shared/dashboard/lps_list'
+
+

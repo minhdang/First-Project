@@ -1,0 +1,6 @@
+.pod.alt
+  %h5= t('shared.dashboard.invite_friend.invite_friends')
+  - form_for Invitation.new, :url => invitations_path, :id => 'invite-friends' do |f|
+    .required{:style => 'padding:0'}
+      = f.text_field :sent_to, :value => t('shared.dashboard.invite_friend.email'), :class => 'prefilled'
+      = f.submit t('shared.dashboard.invite_friend.invite'), :class => 'green button small'

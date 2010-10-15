@@ -1,0 +1,51 @@
+- updateable = updateable.nil? ? true : updateable
+- form_for @cart, :url => store_cart_path(@store) do |f|
+  %table#cart
+    %thead
+      %tr
+        %th= t('carts.qty')
+        %th= t('carts.product')
+        %th= t('carts.each')
+        %th= t('carts.total')
+    %tbody
+      - @cart.items.each do |cart_item|
+        %tr{:class => cycle('alt',nil)}
+          %td= updateable ? text_field_tag( "product_type_quantities[#{cart_item.product_type.id}]", cart_item.quantity, :class => 'cart-quantity') : cart_item.quantity
+          %td.main= link_to "#{h cart_item.product.name} - #{h cart_item.product_type.name}", store_category_product_path(@store, cart_item.product.category, cart_item.product)
+          %td= number_to_currency(cart_item.final_price)
+          %td= number_to_currency(cart_item.final_price * cart_item.quantity)
+      %tr.subtotal
+        %th{:colspan => 3} Subtotal
+        %td= number_to_currency(@cart.subtotal)
+      %tr.shipping
+        %th{:colspan => 3} Shipping
+        %td= number_to_currency(@cart.shipping)
+      %tr.tax
+        %th{:colspan => 3} *Tax
+        %td= number_to_currency(@cart.tax)
+      %tr.grand-total
+        %th{:colspan => 3} Grand Total
+        %td= number_to_currency(@cart.total)
+
+  - if updateable
+    #ship-to
+      = label_tag 'ship_to_region', t('carts.select_state')
+      = state_select_tag('ship_to_region', session[:ship_to_region])
+
+    - unless logged_in? && current_user.member?
+      #coupon
+        - if @cart.coupon
+          = f.submit t('carts.remove_coupon'), :class => 'delete-button'
+          %strong= @cart.coupon.code
+          %em= @cart.coupon.description
+        -else
+          = label_tag :coupon_code, t('carts.coupon')
+          = text_field_tag :coupon_code
+  
+    %br.clear-right/
+    = f.submit t('carts.checkout'), :class => 'checkout-button button green medium right'
+    = f.submit t('carts.update'), :class => 'update-cart-button button green medium right'
+
+
+
+%br.clear/

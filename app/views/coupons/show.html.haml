@@ -1,0 +1,26 @@
+- content_for :title, 'Free Live Product Search Submission'
+
+%h1.highlight
+  Sign up now and get a free LPS submission (a $25 value).
+  If your idea is selected, you'll be paid a $2,500 advance
+  plus a generous percentage of sales.
+  
+%h4
+  To learn more and submit your idea, just select one of the current
+  Live Product Searches below:
+  
+= render :partial => 'live_product_searches/searches', :locals => {:live_product_searches => LPS.current.all, :coupon => @coupon}
+
+%h2 Don't have an idea for a current search? We launch new searches all the time!
+.signup
+  = link_to 'Sign up for free', signup_path, :class => 'sign-up-for-free'
+  %h3
+    = succeed ',' do
+      = link_to "Create your free account today", signup_path
+    bookmark this page, and return
+    within 2 weeks to claim your free submission.
+
+  %p.meta
+    This limited time offer is only valid for new users of Edison Nation
+    %br/
+    and must be used within 2 weeks of creating your account.

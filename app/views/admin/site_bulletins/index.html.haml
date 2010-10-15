@@ -1,0 +1,16 @@
+%h1 Site Bulletins
+
+%table.data
+  %thead
+    %tr
+      %th Title
+      %th 
+      %th
+  %tbody
+    - @site_bulletins.each do |bulletin|
+      %tr
+        %td= bulletin.title
+        %td
+          = link_to 'Edit', edit_admin_site_bulletin_path(bulletin)
+          = link_to 'View', admin_site_bulletin_path(bulletin)
+          = link_to 'Delete', admin_site_bulletin_path(bulletin), :method => :delete, :confirm => "Are you sure? This can't be undone, m'kay", :class => 'action'

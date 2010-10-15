@@ -1,0 +1,12 @@
+- content_for :page_title, @season.official_title
+- content_for :title, official_title(@season)
+
+- content_for :sidebar do
+  = render :partial => 'videos/sidebar'
+
+%ul.videos
+  - @episodes.each_with_index do |episode, i|
+    %li
+      = render :partial => 'episode', :locals => {:episode => episode}
+    - if ((i+1) % 2 == 0)
+      %li.clear-left/

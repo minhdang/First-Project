@@ -1,0 +1,78 @@
+- content_for :page_title, "User - #{@user.login}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = user_actions(@user)
+        = @user.login
+  %tbody
+    %tr
+      %th  User ID
+      %td= @user.id
+    %tr
+      %th  Login
+      %td= @user.login
+    %tr
+      %th  Name
+      %td= @user.name
+    %tr
+      %th  Email
+      %td= @user.email
+    %tr
+      %th  Status
+      %td= @user.state
+    %tr
+      %th  Edison Insider
+      %td
+        = boolean_flag(@user.member?)
+        = "(#{currency_or_free(@user.membership.cost)})" if @user.member?
+        = link_to('view membership', admin_user_membership_path(@user)) if @user.member?
+    %tr
+      %th  Moderator
+      %td= boolean_flag(@user.moderator?)
+    %tr
+      %th  Administrator
+      %td= boolean_flag(@user.admin?)
+    - if @user.current_badge
+      %tr
+        %th Current Badge
+        %td= image_tag @user.current_badge.image.url(:thumb)
+    %tr
+      %th Available Badges
+      %td= @user.badges.map{|badge| image_tag badge.image.url(:thumb) }.join
+    %tr
+      %th Created
+      %td= @user.created_at.to_s(:long_ordinal)
+      
+%h2 Last Ten Logins
+%table.data
+  %thead
+    %tr.logins
+      %td
+        Time
+      %td
+        Ip Address
+      %td
+        Platform
+      %td
+        Name
+      %td
+        Version
+      %td
+        OS
+      %td
+        Language
+  %tbody
+    -@logins.each do |login|
+      %tr
+        %td=login.created_at.strftime("%m/%d/%y %I:%M %p")
+        %td=login.ip_address
+        %td=login.platform
+        %td=login.name
+        %td=login.version
+        %td=login.os
+        %td=login.language
+
+
+          

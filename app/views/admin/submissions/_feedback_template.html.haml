@@ -1,0 +1,12 @@
+- content_for :page_title, 'Feedback for G7 Submission'
+
+- content_for :scripts do 
+  = javascript_include_tag('admin/feedback_entries')
+#ajax-loader{:style => 'display:none'}
+  = image_tag('/images/ajax-loader.gif')
+
+
+%h2 Choose a feedback template
+= select_tag :feedback_template, options_for_select(@feedback_templates.map { |template| [template.title, template.id] }.insert(0, 'Select a Feedback Template'))
+
+#response_form{:class => "#{@submission.key}"}

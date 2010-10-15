@@ -1,0 +1,20 @@
+- content_for :page_title, "#{@episode.title} Chapters"
+
+%h1 Episodes
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Chapter Number
+      %th Description
+      %th File Name
+      %th{:colspan => "2"}
+  %tbody
+    - @episode.chapters.each do |chapter|
+      %tr
+        %td= chapter.id
+        %td= link_to chapter.chapter_number, admin_episode_chapter_path(@episode, chapter)
+        %td= chapter.video_file_name
+        %td= chapter.description
+        %td= link_to 'Preview', admin_episode_chapter_path(@episode, chapter)

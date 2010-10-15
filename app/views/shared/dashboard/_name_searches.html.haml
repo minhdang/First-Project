@@ -1,0 +1,13 @@
+#name.panel
+  %h2.panel-title 
+    = t('shared.dashboard.name_searches.name_searches')
+  .lps-minipanel
+    - @surveys = Survey.current.all
+    - if @surveys.any?
+      = render :partial => '/dashboards/survey/list', :locals => {:surveys => @surveys}
+    - else
+      %p#nosearch
+        = t('shared.dashboard.name_searches.no_name_searches')
+    %div{:style => 'padding:0 20px'}
+      = link_to t('shared.dashboard.name_searches.your_name_submissions'), "/dashboard/survey", :class => 'button green medium right'
+        

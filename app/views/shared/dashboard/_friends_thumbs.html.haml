@@ -1,0 +1,66 @@
+
+- content_for :scripts do
+  :javascript
+    
+    function toggleFriends() {
+        if ( $("#dashboard-friends-list").is(':hidden') )
+        {
+          $('#dashboard-friends-list').toggle();
+          $('#dashboard-site-activity').toggle();
+          $('li#site_activity').removeClass('active');
+          $('li#friends').addClass('active');
+        }
+        else  
+        {
+          // do nothing
+        }
+      };
+    
+    
+    function toggleSiteActivity() {
+      if ( $("#dashboard-site-activity").is(':hidden') )
+      {
+        $('#dashboard-friends-list').toggle();
+        $('#dashboard-site-activity').toggle();
+        $('li#site_activity').addClass('active');
+        $('li#friends').removeClass('active');
+      }
+      else  
+      {
+        // do nothing
+      }
+    };
+    
+  
+    $(document).ready(function(){
+      $('li#friends').live('click', function(){
+        toggleFriends()
+      });
+      
+      $('li#site_activity').live('click', function(){
+        toggleSiteActivity()
+      });
+    });//ready
+    
+
+
+
+
+.pod.tabbed
+  %ul.tabs
+    %li#site_activity.active
+      = t('shared.dashboard.friends.site_activity')
+    %li#friends
+      = t('shared.dashboard.friends.friends')
+  #dashboard-site-activity
+    - unless @notices.empty?
+      = render :partial => 'notices/list', :locals => {:notices => @notices, :editable => true}
+      = link_to t('shared.dashboard.friends.view_all_activity'), user_notices_path(@user), :class => 'view-activity action'
+  #dashboard-friends-list{:style => 'display:none'}
+    = render :partial => 'users/avatars', :locals => {:style => :tiny, :users => prefer_avatars(@user.friends.random)}
+    .clear
+    = link_to t('shared.dashboard.friends.view_all_friends'), user_friends_path(@user)
+    - if current_user.friend_requests.any?
+      %br/
+      = link_to "#{pluralize(current_user.friend_requests.count, t('shared.dashboard.friends.pending_friend_request'))} &raquo;", user_friend_requests_path(current_user)
+  .clear

@@ -1,0 +1,18 @@
+- editable = editable.nil? ? true : editable
+%ul#submissions
+  - submissions.each_with_index do |submission, index|
+    %li
+      - if editable
+        .controls
+          - if submission.archiveable?
+            = button_to t('dashboard.lps.submissions.archive'), |
+              live_product_search_idea_submission_path(submission.live_product_search, submission.idea), |
+              :method => :delete, :confirm => t('dashboard.lps.submissions.archive_confirm'),  |
+              :class => 'button red small' |
+          - elsif !submission.archived?
+            = link_to t('general.edit'), edit_live_product_search_idea_path(submission.live_product_search, submission.idea), :class => 'button green medium'
+        
+      = render :partial => 'submissions/submission', :locals => {:submission => submission, :index => index }
+      
+= render :partial => 'shared/progress_explanation'
+-# ADDED INDEX TO ELEMENTS FOR JAVASCRIPT HOOKS

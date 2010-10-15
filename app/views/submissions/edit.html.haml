@@ -1,0 +1,28 @@
+- content_for :title, t('submissions.edit.sponsor_questions_title')
+
+- content_for :scripts do
+  = javascript_include_tag('jquery/ui/ui.datepicker.js')
+  /[if IE]><script type=\"text/javascript\" src=\"/javascripts/jquery/jquery.bgiframe.js\"></script><![endif]
+  
+- content_for :sidebar, checklist(@idea, :lps => @lps, :submission => @submission)
+
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+
+- form_for @submission, :url => live_product_search_idea_submission_path(@lps, @idea) do |f|
+  
+  = f.error_messages
+  = required_field_legend
+  
+  %fieldset
+    - f.fields_for :answers do |answer_field|
+      - answer = answer_field.object
+      %div{:class => (answer.question.required? ? 'required' : nil)}
+        = answer_field.hidden_field :question_id, :value => answer.question.id
+        = answer_field.label :value, answer.question.label
+        = answer_input_field(answer_field, answer)
+        - unless answer.question.memo.blank?
+          %span= answer.question.memo
+          
+  .confirmation
+    = f.submit t('submissions.edit.save_and_continue'), :class => 'save-and-continue-button'
+    = f.submit t('submissions.edit.save_for_later'), :class => 'save-for-later-button' if @submission.complete?

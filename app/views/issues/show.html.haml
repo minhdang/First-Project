@@ -1,0 +1,5 @@
+- content_for :title, @issue.title
+
+=link_to t('issues.click_here_to_go_back'), issues_path, {:class => 'underline emphasis'}
+
+= display_pdf_inline(@issue.pdf.url(:original, include_time_stamps = false))

@@ -1,0 +1,5 @@
+- content_for :page_title, "Edit Season - #{@season.description}"
+
+- form_for @season, :url => admin_season_path(@season), :method => :put do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  = f.submit

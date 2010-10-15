@@ -1,0 +1,7 @@
+- content_for :page_title, 'New Episode'
+
+%h1 New Episode
+
+- form_for @episode, :url => admin_episodes_path, :html => { :method => :post, :multipart => true } do |f|
+  = render :partial => "fields", :locals => { :f => f }
+  %div= f.submit 'Create Episode'

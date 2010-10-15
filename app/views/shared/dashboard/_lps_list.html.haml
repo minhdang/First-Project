@@ -1,0 +1,4 @@
+#lps.panel
+  %h2.panel-title= t('shared.dashboard.lps_list_lps')
+  .lps-minipanel
+    = render :partial => 'live_product_searches/tesla/list', :locals => {:live_product_searches => @live_product_searches}

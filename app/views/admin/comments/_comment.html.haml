@@ -1,0 +1,18 @@
+.comment-wrapper{:class => cycle(nil, 'alt'), :id => dom_id(comment)}
+  = link_to avatar(comment.user, :icon), admin_user_path(comment.user), :title => comment.user.name
+  .comment
+    .body= en_format(comment.body)
+    %span.meta
+      = "via #{comment.user.short_name} about the"
+      %strong= comment.submission_id.blank? ? 'Idea' : 'Submission'
+      = time_ago_in_words(comment.created_at)
+      ago
+  - if current_user.has_role?(:superuser, :lps_admin) || comment.user == current_user
+    - form_for comment, :url => admin_comment_path(comment), :html => {:class => 'inline ajax'} do |f|
+      = f.text_area :body, :class => 'full supershort'
+      = f.label :submission_id, 'In response to', :class => 'inline'
+      = f.select :submission_id, comment.idea.submissions.map{|s| [s.key, s.id]}, :include_blank => 'The Idea'
+      = f.submit 'Update Comment', :class => 'update-comment'
+    .actions
+      = link_to 'edit', '#', :class => 'edit-comment'
+      = link_to 'delete', admin_comment_path(comment), :method => :delete, :class => 'delete-comment'

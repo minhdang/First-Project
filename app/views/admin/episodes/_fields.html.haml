@@ -1,0 +1,26 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :title
+  = f.text_field :title
+.required
+  = f.label :description
+  = f.text_field :description
+.required
+  = f.label :episode_number
+  = f.text_field :episode_number
+.required
+  = f.label :season_id
+  = f.select :season_id, Season.all.collect {|season| [season.season_number, season.id]},  :selected => @season.id if @season
+.required
+  = f.label :image
+  = f.file_field :image
+%div
+  = f.label :active
+  = f.check_box :active
+  %small Check this only when the episode is ready to go live
+%div
+  = f.label :free
+  = f.check_box :free

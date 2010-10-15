@@ -1,0 +1,2 @@
+- content_for :page_title, "#{h @store.name} &raquo; #{h @category.name}"
+- content_for :title, "#{link_to h(@store.name), store_path(@store)} &raquo; #{h @category.name}"

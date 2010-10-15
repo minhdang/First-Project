@@ -1,0 +1,7 @@
+- content_for :title, "#{@user.name}'s Activity"
+
+= will_paginate @notices
+
+= render :partial => 'notices/list', :locals => {:notices => @notices, :style => :tiny, :editable => (current_user == @user)}
+
+= will_paginate @notices

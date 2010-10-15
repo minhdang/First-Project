@@ -1,0 +1,27 @@
+%table.data
+  %thead
+    %tr
+      %th= pluralize(idea.attachments.count, 'Attachment')
+  %tbody
+    - if idea.attachments.any?
+      %tr
+        %td
+          %ul#attachments
+            - idea.attachments.each do |attachment|
+              %li
+                = filetype_icon attachment
+                - unless attachment.label.blank?
+                  %strong= attachment.label
+                  %br/
+                = link_to attachment.file_file_name, attachment.file.local_url
+                %em= "(#{number_to_human_size attachment.file_file_size})"
+                %br/
+                %small
+                  = link_to "remote backup", admin_attachment_path(attachment)
+    %tr
+      %td
+        - attachment = idea.attachments.new
+        - form_for attachment, :url => admin_attachments_path, :html => {:multipart => true, :class => 'inline'} do |f|
+          = hidden_field_tag :idea_id, idea.id
+          = f.file_field :file
+          = f.submit 'upload attachment'

@@ -1,0 +1,9 @@
+- content_for :page_title, "#{h @store.name} - Edit Product"
+
+%h1= "#{h @store.name} - Edit Product"
+
+- form_for @product, :url => admin_store_product_path(@store, @product) do |f|
+
+  = render :partial => 'fields', :locals => {:f => f}
+
+  %div= f.submit 'Update Product'

@@ -1,0 +1,7 @@
+%h1 Creating a New Site Bulletin 
+
+- form_for @site_bulletin, :url => admin_site_bulletins_path do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Create Site Bulletin'

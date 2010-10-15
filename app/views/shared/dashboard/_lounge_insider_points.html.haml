@@ -1,0 +1,10 @@
+#insider-points.pod
+  %h5= t('shared.dashboard.insider_points.insider_points')
+  %ul
+    - if @user.has_role?(:staff)
+      %li.tally{:style => 'font-size:41px;'} &#8734;
+    - else
+      %li.tally= number_with_delimiter(@user.reward_points)
+  %span.description
+    %a{:href => "#points-description"}
+      = t('shared.dashboard.insider_points.free_search')

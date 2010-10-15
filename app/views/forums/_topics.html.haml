@@ -1,0 +1,29 @@
+- forum ||= nil
+%table.topics{:cellspacing => 0}
+  %thead
+    %tr
+      - unless forum
+        %th= t('forums.forum')
+      %th= t('forums.topics')
+      %th= t('forums.replies')
+      %th= t('forums.views')
+      %th= t('forums.last_post')
+  %tbody
+    - @topics.each do |topic|
+      %tr{:class => cycle('alt', nil), :id => dom_id(topic)}
+        - unless forum
+          %td.nowrap
+            - if topic.forum.official?
+              %span.official{:title => t('forums.create_topic_restrictions')}= t('forums.show.official')
+              %br/
+            = link_to topic.forum.name, forum_path(topic.forum), :class => 'view-topic'
+        %td.main= link_to h(topic.title), forum_topic_path(topic.forum, topic), :class => 'view-topic'
+        %td= topic.posts_count - 1
+        %td= topic.hits
+        %td.nowrap
+          = timeago(topic.last_updated_at)
+          by
+          %br/
+          = "#{link_to(truncate(topic.last_user.login, :length => 20), user_path(topic.last_user))}"
+        
+= will_paginate topics

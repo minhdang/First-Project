@@ -1,0 +1,24 @@
+- content_for :head, javascript_include_tag('states_selector')
+- content_for :title, "#{h @store.name} &raquo; " + t('orders.edit.checkout')
+
+%h2= t('orders.edit.review_your_order')
+= render :partial => 'orders/order', :locals => {:order => @order}
+
+- form_for @order, :url => store_order_path(@store, @order) do |f|
+  = required_field_legend
+  
+  = f.error_messages
+
+  - f.fields_for :payment do |payment_form|
+    = render :partial => 'payments/fields', :locals => {:f => payment_form}
+    
+  %fieldset
+    %legend= t('orders.edit.shipping_address')
+    
+    - f.fields_for :ship_to_address do |address_form|
+      = render :partial => 'contact_informations/address', :locals => {:f => address_form}
+        
+  = f.submit t('orders.edit.complete_checkout'), :class => 'complete-checkout-button button green medium right one-click'
+  = link_to t('orders.edit.cancel'), store_cart_path(@store), :class => 'cancel-button button gray small right'
+
+= render :partial => 'shared/ssl'

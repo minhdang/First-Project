@@ -1,0 +1,9 @@
+- content_for :page_title, "Edit LPS - #{@lps.title}"
+
+%h1= "Edit LPS - #{@lps.title}"
+
+- form_for @lps, :url => admin_live_product_search_path(@lps), :html => {:multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Update LPS'

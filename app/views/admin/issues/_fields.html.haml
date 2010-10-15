@@ -1,0 +1,23 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :title
+  = f.text_field :title
+.required
+  = f.label :description
+  = f.text_area :description, :class => 'textile'
+.required
+  = f.label :short_description
+  = f.text_field :short_description
+.required
+  = f.label :published_at
+  = f.datetime_select :published_at
+%div
+  = f.label :active
+  = f.check_box :active
+  %small Check this only when the issue is ready to go live
+%div
+  = f.label :pdf
+  = f.file_field :pdf

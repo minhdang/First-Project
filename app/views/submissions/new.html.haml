@@ -1,0 +1,42 @@
+- content_for :title, t('submissions.new.title')
+- content_for :scripts, javascript_include_tag('lps/submit')
+
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+
+- if @lps.member_search 
+  .redeem-box
+    %h2 = t('submissions.new.only_new_can_be_submitted')
+
+- unless params[:page]
+  #submit-what{:style => 'display:none'}
+    = link_to t('submissions.new.submit_new_idea'), new_live_product_search_idea_path(@lps), :id => 'submit-new'
+    = link_to t('submissions.new.submit_existing_idea'), '#', :id => 'submit-existing'
+    %br.clear
+    %br
+
+
+  
+  
+  
+
+
+%ul#ideas
+  - @ideas.each do |idea|
+    - unless idea.submissions_count > 0 && @lps.member_search
+      %li
+        .controls
+          - if idea.complete?
+            = link_to t('submissions.new.submit_idea'), edit_live_product_search_idea_submission_path(@lps,idea), :class => 'button green medium'
+          - else
+            = link_to t('submissions.new.submit_idea'), edit_live_product_search_idea_path(@lps,idea), :class => 'button green medium'
+        
+      
+        %h4
+          = link_to h(idea.title), idea_path(idea)
+          %small= t('submissions.new.submitted_times') + "#{pluralize(idea.submissions_count, 'time')})"
+        .meta
+          %em= t('submissions.new.created_on') + " #{idea.created_at.to_s(:mdy)}"
+          = boolean_flag(idea.complete?, t('submissions.new.complete'))
+          = boolean_flag((idea.attachments_count > 0), link_to(t('submissions.new.attachments'), idea_attachments_path(idea)))
+    
+= will_paginate @ideas

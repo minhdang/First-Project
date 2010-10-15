@@ -1,0 +1,14 @@
+- if move
+  - stage = move.move_to
+  - submission = move.submission
+  %li{:class => "move stage-#{stage}"}
+    %span{:class => submission.status_for_stage(stage)}
+      %abbr{:title => "#{submission.status_for_stage(stage).titleize} #{"by #{move.user.name} " if move.user}on #{move.move_at.to_s(:full_ordinal)} #{Time.zone.name}"}= move.move_at.to_s(:date_short)
+      - if defined?(editable) && editable
+        .edit-move-panel
+          %a.close{:href => '#'} Close
+          = link_to('destroy', admin_move_path(move), :method => :delete, :confirm => 'Are you sure you want to delete this move?', :class => 'delete-move-button') if move.last_move?
+          - form_for move, :url => admin_move_path(move) do |f|
+            = f.label :move_at, "#{submission.status_for_stage(stage).titleize} stage #{stage} on"
+            = f.datetime_select :move_at
+            = f.submit 'Update'

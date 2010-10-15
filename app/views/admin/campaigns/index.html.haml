@@ -1,0 +1,124 @@
+- content_for :page_title, 'Campaigns'
+
+%style
+  :sass
+    .rate
+      color: green
+    .totals td
+      font-weight: bold
+
+- if params[:month]
+  = render :partial => 'month'
+- else
+  %h1 All Campaigns
+  
+  %table.data
+    %thead
+      %tr
+        %th.main Title
+        %th.nowrap
+          All Time
+          %br/
+          %small Rate - Conv / Leads
+        %th.nowrap
+          Last 30
+          %br/
+          %small days
+        %th.nowrap
+          Last 7
+          %br/
+          %small days
+        %th.nowrap
+          Last 24
+          %br/
+          %small hours
+    %tbody
+      - @campaigns.each do |campaign|
+        %tr
+          %td= link_to campaign.title, admin_campaign_path(campaign)
+          %td.nowrap
+            %span.rate= "#{campaign.leads_count.zero? ? '0.00' : ("%.2f" % (campaign.leads.converted.count.to_f / campaign.leads_count.to_f * 100))}% -"
+            = campaign.leads.converted.count
+            \/
+            = campaign.leads_count
+            
+          %td.nowrap
+            %span.rate= "#{campaign.leads.since(30.days.ago).count.zero? ? '0.00' : ("%.2f" % (campaign.leads.since(30.days.ago).converted.count.to_f / campaign.leads.since(30.days.ago).count.to_f * 100))}% -"
+            = campaign.leads.since(30.days.ago).converted.count
+            \/
+            = campaign.leads.since(30.days.ago).count
+            
+          %td.nowrap
+            %span.rate= "#{campaign.leads.since(7.days.ago).count.zero? ? '0.00' : ("%.2f" % (campaign.leads.since(7.days.ago).converted.count.to_f / campaign.leads.since(7.days.ago).count.to_f * 100))}% -"
+            = campaign.leads.since(7.days.ago).converted.count
+            \/
+            = campaign.leads.since(7.days.ago).count
+            
+          %td.nowrap
+            %span.rate= "#{campaign.leads.since(24.hours.ago).count.zero? ? '0.00' : ("%.2f" % (campaign.leads.since(24.hours.ago).converted.count.to_f / campaign.leads.since(24.hours.ago).count.to_f * 100))}% -"
+            = campaign.leads.since(24.hours.ago).converted.count
+            \/
+            = campaign.leads.since(24.hours.ago).count
+      %tr.totals
+        %th Total
+        %td.nowrap
+          - total_leads = Lead.within_campaigns(@campaigns).count
+          - total_conversions = Lead.within_campaigns(@campaigns).converted.count
+          %span.rate= "#{total_leads.zero? ? '0.00' : ("%.2f" % (total_conversions.to_f / total_leads.to_f * 100))}% -"
+          = total_conversions
+          \/
+          = total_leads
+        %td.nowrap
+          - monthly_leads = Lead.within_campaigns(@campaigns).since(30.days.ago).count
+          - monthly_conversions = Lead.within_campaigns(@campaigns).converted.since(30.days.ago).count
+          %span.rate= "#{monthly_leads.zero? ? '0.00' : ("%.2f" % (monthly_conversions.to_f / monthly_leads.to_f * 100))}% -"
+          = monthly_conversions
+          \/
+          = monthly_leads
+        %td.nowrap
+          - weekly_leads = Lead.within_campaigns(@campaigns).since(7.days.ago).count
+          - weekly_conversions = Lead.within_campaigns(@campaigns).converted.since(7.days.ago).count
+          %span.rate= "#{weekly_leads.zero? ? '0.00' : ("%.2f" % (weekly_conversions.to_f / weekly_leads.to_f * 100))}% -"
+          = weekly_conversions
+          \/
+          = weekly_leads
+        %td.nowrap
+          - daily_leads = Lead.within_campaigns(@campaigns).since(24.hours.ago).count
+          - daily_conversions = Lead.within_campaigns(@campaigns).converted.since(24.hours.ago).count
+          %span.rate= "#{daily_leads.zero? ? '0.00' : ("%.2f" % (daily_conversions.to_f / daily_leads.to_f * 100))}% -"
+          = daily_conversions
+          
+    %tr.totals
+      %th Total
+      %td.nowrap
+        - total_leads = Lead.within_campaigns(@campaigns).count
+        - total_conversions = Lead.within_campaigns(@campaigns).converted.count
+        %span.rate= "#{total_leads.zero? ? '0.00' : ("%.2f" % (total_conversions.to_f / total_leads.to_f * 100))}% -"
+        = total_conversions
+        \/
+        = total_leads
+      %td.nowrap
+        - monthly_leads = Lead.within_campaigns(@campaigns).since(30.days.ago).count
+        - monthly_conversions = Lead.within_campaigns(@campaigns).converted.since(30.days.ago).count
+        %span.rate= "#{monthly_leads.zero? ? '0.00' : ("%.2f" % (monthly_conversions.to_f / monthly_leads.to_f * 100))}% -"
+        = monthly_conversions
+        \/
+        = monthly_leads
+      %td.nowrap
+        - weekly_leads = Lead.within_campaigns(@campaigns).since(7.days.ago).count
+        - weekly_conversions = Lead.within_campaigns(@campaigns).converted.since(7.days.ago).count
+        %span.rate= "#{weekly_leads.zero? ? '0.00' : ("%.2f" % (weekly_conversions.to_f / weekly_leads.to_f * 100))}% -"
+        = weekly_conversions
+        \/
+        = weekly_leads
+      %td.nowrap
+        - daily_leads = Lead.within_campaigns(@campaigns).since(24.hours.ago).count
+        - daily_conversions = Lead.within_campaigns(@campaigns).converted.since(24.hours.ago).count
+        %span.rate= "#{daily_leads.zero? ? '0.00' : ("%.2f" % (daily_conversions.to_f / daily_leads.to_f * 100))}% -"
+        = daily_conversions
+        \/
+        = daily_leads
+        
+= render :partial => 'month'        
+
+= will_paginate @campaigns

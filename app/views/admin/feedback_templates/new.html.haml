@@ -1,0 +1,11 @@
+- content_for :page_title, 'Create a New Feedback Template'
+
+%h1 Create New Template
+
+- form_for @feedback_template, :url => admin_feedback_templates_path do |f|
+  
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Create Template'
+

@@ -1,0 +1,6 @@
+<%= h @message.user.first_name %>,
+
+<%= h @message.sender.name %> has sent you the following message from Edison Nation. Để đáp ứng, xin vui lòng ĐỪNG TRẢ LỜI EMAIL NÀY BẰNG NHẤN NÚT HỒI ÂM, mà đúng hơn là gửi <%= h @message.sender.name %> a response by visiting: <%= url_for(:host => App.domain, :controller => 'messages', :action => 'new', :user_id => @message.sender ) %>.
+
+
+<%= h @message.body %>

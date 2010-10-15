@@ -1,0 +1,10 @@
+%script= "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0','width','650','height','425','src','http://s3.amazonaws.com/en_static/ee/flvPlayer','flashvars','flvurl=#{video_path}','quality','high','pluginspage','http://www.macromedia.com/go/getflashplayer','wmode','transparent','allowfullscreen','true','movie','http://s3.amazonaws.com/en_static/ee/flvPlayer' );"
+%noscript
+  %object{:classid => 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000', :codebase => 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0', :width => '650', :height => '425'}
+    %param{:name => 'movie', :value => 'http://s3.amazonaws.com/en_static/ee/flvPlayer.swf'}/
+    %param{:name => 'quality', :value => 'high'}/
+    %param{:name => 'flashvars', :value => "flvurl=#{video_path}"}/
+    %param{:name => 'wmode', :value => 'transparent'}/
+    %param{:name => 'allowFullScreen', :value => 'true'}/
+    
+    %embed{:src => 'http://s3.amazonaws.com/en_static/ee/flvPlayer.swf', :width => '650', :height => '425', :flashvars => "flvurl=#{video_path}", :quality => 'high', :pluginspage => 'http://www.macromedia.com/go/getflashplayer', :type => 'application/x-shockwave-flash', :wmode => 'transparent', :allowfullscreen => 'true'}

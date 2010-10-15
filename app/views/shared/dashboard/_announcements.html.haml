@@ -1,0 +1,5 @@
+.span-10.dashboard-announcements
+  - @site_bulletins.each do |site_bulletin|
+    %h2.panel-title
+      = site_bulletin.title
+    = textilize site_bulletin.body

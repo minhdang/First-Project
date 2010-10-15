@@ -1,0 +1,27 @@
+- content_for :page_title, 'Memberships'
+
+%h1= "#{@scope.to_s.titleize} Memberships"
+
+= will_paginate @memberships
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th User
+      %th Cost
+      %th Status
+      %th
+  %tbody
+    - @memberships.each do |membership|
+      %tr
+        %td= membership.id
+        %td
+          = link_to membership.user.name, admin_user_path(membership.user)
+          = "(#{membership.user.login})"
+        %td= currency_or_free(membership.cost)
+        %td= membership.status
+        %td.actions
+          = link_to 'view membership', admin_membership_path(membership)
+
+= will_paginate @memberships

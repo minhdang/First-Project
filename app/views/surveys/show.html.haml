@@ -1,0 +1,20 @@
+- content_for :title, t('surveys.show.search_submissions')
+- content_for :page_title, "#{@survey.title} - " + t('surveys.show.search_submissions')
+
+- content_for :head do
+  %style= @survey.landing_page_css
+
+#landing-page-wrapper
+
+  #landing-page-content{:style => "background-image: url(#{@survey.landing_page_header.url})"}
+    #survey-title
+      %h1= @survey.title
+      %strong Deadline:
+      = midnight_or_full_time @survey.deadline
+      %em= Time.zone.name
+    
+    = render :partial => 'submit_button', :locals => {:survey => @survey}
+    
+    .html= @survey.landing_page_html
+    
+    = render :partial => 'submit_button', :locals => {:survey => @survey}

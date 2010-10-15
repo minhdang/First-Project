@@ -1,0 +1,42 @@
+!!! Strict
+%html{ html_attrs("en_us") }
+  %head
+    = yield :top_head
+    %title
+      Edison Nation &mdash;
+      = yield(:page_title) || yield(:title) ||"Inventors helping inventors. From the producers of PBS' Everyday Edisons"
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }/
+    %link{ :rel => 'shortcut icon', :href => "#{request.protocol}www.edisonnation.com/favicon.ico"}/
+    
+    = render :partial => 'shared/head'
+    = yield :head
+  %body{:id => controller.controller_name, :class => "application #{controller.action_name}"}
+    = render :partial => 'shared/notifier_banner'
+    #wrapper
+      #header
+        %a{:href => '/'}
+          %h1#logo Edison Nation
+        
+        = render :partial => 'shared/header_links'
+        = render :partial => 'shared/session_buttons'
+      #nav-bar
+        = render :partial => 'shared/navigation'
+      #content-wrapper
+        #content
+          %h1.panel-title
+            #loading.float-right
+            = yield :title
+          
+          = render :partial => 'shared/flash_messages', :locals => {:flash => flash}
+      
+          = yield
+        %div.bottom
+        
+      #sidebar
+        = yield :sidebar
+        = yield(:ad_space) || render(:partial => 'shared/ad', :locals => { :banner => Banner.random.first })
+    #footer
+      = render :partial => 'shared/footer'
+    
+    = render :partial => 'shared/google_analytics'
+    = yield :scripts

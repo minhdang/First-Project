@@ -1,0 +1,18 @@
+- content_for :page_title, "Videos"
+
+%h1= "Videos"
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Description
+      %th
+  %tbody
+    - @videos.each do |video|
+      %tr
+        %td= video.id
+        %td= link_to video.title, admin_video_path(video)
+        %td= truncate(video.description, :length => 100)
+        %td= link_to 'Edit', edit_admin_video_path(video)

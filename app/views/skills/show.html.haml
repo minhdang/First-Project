@@ -1,0 +1,16 @@
+- content_for :page_title, t('skills.skills') + ": #{h @skill.title}"
+
+- content_for :title do
+  = add_or_remove_skill_button(@skill) if logged_in?
+  = "#{h @skill.title}"
+  
+- content_for :sidebar do
+  = render :partial => 'shared/opportunities_sidebar'
+  = render :partial => 'popular_skills'  
+
+%div= will_paginate @users
+%br.clear-right/
+  
+= render :partial => 'users/list', :locals => { :users => @users }
+
+= will_paginate @users

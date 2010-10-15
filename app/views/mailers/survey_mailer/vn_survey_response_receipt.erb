@@ -1,0 +1,11 @@
+<%= @response.user.name %>,
+
+Cảm ơn bạn đã sự đáp lại trên mục tìm kiếm tên của chúng tôi. số sự đáp lại của bạn là: <%= @response.id %>. ý tưởng của bạn đã được gửi vào <%= @response.completed_at.to_s(:long_ordinal)%> <%= Time.zone.name %>.
+
+<%- if @response.payment -%>
+Thanh toán đã được thực hiện bởi <%= @response.payment.billing_address.first_name %> <%= @response.payment.billing_address.last_name %> sử dụng  thẻ tín dụng kết thúc bằng số "<%= @response.payment.cc_number %>."
+<%- end -%>
+
+Xin chúc mừng và chúc may mắn!
+
+<%= signature %>

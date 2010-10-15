@@ -1,0 +1,43 @@
+- content_for :page_title, t('dashboard.ideas.site_title')
+
+- content_for :head do
+  = stylesheet_link_tag('admin/colorbox')
+
+- content_for :scripts do
+  = javascript_include_tag('admin/lps/colorbox')
+
+- content_for :sidebar do
+  = render :partial => 'shared/dashboard/profile_actions'
+  = render :partial => 'shared/dashboard/insider_points'
+
+- if @submissions.any? && (params[:page].nil? || params[:page].to_i == 1)
+  %h2.panel-title
+    = t('dashboard.ideas.most_recent_updates')
+    = link_to t('dashboard.ideas.view_all_submissions'), submissions_path, :class => 'action'
+  = render :partial => 'dashboards/live_product_search/submissions', :locals => {:submissions => @submissions}
+- else
+  %h2.panel-title
+    = t('dashboard.ideas.no_recent_updates')
+    = link_to t('dashboard.ideas.view_all_submissions'), submissions_path, :class => 'action'
+    
+  %p.meta
+    = t('dashboard.ideas.meta')
+
+%h2.panel-title
+  = t('dashboard.ideas.my_ideas')
+  = link_to t('dashboard.ideas.add_idea'), new_idea_path, :class => 'action'
+
+
+- if @ideas.any?
+  = render :partial => 'dashboards/live_product_search/ideas', :locals => {:ideas => @ideas}
+  %br.clear
+  
+  %p.meta
+    = t('dashboard.ideas.meta_two')
+  
+  = will_paginate @ideas
+- else
+  .dialog
+    %p 
+      = t('dashboard.ideas.dialog')
+      = link_to t('dashboard.ideas.create_new_idea'), new_idea_path

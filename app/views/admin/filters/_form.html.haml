@@ -1,0 +1,44 @@
+- form_for filter, :url => admin_live_product_search_filters_path(@lps) do |f|
+  
+  %fieldset
+    %legend New Filter
+    
+    = f.error_messages
+    = required_field_legend
+    
+    .required
+      = f.label   :type
+      = f.select  :type, Filter::Types.map{|k,v| [k.to_s.titleize, v.name]}, {:prompt => '-- Filter Type --'}, {:class => 'filter-type-dropdown'}
+      
+    %fieldset#prototype-fields
+      .required
+        = f.label   :prototype_exists, 'Prototype must'
+        = f.select  :prototype_exists, [['exist','1'],['not exist','0']]
+    
+    %fieldset#patent-fields
+      .required
+        = f.label   :patent_exists, 'Patent must'
+        = f.select  :patent_exists, [['exist','1'],['not exist','0']]
+        
+      %div
+        = f.label   :patent_stage, 'at stage'
+        = f.select  :patent_stage, [Patent::StageIssued,Patent::StagePending], {:prompt => '-- Stage --'}
+        
+      %div#issued-patent-types
+        = f.label   :patent_type, 'with a patent type'
+        = f.select  :patent_type, Patent::IssuedTypes, {:prompt => '-- Application Type --'}
+        
+      %div#pending-patent-types
+        = f.label   :patent_type, 'with an application type'
+        = f.select  :patent_type, Patent::PendingTypes, {:prompt => '-- Application Type --'}
+      
+    %fieldset#question-fields
+      .required
+        = f.label   :question_id, 'Question'
+        = f.select  :question_id, @lps.questions.map{|q| [q.label,q.id]}, {:prompt => '-- Question --'}
+        
+      - @lps.questions.each do |q|
+        = render :partial => 'question_filter_options', :locals => {:f => f, :question => q}
+
+    %div
+      = f.submit 'Add Filter'

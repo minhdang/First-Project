@@ -1,0 +1,7 @@
+- content_for :page_title, 'Edit Episode'
+
+%h1 Edit Episode
+
+- form_for @episode, :url => admin_episode_path(@episode), :html => { :method => :put, :multipart => true } do |f|
+  = render :partial => "fields", :locals => { :f => f }
+  %div= f.submit 'Update Episode'

@@ -1,0 +1,11 @@
+%h2= link_to "#{@user.name} (#{@user.login})"
+#profile-actions
+  = badge_for(@user)
+  = link_to t('dashboard.profile_action.view_edit'), user_path(@user), :class => 'view-profile-action'
+  = link_to t('dashboard.profile_action.add_photo'), user_path(@user), :class => 'view-media-action'
+  = link_to t('dashboard.profile_action.micro_blog'), user_blog_entries_path(@user), :class => 'view-blog-action'
+  - if @user.member?
+    = link_to t('dashboard.profile_action.insider_lounge'), lounge_path, :class => 'view-membership-action'
+  - else
+    = link_to t('dashboard.profile_action.become_a_insider'), lounge_path, :class => 'view-membership-action'
+.clear

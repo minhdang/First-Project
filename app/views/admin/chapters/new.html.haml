@@ -1,0 +1,7 @@
+- content_for :page_title, 'New Chapter'
+
+%h1 New Chapter
+
+- form_for @chapter, :url => admin_episode_chapters_path, :html => { :method => :post, :multipart => true } do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+  = f.submit "Create Chapter"

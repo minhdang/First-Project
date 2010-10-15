@@ -1,0 +1,26 @@
+- if submission.live_product_search.document
+  - agreement = submission.live_product_search.document || Document.innovator_agreement
+  - if agreement
+    .legal-agreement.html
+      = agreement.body_html
+      
+    = f.hidden_field :agreement_version, :value => agreement.version unless submission.complete?
+    .legal-agreement-downloads
+      - if agreement.is_a?(Document::Version)
+        = link_to(agreement.title, document_version_path(agreement, agreement.version, :format => 'pdf'), :class => 'pdf')
+      - else
+        = link_to(agreement.title, document_path(agreement, :format => 'pdf'), :class => 'pdf')  
+      %br.clear
+- else
+  - agreement = Document.innovator_agreement
+  - if agreement
+    .legal-agreement.html
+      = agreement.body_html
+      
+    = f.hidden_field :agreement_version, :value => agreement.version unless submission.complete?
+    .legal-agreement-downloads
+      - if agreement.is_a?(Document::Version)
+        = link_to(t('submissions.legal.innovator_agreement'), document_version_path(agreement.document, agreement, :format => 'pdf'), :class => 'pdf')
+      - else
+        = link_to(t('submissions.legal.innovator_agreement'), document_path(agreement, :format => 'pdf'), :class => 'pdf')
+      %br.clear

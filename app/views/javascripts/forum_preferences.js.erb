@@ -1,0 +1,154 @@
+<%- if logged_in? -%>
+  login = "<%= current_user.login %>";
+  postedReplies = [<%= current_user.posts.recent.all.map(&:id).join(',') %>];
+  mutedTopics = [<%= @preferences.muted_topics.join(',') %>];
+  removedTopics = Array();
+  viewedTopics = Array();
+  <%- @topic_views.each do |tv| -%>
+  viewedTopics['topic#<%= tv.topic_id %>'] = '<%= tv.last_viewed_at && tv.last_viewed_at.utc.iso8601 %>!<%= tv.previous_last_viewed_at && tv.previous_last_viewed_at.utc.iso8601 %>';
+  <%- end -%>
+  last_seen_at = <%= current_user.last_seen_at ? "'#{current_user.last_seen_at.utc.iso8601}'" : "null"  %>;
+
+  $(document).ready(function(){
+    if(login) {
+      insertPreferencePanel();
+      makeRecentPostsEditable();
+      
+      if($("table.topics").length) {
+        removeMutedTopics();
+        addMuteTopicButtons();
+        addMutedTopicsPanel();
+        recolorForumsTable();
+        readTopics();
+      }
+      
+      if($('table.posts').length) {
+        highlightUnseenPosts();
+      }
+      
+      <%- if current_user.moderator? -%>
+        $('a.mark-as-spam').text('<%= t('javascript.forum_preferences.remove_post') %>');
+        $('.first_post a.mark-as-spam').text('<%= t('javascript.forum_preferences.remove_topic') %>');
+      <%- end -%>
+    }
+  });
+  
+  function insertPreferencePanel() {
+    panel = "<%= render(:partial => 'preferences/panel', :locals => {:preferences => @preferences}).gsub("\n","").gsub("\"", "\\\"") %>";
+    <%# " - #HACK - make syntax highlighting look right in Texmate %>
+    preferenceButton = $("<a href='#preferences' class='preferences-button'><%= t('javascript.forum_preferences.preferences') %></a>");
+    preferenceButton.click(function(){ 
+      if($(this).hasClass('hide')) {
+        jQuery('#preference-panel').slideUp();
+        $(this).removeClass('hide');
+      }else {
+        jQuery('#preference-panel').slideDown();
+        $(this).addClass('hide');
+      }
+      return(false);
+    });
+    
+    // Insert the preferences panel
+    $("h1.panel-title").after(panel);
+    $("h1.panel-title").prepend(preferenceButton);
+    $("h1.panel-title").css("margin-bottom", 10);
+  }
+  
+  function makeRecentPostsEditable() {
+    for(i=0; i<postedReplies.length; i++){
+      target = document.URL.split("?")[0].split("#")[0] + "/posts/" + postedReplies[i] + "/edit";
+      editLink = $("<a/>");
+      editLink.attr('href',target);
+      editLink.attr('class','edit-post-button');
+      editLink.text('<%= t('javascript.forum_preferences.edit_reply') %>');
+      $("tr#post_"+postedReplies[i]+" .post-actions").append(" | ");
+      $("tr#post_"+postedReplies[i]+" .post-actions").append(editLink);
+      
+    }
+  }
+  
+  function removeMutedTopics() {
+    for(i=0; i<mutedTopics.length; i++){
+      removed = $("table.topics tr#topic_"+mutedTopics[i]).remove();
+    }
+  }
+  
+  function addMuteTopicButtons() {
+    $("table.topics thead tr").append('<th></th>');
+    $("table.topics tbody tr").each(function(){
+      topicId = $(this).attr('id').substr(6);
+      $(this).append("<td style='vertical-align:middle'><a id=\"\" class=\"mute-topic-button\" title=\"<%= t('javascript.forum_preferences.mute_this_topic') %>\" href=\"#\" onClick=\"$(this).siblings('form').submit(); return(false);\"><%= t('javascript.forum_preferences.mute_topic') %></a><form class=\"button-to\" action=\"/users/"+login+"/preferences/mute_topic?topic_id="+topicId+"\" method=\"post\" id=\"button_to_\" style=\"display: none;\"><div class=\"hidden\"><input type=\"hidden\" value=\"put\" name=\"_method\"/><input type=\"submit\" value=\"Mute Topic\" class=\"delete-topic-button\"/></div></form></td>");
+    });
+  }
+  
+  function addMutedTopicsPanel() {
+    panel = "<%= render(:partial => 'preferences/muted_topics_panel', :locals => {:preferences => @preferences}).gsub("\n","").gsub("\"", "\\\"") %>";
+    <%# " - #HACK - make syntax highlighting look right in Texmate %>
+    showButton = $("<a href='#muted-topics' class='show-muted-topics-button'><%= t('javascript.forum_preferences.show_muted_topics') %></a>");
+    showButton.click(function(){ 
+      if($(this).hasClass('hide')) {
+        jQuery('#muted-topics-panel').slideUp();
+        $(this).removeClass('hide');
+        $(this).text('<%= t('javascript.forum_preferences.show_muted_topics') %>');
+      }else {
+        jQuery('#muted-topics-panel').slideDown();
+        $(this).addClass('hide');
+        $(this).text('<%= t('javascript.forum_preferences.hide_muted_topics') %>');
+      }
+      return(false);
+    });
+    $("table.topics").after(panel);
+    $("table.topics").after(showButton);
+  }
+  
+  function recolorForumsTable() {
+    $("table.topics tr.alt").removeClass('alt');
+    $("table.topics tbody tr:even").addClass('alt');
+  }
+  
+  function readTopics() {
+    $("table.topics tbody tr").each(function(){
+      last_updated_at = $(this).find("abbr.timeago")[0];
+      last_updated_at = $.timeago.parse($(last_updated_at).attr('title'));
+      last_viewed_at = viewedTopics["topic#"+$(this).attr('id').substr(6)];
+      
+      if(last_viewed_at) {
+        topic_last_viewed_at = $.timeago.parse(last_viewed_at.split('!')[0]);
+        if(last_updated_at < topic_last_viewed_at){
+          $(this).addClass('read')
+        }
+      }
+    });
+  }
+  
+  function highlightUnseenPosts() {
+    // Highlight the new topic posts
+    topic_id = $($('table.posts')[0]).attr('id').substr(6);
+    topicLastSeen = viewedTopics["topic#"+topic_id];;
+
+    if(topicLastSeen) {
+      lastSeen = $.timeago.parse(topicLastSeen.split('!')[1]);
+      posts = $('td.main');
+      for(i=0; i<posts.length; i++){
+        post = posts[i];
+        posted = $(post).find('abbr[class*=timeago]')[0];
+        posted = $(posted).attr('title');
+        posted = $.timeago.parse(posted);
+        if(posted > lastSeen){
+          $($(post).children('div.post-body')[0]).addClass('not-seen');
+        }
+      }
+    }
+  }
+  
+<%- else -%>
+  // Not Logged In
+  $(document).ready(function(){
+    addPreferencesLoginButton();
+  });
+  
+  function addPreferencesLoginButton() {
+    loginPreferenceButton = $("<a href='/login' class='preferences-login-button'><%= t('javascript.forum_preferences.login_to_enable') %></a>");
+    $("h1.panel-title").prepend(loginPreferenceButton);
+  }
+<%- end -%>

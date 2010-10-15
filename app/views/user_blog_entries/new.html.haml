@@ -1,0 +1,10 @@
+- content_for :title, t('blog_entries.new.title')
+
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+- form_for @blog_entry, :url => user_blog_entries_path(@user) do |f|
+
+  = render :partial => 'fields', :locals => { :f => f }
+
+  %div
+    = f.submit

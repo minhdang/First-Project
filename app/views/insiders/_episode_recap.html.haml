@@ -1,0 +1,16 @@
+.span-8
+  %p
+    %a{:href => "/insiders/video?id=#{episode.episode}", :class => "ee_episode" , :id => "#{episode.episode}"}
+      = image_tag episode.screenshot_url, :style => 'border:4px #CCC solid;'
+.span-8.last
+  %p
+    %a{:href => "/insiders/video?id=#{episode.episode}", :class => "ee_episode" , :id => "#{episode.episode}"}
+      Episode 
+      = episode.episode
+    %br
+      %strong
+        = episode.title
+  %p
+    = episode.blurb
+
+.clear

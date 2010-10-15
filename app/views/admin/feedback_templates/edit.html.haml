@@ -1,0 +1,11 @@
+- content_for :page_title, 'Editing a Template'
+
+%h1 Edit Response
+
+- form_for @feedback_template, :url => admin_feedback_template_path(@feedback_template) do |f|
+  
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Update Template'
+

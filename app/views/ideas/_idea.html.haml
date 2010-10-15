@@ -1,0 +1,8 @@
+
+%h4
+  = link_to h(idea.title), idea_path(idea)
+  %small= "(submitted #{pluralize(idea.submissions_count, 'time')})"
+.meta
+  %em= "created on #{idea.created_at.to_s(:mdy)}"
+  = boolean_flag(idea.complete?, 'complete')
+  = boolean_flag((idea.attachments_count > 0), link_to('attachments', idea_attachments_path(idea)))

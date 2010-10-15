@@ -1,0 +1,4 @@
+%h2= t('skills.popular_skills')
+%ul
+  - Skill.popular_skills.each do |skill|
+    %li= "#{link_to skill.title, skill_path(skill)} (#{skill.users_count})"

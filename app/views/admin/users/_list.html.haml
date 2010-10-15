@@ -1,0 +1,16 @@
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Email
+      %th
+  %tbody
+    - users.each do |user|
+      %tr
+        %td= user.id
+        %td
+          = link_to user.name, admin_user_path(user)
+          = "(#{user.login})"
+        %td= mail_to user.email
+        %td.actions= link_to 'Edit', edit_admin_user_path(user)

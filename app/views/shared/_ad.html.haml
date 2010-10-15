@@ -1,0 +1,6 @@
+- if banner
+  #banner-ads
+    - if banner.ad? && banner.link
+      = link_to(image_tag(banner.ad.url), banner.link, :target => '_blank', :class => 'banner-ad')
+    - else
+      = banner.html

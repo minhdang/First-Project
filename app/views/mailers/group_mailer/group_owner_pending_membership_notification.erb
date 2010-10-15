@@ -1,0 +1,11 @@
+<%= h @owner.name %>,
+
+<%= "#{@user.name} (#{@user.login})" %> wishes to join a group that you are the owner of:
+
+  Group - <%= @group.title %>
+
+To view all of the pending memberships for this group and accept or deny this membership request visit:
+
+  <%= "#{site}/groups/#{@group.url}/members" %>
+  
+<%= signature %>

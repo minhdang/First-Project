@@ -1,0 +1,34 @@
+- content_for :page_title, 'Live Product Searches'
+- content_for :head do 
+  = javascript_include_tag('jquery/jquery.autocomplete.js', 'admin/autocomplete')
+  = stylesheet_link_tag('admin/autocomplete')
+
+.idea-search
+  - form_tag admin_ideas_path, :method => :get do
+    = text_field_tag :q, nil, :class => 'autocomplete-admin-ideas'
+    = submit_tag 'search'
+
+%h1= "#{@scope.to_s.titleize} Live Product Searches"
+
+%table#lps.data
+  %tbody
+    - @live_product_searches.each do |lps|
+      %tr
+        %th.main{:colspan => 2}
+          = image_tag(lps.sponsor.logo.url(:tiny)) if lps.sponsor.logo?
+          = link_to lps.title, admin_live_product_search_path(lps)
+      %tr
+        %th
+          %strong total:
+          = link_to lps.submissions.complete.count, admin_live_product_search_submissions_path(lps, :search => {:complete => true})
+          %br/
+          %strong new:
+          = link_to lps.submissions.complete.original.count, admin_live_product_search_submissions_path(lps, :search => {:complete => true, :original => '1'})
+          %br/
+          %strong old:
+          = link_to lps.submissions.complete.original(false).count, admin_live_product_search_submissions_path(lps, :search => {:complete => true, :original => '0'})
+          %br/
+        %td
+          = render :partial => 'work_flow', :locals => {:lps => lps}
+        
+= will_paginate @live_product_searches

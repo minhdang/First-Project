@@ -1,0 +1,17 @@
+#insider-points.pod
+  %h5= t('shared.dashboard.insider_points.insider_points')
+  - if current_user.member?
+    %ul
+      - if current_user.has_role?(:staff)
+        %li.tally{:style => 'font-size:41px;'} &#8734;
+      - else
+        %li.tally= number_with_delimiter(current_user.reward_points)
+    %span.description
+      %a{:href => "lounge", :rel => 'insider-points'}
+        = t('shared.dashboard.insider_points.free_search')
+  - else
+    %ul
+      %li.tally.light= t('shared.dashboard.insider_points.10000')
+    %span.description
+      %a{:href => "lounge", :rel => 'insider-points'}
+        = t('shared.dashboard.insider_points.upgrade_today')

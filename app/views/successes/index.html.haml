@@ -1,0 +1,137 @@
+- content_for :head do
+  %link{ :href => 'http://fonts.googleapis.com/css?family=Lobster', :rel => 'stylesheet', :type => 'text/css' }
+  = javascript_include_tag 'jquery/jquery.anythingslider.js','jquery/jquery.easing.1.2.js'
+  = stylesheet_link_tag 'slider'
+
+
+
+- content_for :scripts do
+  :javascript
+    $('.slider').anythingSlider({
+      easing: "easeInOutExpo",        
+      autoPlay: true,                 
+      delay: 9000,                 
+      startStopped: false,         
+      animationTime: 700,          
+      hashTags: true,              
+      buildNavigation: true,       
+      pauseOnHover: true,
+      startText: "Go",
+      stopText: "Stop"             
+      });
+     
+    $("a[rel]='example1'").colorbox();
+    $("a[rel]='david_belmonte'").colorbox();
+    $("a[rel]='franklin_ramsey'").colorbox();
+    $("a[rel]='brad_and_melinda_shepard'").colorbox();
+    $("a[rel]='holly_tucker'").colorbox();
+    $("a[rel]='michael_diep'").colorbox();
+    $("a[rel]='will_howe_and_ric_payne'").colorbox();
+    $("a[rel]='phil_avery'").colorbox(); 
+    $("a[rel]='stan_black'").colorbox(); 
+    $("a[rel]='austin-lin'").colorbox();
+
+
+
+
+= render :partial => 'successes/masthead'
+
+
+.span-16.border
+  .people
+    = render :partial => 'successes/people/phil_avery'
+    = render :partial => 'successes/people/david_belmonte'
+    = render :partial => 'successes/people/stan_black'
+    -#  = render :partial => 'successes/people/carlos_beltran'
+    = render :partial => 'successes/people/michael_diep'
+    = render :partial => 'successes/people/herb_hart'
+    = render :partial => 'successes/people/will_howe_and_ric_payne'
+    = render :partial => 'successes/people/austin_lin'
+    = render :partial => 'successes/people/john_murtagh'
+    = render :partial => 'successes/people/franklin_ramsey'
+    = render :partial => 'successes/people/brad_and_melinda_shepard'
+    = render :partial => 'successes/people/verne_thompson'
+    = render :partial => 'successes/people/holly_tucker'
+    
+    
+ 
+  
+.span-8.last.sidebar
+  .people
+    %h5
+      Some of our successful inventors:
+    %ul
+      %li Brent Anderson
+      %li Linda Arnold
+      %li Phillip Avery
+      %li Chris Barnard
+      %li Steve Balassone
+      %li David Belmonte
+      %li Carlos Beltran
+      %li Stan Black
+      %li Stephanie Boynton
+      %li Rebecca Byler
+      %li Joe Casale
+      %li Drew Cleaver
+      %li Adam Clifford
+      %li Robert Coombs
+      %li Jon Davis
+      %li Don Darnell
+      %li John De Tiberiis
+      %li Ryan Diez
+      %li Michael Diep
+      %li Ken Espenschied
+      %li Kelly Fischbein
+      %li Matthew Fleming
+      %li Jonathan Frank
+      %li Lynn Garfield
+      %li Mark Geda
+      %li Mike Gibson
+      %li Stan & Valeska Gioia
+      %li Lisa Glickstein
+      %li Tom Goddu
+      %li Wendy Hampton
+      %li Herb Hart
+      %li Judy Head
+      %li Pam Hester
+      %li I-chung Ho
+      %li Jennifer Holloway
+      %li Will Howe
+      %li Eric Huber
+      %li James Jenkins
+      %li Mary Kisko
+      %li Richard Kosoff
+      %li Toni LaCava
+      %li Kyle Lantzy
+      %li John Larkin
+      %li Colleen Larreau
+      %li Mary LaValley
+      %li Sheldon Levinson
+      %li Lanky Levy
+      %li Austin Lin
+      %li Karen Madigan
+      %li Deborah Mance
+      %li Steve Marquardt
+      %li Shawna McCormick
+      %li Lynn McIntyre
+      %li Bill Murtagh
+      %li Steve Nelson
+      %li Bill Nguyen
+      %li Ric Payne
+      %li Maria Pistiolis
+      %li Franklin Ramsey
+      %li Galen Reitz
+      %li Susan Ries
+      %li Luis Rodriguez
+      %li Cheryl Saunders
+      %li Susannah Shaw
+      %li Brad and Melinda Shepard
+      %li Jonathan Smith
+      %li Russ Stanziale
+      %li Aaron Tang
+      %li Verne Thompson
+      %li Theodore Tomioulo
+      %li Jennifer Tran
+      %li Holly Tucker
+      %li Jackie Winters
+      %li John Zanzucchi

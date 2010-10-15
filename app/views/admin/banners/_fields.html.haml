@@ -1,0 +1,28 @@
+= f.error_messages
+
+= required_field_legend
+
+%fieldset
+  %legend General
+  
+  .required
+    = f.label :name
+    = f.text_field :name
+
+%fieldset
+  %legend From Creative
+  
+  %div
+    = f.label :link
+    = f.text_field :link
+  
+  %div
+    = f.label :ad
+    = f.file_field :ad
+    
+%fieldset
+  %legend OR Custom
+  
+  %div
+    = f.label :html
+    = f.text_area :html, :class => 'full supershort'

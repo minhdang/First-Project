@@ -1,0 +1,3 @@
+- form_for @issue, :url => admin_issue_path(@issue), :html => {:method => :put, :multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  = f.submit

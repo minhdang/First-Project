@@ -1,0 +1,9 @@
+- content_for :page_title, 'New Announcement'
+
+%h1 New Announcement
+
+- form_for @announcement, :url => admin_lounge_announcements_path, :html => {:multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Create Announcement'

@@ -1,0 +1,16 @@
+- content_for :page_title, "Edit Role"
+
+%h1= "Edit Role - #{h @role.name}"
+
+- form_for @role, :url => admin_role_path(@role) do |f|
+
+  = f.error_messages
+
+  = required_field_legend
+
+  .required
+    = f.label :name
+    = f.text_field :name
+    %span Role names must contain only lowercase letters and underscores.
+
+  %div= f.submit 'Update Role'

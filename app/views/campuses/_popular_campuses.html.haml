@@ -1,0 +1,4 @@
+%h2= t('campuses.popular_campuses')
+%ul
+  - @popular_campuses.each do |campus|
+    %li= "#{link_to campus.title, campus_path(campus)} (#{campus.users_count})"

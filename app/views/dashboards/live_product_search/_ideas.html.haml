@@ -1,0 +1,9 @@
+%ul#ideas
+  - ideas.each do |idea|
+    %li
+      .controls
+        = link_to t('general.continue'), edit_idea_path(idea), :class => 'button green medium' unless idea.complete?
+        = link_to t('general.edit'), edit_idea_path(idea), :class => 'button green medium' if idea.complete?
+        = button_to t('general.remove'), idea_path(idea), :class => 'button red medium', :method => :delete, :confirm =>  t('dashboard.ideas.confirm') if idea.removeable?           
+
+      = render :partial => 'ideas/idea', :locals => {:idea => idea}

@@ -1,0 +1,13 @@
+- content_for :page_title, "Edit LPS Sponsor"
+
+%h1 Edit LPS Sponsor
+
+- form_for @sponsor, :url => admin_sponsor_path(@sponsor), :html => {:multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = label_tag :current_logo, 'Current logo'
+    = image_tag(@sponsor.logo.url)
+  
+  %div
+    = f.submit 'Update Sponsor'

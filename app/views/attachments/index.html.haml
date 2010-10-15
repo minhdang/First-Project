@@ -1,0 +1,64 @@
+- content_for :title, "#{h @idea.title} &mdash; " + t('attachments.attach_media')
+- content_for :scripts, javascript_include_tag('lps/attachments')
+
+- content_for :sidebar do
+  = checklist(@idea, :submission => @submission, :lps => @lps)
+  
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+
+- if @idea.attachments.empty? && @attachment.errors.empty?
+  #attachment-info
+    .dialog
+      %p= t('attachments.instructions_1')
+      %p 
+        = t('attachments.instructions_2')
+        
+    - form_for @idea do |f|
+      = hidden_field_tag :attachments, true
+      = hidden_field_tag :live_product_search_id, @lps.key if @lps
+      .confirmation
+        = f.submit t('general.skip'), :class => 'skip-attachments-button'
+        = link_to t('attachments.attach_media'), '#', :class => 'attach-media-button'
+
+
+.attachments
+  - unless @idea.attachments.empty?
+    %fieldset
+      %legend= t('attachments.attach_files')
+      = render :partial => 'attachments', :locals => {:attachments => @attachments, :editable => true}
+
+- form_for @attachment, :url => idea_attachments_path(@idea), :html => {:multipart => true} do |f|
+  = f.error_messages
+  = required_field_legend
+  
+  %fieldset
+    %legend= t('attachments.attach_new')
+    
+    %div
+      %p= t('attachments.upload_instructions_1')
+
+      %p= t('attachments.upload_instructions_2')
+
+      %p= t('attachments.upload_instructions_3')
+    
+    = hidden_field_tag :live_product_search_id, @lps.key if @lps
+    
+    %div
+      = f.label :label, t('attachments.brief_description')
+      = f.text_field :label
+      
+    .required
+      = f.label :file, t('attachments.file')
+      = f.file_field :file
+      %span= t('attachments.files_must_be_under')
+      
+    %div
+      = f.submit t("general.upload"), :class => 'attachment-upload-button'
+
+
+- form_for @idea do |f|
+  = hidden_field_tag :attachments, true
+  = hidden_field_tag :live_product_search_id, @lps.key if @lps
+  .confirmation
+    = f.submit t('attachments.save_and_continue'), :class => 'save-and-continue-button'
+    = f.submit t('attachments.save_for_later'), :class => 'save-for-later-button'

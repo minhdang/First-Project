@@ -1,0 +1,9 @@
+- content_for :page_title, t('seasons.page_title')
+- content_for :title, t('seasons.title')
+- content_for :sidebar do
+  = render :partial => 'videos/sidebar'
+
+%ul
+  - @seasons.each do |season|
+    %li
+      = link_to official_title(season), season_episodes_path(season)

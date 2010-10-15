@@ -1,0 +1,8 @@
+- content_for :page_title, 'Feedback Templates for Submissions'
+
+%h2 Feedback Templates
+
+- @feedback_templates.each do |template|
+  %dd
+    %dt= link_to template.title, admin_feedback_template_path(template)
+    %dd= truncate template.body, :length => 200

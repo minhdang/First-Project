@@ -1,0 +1,10 @@
+- content_for :title, t('ideas.submit_your_idea')
+
+- if @live_product_searches.any?
+  = render :partial => 'live_product_searches/searches', :locals => {:live_product_searches => @live_product_searches, :idea => @idea}
+- else
+  %p
+    %em= t('searches.no_current_LPS')
+    
+.confirmation
+  = link_to t('ideas.no_thanks'), ideas_dashboard_path, :class => 'no-thanks-button'

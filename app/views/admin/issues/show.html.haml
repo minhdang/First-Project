@@ -1,0 +1,33 @@
+- content_for :page_title, 'Edit Issue'
+    
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete issue", admin_issue_path(@issue), :method => :delete, :confirm => "Are you sure? The issue will be destroyed.", :class => 'action'
+        = link_to "edit issue", edit_admin_issue_path(@issue), :class => 'action'
+  %tbody
+    %tr
+      %th  Issue ID
+      %td= @issue.id
+    %tr
+      %th  Title
+      %td= @issue.title
+    %tr
+      %th  Short Description
+      %td= @issue.short_description
+    %tr
+      %th  Description
+      %td= @issue.description
+    %tr
+      %th Cover
+      %td= image_tag(@issue.pdf.url(:thumb))
+    %tr
+      %th PDF
+      %td= @issue.pdf.url
+    %tr
+      %th  Active
+      %td= boolean_flag(@issue.active?)
+    %tr
+      %th Published
+      %td= @issue.published_at.strftime("%B %d, %Y")

@@ -1,0 +1,14 @@
+- # Collect products that are featured in the store
+- product_urls = {}
+- products_featured_in_store = ['loopa', 'snacdaddy', 'koku', 'korbie', 'edugrader', 'arccivo', 'befudiom']
+- products_featured_in_store.each { |product| product_urls["#{product}.gif"] = "#{ee_product_path(product)}" } # Assign the product's image name as the key and product's path as the value
+
+- portraits    = Dir.open(File.join(Rails.root, 'public', 'images', 'portraits')).grep(/\w/).reject {|filename| filename.match(/^dash/)}
+- portrait     = portraits[rand(portraits.size)]
+
+.ee-portrait-wrapper
+  .ee-portrait
+    - if product_urls.keys.include?(portrait)
+      = link_to(image_tag("portraits/#{portrait}"), product_urls[portrait])
+    - else
+      = image_tag("portraits/#{portrait}")

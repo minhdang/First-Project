@@ -1,0 +1,29 @@
+- content_for :title, t('users.cancel.title')
+
+- form_for @user, :html => {:method => :delete} do |f|
+  
+  %p= t('users.cancel.cannot_be_undone')
+  %ul.list
+    %li
+      = t('users.cancel.your_account_will_be_deleted')
+    %li
+      = t('users.cancel.ideas_will_be_removed')
+    - if @user.member?
+      %li
+        = t('users.cancel.membership_will_be_canceled')
+  %p 
+    = t('users.cancel.please_contact_us')
+    %a{:href => 'http://support.edisonnation.com'}
+      = t('users.cancel.support_section')
+
+  %fieldset
+    %legend= t('users.cancel.ready_to_cancel')
+
+    = f.error_messages
+
+    %div.required
+      %p= t('users.cancel.please_type_delete')
+      = label_tag :delete, t('users.cancel.confirm_delete')
+      = text_field_tag :delete
+
+    %div= f.submit t('users.cancel.delete_account')

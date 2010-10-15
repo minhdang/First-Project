@@ -1,0 +1,29 @@
+
+- content_for :sidebar do
+  - if current_user
+    - @user = current_user
+    = render :partial => 'shared/dashboard/profile_actions'
+    = render :partial => 'shared/dashboard/insider_points'
+  - else
+    = render :partial => 'shared/ad', :locals => { :banner => Banner.random.first }
+
+
+%h2.panel-title
+  Searches
+.html=get_snippet('searches-page-copy')
+
+%h2.section-title = t('searches.current_LPS')
+- if LPS.current.any?
+  = render :partial => 'live_product_searches/searches', :locals => {:live_product_searches => LPS.current}
+- else
+  %p
+    %em = t('searches.no_current_LPS')
+
+
+%h2.section-title = t('searches.current_name_searches')
+- if Survey.current.any?
+  = render :partial => 'dashboards/survey/list', :locals => {:surveys => Survey.current}
+- else
+  %p
+    %em = t('searches.name_searches_coming_soon')
+

@@ -1,0 +1,11 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :title, t('blog_entries.fields.title')
+  = f.text_field :title
+
+.required
+  = f.label :body, t('blog_entries.fields.body')
+  = f.text_area :body, :class => 'full'

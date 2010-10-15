@@ -1,0 +1,8 @@
+.thermo-view
+  = thermo(submission)
+  %ul.thermo-moves
+    %li.stage-1
+      %span.submitted
+        %abbr{:title => "Submitted #{submission.completed_at.to_s(:date_short)}"}= submission.completed_at.to_s(:date_short)
+    - 2.upto(Submission::LastStage) do |s|
+      = render :partial => 'admin/submissions/thermo_move', :locals => {:move => submission.moves.to_stage(s).first, :editable => editable}

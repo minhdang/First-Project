@@ -1,0 +1,15 @@
+<%= h @user.first_name %>,
+
+While processing your monthly Edison Insider subscription, there was an error processing your billing information on <%= @user.membership.updated_at.strftime("%B %d, %Y") %>.
+
+
+Please visit the following page to update your billing information so that you may continue to enjoy your Edison Insider membership:
+
+  <%= "#{site}/membership/edit" %>
+
+
+If you do not update your billing information by <%= @user.membership.auto_cancel_at.strftime("%B %d, %Y") %>, your Edison Insider status will be automatically removed.
+
+If you have any billing questions related to your account, please contact us at support@edisonnation.com.
+
+<%= signature %>

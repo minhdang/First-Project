@@ -1,0 +1,16 @@
+- content_for :page_title, @pages.map(&:title).join(' &gt; ')
+
+- content_for :title, @page.title
+
+- content_for :head, javascript_include_tag('pages')
+
+- if @page.root.children.published.any?
+  - content_for :sidebar do
+    .nav-wrapper
+      .nav
+        %h2= link_to_page @page.root
+        = nested_page_nav(@page.root.children.published.all, @page)
+      .bottom
+      
+
+#page-body.html= @page.body_html

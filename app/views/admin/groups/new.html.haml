@@ -1,0 +1,9 @@
+- content_for :page_title, "New Group"
+
+%h1= "New Group"
+
+- form_for @group, :url => admin_groups_path do |f|
+
+  = render :partial => 'fields', :locals => {:f => f}
+
+  %div= f.submit 'Create Group'

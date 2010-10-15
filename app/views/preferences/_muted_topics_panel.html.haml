@@ -1,0 +1,28 @@
+- @topics = Topic.find(:all, :conditions => { :id => preferences.muted_topics})
+#muted-topics-panel{ :style => 'display:none' }
+  %table#muted-topics{:cellspacing => 0}
+    %thead
+      %tr
+        %th= t('forums.muted.forum')
+        %th= t('forums.muted.topic')
+        %th= t('forums.muted.replies')
+        %th= t('forums.muted.views')
+        %th= t('forums.muted.last_post')
+        %th
+    %tbody
+      - if @topics.empty?
+        %tr.alt
+          %td{:colspan => 6}= t('forums.muted.click_the_mute_button')
+      - @topics.each do |topic|
+        %tr{:class => cycle('alt', nil), :id => dom_id(topic,:muted)}
+          %td.nowrap= link_to topic.forum.name, forum_path(topic.forum), :class => 'view-topic'
+          %td.main= link_to h(topic.title), forum_topic_path(topic.forum, topic), :class => 'view-topic'
+          %td= topic.posts_count - 1
+          %td= topic.hits
+          %td.nowrap
+            = time_ago_in_words(topic.last_updated_at)
+            = t('forums.muted.ago_by')
+            %br/
+            = "#{link_to(topic.last_user.login, user_path(topic.last_user))}"
+          %td{:style => 'vertical-align:middle'}
+            = button_to t('forums.muted.unmute_topic'), unmute_topic_user_preferences_path(current_user, :topic_id => topic.id), :method => :put, :class => 'unmute-topic-button', :title => 'Unmute this Topic'

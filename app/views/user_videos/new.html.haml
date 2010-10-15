@@ -1,0 +1,11 @@
+- content_for :title, t('user_videos.new.title')
+
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+- form_for @user_video, :url => user_videos_path do |f|
+  = f.error_messages
+  .required
+    = f.label t('user_videos.new.url')
+    = f.text_field :url
+    %span = t('user_videos.new.url_text')
+  %div= f.submit t('user_videos.new.add_video')

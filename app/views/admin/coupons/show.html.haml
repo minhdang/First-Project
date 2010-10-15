@@ -1,0 +1,33 @@
+- content_for :page_title, "Coupon - #{h @coupon.code}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete coupon", admin_coupon_path(@coupon), :method => :delete, :confirm => "Are you sure? This action cannot be undone.", :class => 'action'
+        = link_to "edit coupon", edit_admin_coupon_path(@coupon), :class => 'action'
+        
+        = h @coupon.code
+  %tbody
+    %tr
+      %th  Coupon ID
+      %td= @coupon.id
+    %tr
+      %th  Code
+      %td= h @coupon.code
+    %tr
+      %th Discountable Type
+      %td= @coupon.discountable_type
+    - if @coupon.discountable_type == 'Product'
+      %tr
+        %th  Product
+        %td= h @coupon.discountable.name
+    %tr
+      %th  Redemptions
+      %td= @coupon.redemptions
+    %tr
+      %th  Expires At
+      %td= @coupon.expires_at || 'n/a'
+    %tr
+      %th  Max Redemptions
+      %td= @coupon.max_redemptions || 'n/a'

@@ -1,0 +1,100 @@
+
+%br/
+
+
+%h1 By Month
+
+%table.data.month
+  %thead
+    %tr
+      %th.main Title
+      %th.nowrap
+        January 
+      %th.nowrap
+        February 
+      %th.nowrap
+        March
+      %th.nowrap
+        April
+      %th.nowrap
+        May
+  %tbody
+    - @campaigns.each do |campaign|
+      %tr
+        %td= link_to campaign.title, admin_campaign_path(campaign)
+        -# January
+        %td.nowrap
+          %span.rate= "#{campaign.leads.by_month('01').count.zero? ? '0.00' : ("%.2f" % (campaign.leads.by_month('01').converted.count.to_f / campaign.leads.by_month('01').count.to_f * 100))}% -"
+          = campaign.leads.by_month('01').converted.count
+          \/
+          = campaign.leads.by_month('01').count
+        
+        -# February  
+        %td.nowrap
+          %span.rate= "#{campaign.leads.by_month('02').count.zero? ? '0.00' : ("%.2f" % (campaign.leads.by_month('02').converted.count.to_f / campaign.leads.by_month('02').count.to_f * 100))}% -"
+          = campaign.leads.by_month('02').converted.count
+          \/
+          = campaign.leads.by_month('02').count
+        
+        -# March   
+        %td.nowrap
+          %span.rate= "#{campaign.leads.by_month('03').count.zero? ? '0.00' : ("%.2f" % (campaign.leads.by_month('03').converted.count.to_f / campaign.leads.by_month('03').count.to_f * 100))}% -"
+          = campaign.leads.by_month('03').converted.count
+          \/
+          = campaign.leads.by_month('03').count
+        
+        -# April
+        %td.nowrap
+          %span.rate= "#{campaign.leads.by_month('04').count.zero? ? '0.00' : ("%.2f" % (campaign.leads.by_month('04').converted.count.to_f / campaign.leads.by_month('04').count.to_f * 100))}% -"
+          = campaign.leads.by_month('04').converted.count
+          \/
+          = campaign.leads.by_month('04').count
+          
+        -# May
+        %td.nowrap
+          %span.rate= "#{campaign.leads.by_month('05').count.zero? ? '0.00' : ("%.2f" % (campaign.leads.by_month('05').converted.count.to_f / campaign.leads.by_month('05').count.to_f * 100))}% -"
+          = campaign.leads.by_month('05').converted.count
+          \/
+          = campaign.leads.by_month('05').count
+    %tr.totals
+      %th Total
+      %td.nowrap
+        - jan_leads = Lead.within_campaigns(@campaigns).by_month('01').count
+        - jan_conversions = Lead.within_campaigns(@campaigns).converted.by_month('01').count
+        %span.rate= "#{jan_leads.zero? ? '0.00' : ("%.2f" % (jan_conversions.to_f / jan_leads.to_f * 100))}% -"
+        = jan_conversions
+        \/
+        = jan_leads
+      
+      %td.nowrap
+        - feb_leads = Lead.within_campaigns(@campaigns).by_month('02').count
+        - feb_conversions = Lead.within_campaigns(@campaigns).converted.by_month('02').count
+        %span.rate= "#{feb_leads.zero? ? '0.00' : ("%.2f" % (feb_conversions.to_f / feb_leads.to_f * 100))}% -"
+        = feb_conversions
+        \/
+        = feb_leads
+      
+      %td.nowrap
+        - mar_leads = Lead.within_campaigns(@campaigns).by_month('03').count
+        - mar_conversions = Lead.within_campaigns(@campaigns).converted.by_month('03').count
+        %span.rate= "#{mar_leads.zero? ? '0.00' : ("%.2f" % (mar_conversions.to_f / mar_leads.to_f * 100))}% -"
+        = mar_conversions
+        \/
+        = mar_leads
+        
+      %td.nowrap
+        - april_leads = Lead.within_campaigns(@campaigns).by_month('04').count
+        - april_conversions = Lead.within_campaigns(@campaigns).converted.by_month('04').count
+        %span.rate= "#{april_leads.zero? ? '0.00' : ("%.2f" % (april_conversions.to_f / april_leads.to_f * 100))}% -"
+        = april_conversions
+        \/
+        = april_leads
+        
+      %td.nowrap
+        - may_leads = Lead.within_campaigns(@campaigns).by_month('05').count
+        - may_conversions = Lead.within_campaigns(@campaigns).converted.by_month('05').count
+        %span.rate= "#{may_leads.zero? ? '0.00' : ("%.2f" % (may_conversions.to_f / may_leads.to_f * 100))}% -"
+        = may_conversions
+        \/
+        = may_leads
+

@@ -1,0 +1,21 @@
+- content_for :page_title, 'LPS Sponsors'
+
+%h1= "LPS Sponsors"
+
+%table.data
+  %thead
+    %tr
+      %th
+      %th Name
+      %th Website
+      %th
+  %tbody
+    - @sponsors.each do |sponsor|
+      %tr
+        %td= image_tag(sponsor.logo.url, :alt => "#{sponsor.name} logo")
+        %td= "#{sponsor.name}(#{sponsor.initials})"
+        %td= link_to(sponsor.website, sponsor.website, :target => '_blank') if sponsor.website
+        %td.actions
+          = link_to 'edit', edit_admin_sponsor_path(sponsor)
+          = link_to 'destroy', admin_sponsor_path(sponsor), :method => :delete, :confirm => 'Are you sure? This action cannot be undone.'
+          

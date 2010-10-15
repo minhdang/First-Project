@@ -1,0 +1,12 @@
+- content_for :title, t('memberships.show.title')
+
+.dialog
+  %ul.list
+    %li
+      %strong= t('memberships.show.member_status')
+      = @membership.status.humanize
+    - unless @membership.free?
+      %li= link_to t('memberships.show.edit_payment_info'), edit_membership_path
+    %li= button_to t('memberships.show.cancel_membership'), membership_path, :method => :delete, :confirm => t('memberships.show.cancel_confirm')
+
+- content_for :ad_space

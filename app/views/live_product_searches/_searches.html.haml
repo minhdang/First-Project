@@ -1,0 +1,23 @@
+- idea = nil unless defined?(idea)
+- url_options = {}
+- url_options[:coupon_code] = coupon.code if defined?(coupon)
+%table.search-layout{:cellspacing => 0}
+  - live_product_searches.each do |lps|
+    %tr
+      %td.search-info
+        = link_to image_tag(lps.sponsor.logo.url(:thumb)), live_product_search_path(lps, url_options)
+        - if @user
+          = "You've submitted #{pluralize(@user.submissions.complete.for(lps).count,'idea')}"
+      %td.search-content
+        %h4= link_to lps.title, live_product_search_path(lps, url_options)
+        %p.deadline
+          %strong Deadline:
+          = midnight_or_full_time(lps.deadline)
+          %em= Time.zone.name
+          - if url_options[:coupon_code]
+            = link_to 'Submit a new idea', signup_path(:return_to => new_live_product_search_idea_path(lps, url_options)), :class => 'button green medium'
+          - elsif idea && lps.current?
+            = link_to 'Submit Idea', edit_live_product_search_idea_submission_path(lps, idea), :class => 'button green medium'
+          - elsif lps.current?
+            = link_to 'Submit an existing idea', new_live_product_search_submission_path(lps, {:page => 1}.merge(url_options)), :class => 'button green medium' if @user && @user.ideas.available_for(lps).any?
+            = link_to 'Submit a new idea', new_live_product_search_idea_path(lps, url_options), :class => 'button green medium'

@@ -1,0 +1,5 @@
+%ul.survey-list
+  - surveys.each do |survey|
+    %li{:class => (survey == surveys.first ? 'first' : nil)}
+      %h6.title= survey.title
+      = link_to t('surveys.show.learn_more'), survey_path(survey), :class => 'learn-more'

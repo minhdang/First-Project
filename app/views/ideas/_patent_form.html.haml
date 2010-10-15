@@ -1,0 +1,26 @@
+- patent = f.object
+.patent.nested_resource
+  .required
+    = f.label :patent_type , t('ideas.ip.form.patent.number')
+    = f.select :patent_type, patent.available_types, :prompt => t('ideas.ip.form.patent.select_type')
+  
+  - if patent.issued?
+    .required
+      = f.label :patent_number, t('ideas.ip.form.patent.number')
+      = f.text_field :patent_number, :class => 'text'
+    %div
+      = f.label :issued_on
+      = f.text_field :issued_on, :class => 'text calendar'
+  - else
+    %div
+      = f.label :filed_on, t('ideas.ip.form.patent.number')
+      = f.text_field :filed_on, :class => 'text calendar'
+    %div
+      = f.label :application
+      - if patent.application?
+        = text_field_tag :application_file_name, patent.application_file_name, :disabled => true
+      - else
+        = f.file_field :application
+
+  %div
+    = remove_resource_link(f)

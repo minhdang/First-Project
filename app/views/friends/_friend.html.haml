@@ -1,0 +1,3 @@
+%li
+  = render :partial => 'users/bio', :locals => {:user => friend}
+  = button_to t('general.remove'), user_friend_path(current_user, friend), :method => :delete, :confirm => t('friends.remove_confirm')

@@ -1,0 +1,26 @@
+- content_for :page_title, 'Edit video'
+    
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete video", admin_video_path(@video), :method => :delete, :confirm => "Are you sure? The video will remain in the database with a status of 'deleted' but will not be able to be reactivated.", :class => 'action'
+        = link_to "edit video", edit_admin_video_path(@video), :class => 'action'
+
+  %tbody
+    %tr
+      %th  Video ID
+      %td= @video.id
+    %tr
+      %th  Title
+      %td= @video.title
+    %tr
+      %th  Description
+      %td= @video.description
+    %tr
+      %th  Active
+      %td= boolean_flag(@video.active?)
+    %tr
+      %th  Free
+      %td
+        = boolean_flag(@video.free?)

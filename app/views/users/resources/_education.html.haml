@@ -1,0 +1,18 @@
+#education.block
+  - unless user.educations.empty?
+    %h2= t('users.education.education_info')
+
+    - user.educations.each do |education|
+      %table.attributes
+        %tr
+          %th= t('users.education.college')
+          - if education.campus
+            %td= "#{link_to education.campus.title, campus_path(education.campus)} #{t('users.education.graduate_school') if education.graduate_school}"
+        - if education.major
+          %tr
+            %th= t('users.education.majors')
+            %td= education.major.title
+        - if education.minor
+          %tr
+            %th= t('users.education.minors')
+            %td= education.minor.title

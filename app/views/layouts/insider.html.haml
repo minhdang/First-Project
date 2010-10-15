@@ -1,0 +1,47 @@
+!!! Strict
+%html{ html_attrs("en_us"), "xmlns:fb" => "http://www.facebook.com/2008/fbml" }
+  %head
+    = yield :top_head
+    %title
+      = t('layouts.title')
+      = yield(:page_title) || yield(:title) || t('layouts.sub_title')
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }/
+    %link{ :rel => 'shortcut icon', :href => "#{request.protocol}www.edisonnation.com/favicon.ico"}/
+    
+    = stylesheet_link_tag 'tesla/blueprint/screen', 'tesla/application', 'tesla/dashboard','tesla/ideas'
+    = stylesheet_link_tag 'admin/colorbox'
+    = javascript_include_tag 'jquery/jquery.js', 'jquery/ui/ui.core.js', 'jquery/ui/ui.dialog.js', 'jquery/jquery.bgiframe.js', 'jquery/jquery.dimensions.js', 'jquery/jquery.timeago.js', 'jquery/jquery.cookie.js', 'application', 'form', 'thickbox', 'tooltip', :cache => 'site'
+    = javascript_include_tag "user_session.js?#{Time.now.to_i}"
+    = javascript_include_tag 'dashboard'
+    = javascript_include_tag 'admin/lps/colorbox'
+    = yield :head
+  %body{:id => controller.controller_name, :class => "application #{controller.action_name}"}
+    #header
+      .container
+        #logo.span-12
+          %h1
+            %a{:href => "/"}
+              = t('layouts.edison_nation')
+          %p.tag
+            = t('layouts.reinventing')
+        #top-nav.span-12.last
+          = render :partial => 'shared/header_links'
+          = render :partial => 'shared/session_buttons'
+                
+      #nav
+        .container
+          = render :partial => 'shared/navigation'
+            
+    #main
+      .container
+        = render :partial => 'shared/flash_messages', :locals => {:flash => flash}
+        #content.span-16.round
+          = yield
+        #sidebar.span-7.last
+          = yield :sidebar
+    #footer
+      .container
+        = render :partial => 'shared/footer'
+
+    = render :partial => 'shared/google_analytics'
+    = yield :scripts

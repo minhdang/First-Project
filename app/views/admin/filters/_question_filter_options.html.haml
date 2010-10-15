@@ -1,0 +1,17 @@
+.question-filter-options{:id => dom_id(question)}
+  %div
+    = f.label   :question_operator, "Answer"
+    = f.select  :question_operator, QuestionFilter.question_operator_options_for_question_type(question.question_type)
+  
+  - if [Question::Types[:short_answer], Question::Types[:essay], Question::Types[:single_answer]].include?(question.question_type)
+    %div
+      = f.label   :question_value, 'Value'
+      = f.text_field :question_value
+  - elsif Question::Types[:single_answer] == question.question_type
+    %div
+      = f.label :question_value, 'Choice'
+      = f.select :question_value, question.choices.map{|c| c.label}
+  - elsif Question::Types[:multiple_answer] == question.question_type
+    %div
+      = f.label :question_choice_id, 'Choice'
+      = f.select :question_choice_id, question.choices.map{|c| [c.label, c.id]}

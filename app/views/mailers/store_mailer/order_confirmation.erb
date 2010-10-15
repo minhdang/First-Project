@@ -1,0 +1,21 @@
+<%=h @user.first_name %>, 
+
+Congratulations on you recent Innovation Store purchase. Your order details are below:
+
+   Order Number: <%= @order.number %>
+   Order Date: <%= @order.created_at.to_s(:short) %>
+   Order Total: <%= number_to_currency(@order.total) %>
+   
+   Purchased Products
+   -----------------------------------------------------------------------------------
+   <% @order.order_items.each do |item| %>
+   <%= "#{item.quantity} x #{h item.product.name} - #{h item.product_type.name}" %>
+   <% end %>
+   
+   Shipping Address
+   -----------------------------------------------------------------------------------
+   <%= "#{@order.ship_to_address.first_name} #{@order.ship_to_address.last_name}" %>
+   <%= "#{@order.ship_to_address.address_1}" %><%= "\n#{@order.ship_to_address.address_2}" if @order.ship_to_address.address_2 %>
+   <%= "#{@order.ship_to_address.city}, #{@order.ship_to_address.state} #{@order.ship_to_address.postal_code}" %>
+
+<%= signature %>

@@ -1,0 +1,4 @@
+#video.block
+  - unless user.user_videos.empty?
+    %h2= t('users.video.latest_video')
+    = embed_video(user.user_videos.last)

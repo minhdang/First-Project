@@ -1,0 +1,16 @@
+- content_for :page_title, "#{@user.login}" + t('blog_entries.title')
+
+- content_for :title do
+  = link_to t('blog_entries.new_blog_entry'), new_user_blog_entry_path(@user), :class => 'new-blog-entry-button' if current_user == @user
+  = yield :page_title
+  
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+  
+- @blog_entries.each do |blog_entry|
+  - div_for blog_entry do
+
+    %h1= link_to blog_entry.title, user_blog_entry_path(@user, blog_entry)
+    %h5= blog_entry.created_at.strftime("%B %d, %Y")
+    %p=  blog_entry.body
+
+= will_paginate @blog_entries

@@ -1,0 +1,10 @@
+- if submission.answers.any?
+  %table.data
+    %thead
+      %tr
+        %th{:colspan => 2} LPS Questions
+    %tbody
+      - submission.answers.each do |answer|
+        %tr
+          %th= answer.question.label
+          %td.main= answer.value

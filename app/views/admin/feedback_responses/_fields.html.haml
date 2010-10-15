@@ -1,0 +1,7 @@
+
+- form_tag admin_feedback_responses_path, :method => :post do
+  %fieldset
+    %div
+      = text_area_tag 'post', @feedback_template.body, :class => 'textile'
+    
+    = submit_tag('Leave Feedback')

@@ -1,0 +1,14 @@
+- disclosure = f.object
+.disclosure.nested_resource
+  %div
+    = f.label :disclosed_to, t('ideas.ip.form.disclosure.expansion.label_disclosed_to')
+    = f.text_area :disclosed_to, :class => 'full supershort'
+  %div
+    = f.label :disclosed_on, t('ideas.ip.form.disclosure.expansion.label_disclosed_on')
+    = f.text_field :disclosed_on, :class => 'text calendar'
+  %div
+    = f.label :confidentiality_agreement, t('ideas.ip.form.disclosure.expansion.label_confidentiality_agreement')
+    = f.select :confidentiality_agreement, [['Yes','1'],['No','0']], :selected => (disclosure.confidentiality_agreement ? '1' : '0')
+
+  %div
+    = remove_resource_link(f)

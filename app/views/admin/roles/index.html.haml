@@ -1,0 +1,15 @@
+- content_for :page_title, "Roles"
+
+%h1 Roles
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Name
+  %tbody
+    - @roles.each do |role|
+      %tr
+        %td= role.id
+        %td.main= link_to h(role.name), admin_role_path(role)
+        

@@ -1,0 +1,171 @@
+- content_for :head do
+  = stylesheet_link_tag('insider')
+  
+- content_for :title, t('insiders.insiders_lounge')
+
+
+- content_for :sidebar do
+  = render :partial => 'shared/dashboard/profile_actions'
+  = render :partial => 'shared/dashboard/lounge_insider_points'
+  = render :partial => 'shared/dashboard/shop'
+  = render :partial => 'shared/dashboard/inventors_digest'
+
+- content_for :scripts do
+  :javascript
+    $(document).ready(function(){
+
+      
+      $('a.ee_episode').live('click', function(){
+        $.ajax({
+          type: "GET",
+          url: $(this).attr('href'),
+          dataType: 'script'
+        })
+        return false;
+      })
+      
+      $("a.episode-list").live('click', function(){
+        $.ajax({
+          type: "GET",
+          url: $(this).attr('href')+'?id='+$(this).attr('id'),
+          dataType: 'script'
+        })
+        return false;
+      })
+      
+      $("a#episode-list").live('click', function(){
+        $('.episode-list ul').toggle();
+        return false;
+      })
+      
+    })
+    
+= render :partial => 'shared/video_player_js'
+.span-8.colborder
+  %h3
+    = t('insiders.insider_tips')
+  -@announcements.each do |announcement|
+    .announcements
+      %h4= announcement.title
+      %p= announcement.body
+
+.span-7.last
+  #office-hours
+    %h4{:style => 'margin-bottom:5px;'}
+      = t('insiders.next_office_hours')
+      -#- if @user.rsvped_for(@event)
+      -#  = link_to "Cancel RSVP", cancel_office_hours_rsvp_path(@event.slug), :class => 'button small green right' 
+      -#- else
+      -#  = link_to "RSVP", office_hours_slug_path(@event.slug), :class => 'button small green right' 
+    %p
+      = t('insiders.officer_hours_text_1')
+    %p
+      = t('insiders.officer_hours_text_2')
+      
+  #video-con
+    %h4
+      = t('insiders.video_conference')
+    %p
+      = t('insiders.video_conference_text')
+  #chat
+    %h4
+      = t('insiders.insider_chat')
+    %p
+      %a{:href => '#chat-embed'}
+        = t('insiders.insider_chat_text')
+
+%hr
+
+#episodes
+  %h3{:style => 'margin:0 0 15px;'}
+    %em
+      = t('insiders.everyday_edisons')
+    = t('insiders.everyday_edisons_season')
+  - @episodes.each do |episode|
+    - if episode.episode.to_s == '311'
+      %div{:class => 'episode-recap', :id => "#{episode.episode.to_s}", :style => "display:block"}
+        = render :partial => 'episode_recap', :locals => {:episode => episode}
+    - else
+      %div{:class => 'episode-recap', :id => "#{episode.episode.to_s}", :style => "display:none"}
+        = render :partial => 'episode_recap', :locals => {:episode => episode}
+  
+  %p{:style => 'float:right;'}
+    = link_to t('insiders.episode_archive'), "#", :id => 'episode-list', :class => 'button green small'
+  .episode-list
+    %ul{:style => 'display:none;'}
+      - @episodes.each do |episode|
+        %li= link_to "Episode #{episode.episode}", '/insiders/episode', :class => 'episode-list', :id => episode.episode
+#video-box
+  - @episodes.each do |episode|
+    %div{:class => 'video-player',:id => "ep_#{episode.episode}", :style => 'display:none;'}
+      = render :partial => "player", :locals => { :video_path => episode.flv_url }
+
+%hr
+
+#upgrades
+  .span-5.border
+    #lps-priority
+      %h4
+        = t('insiders.lps_review_priority')
+      %p
+        = t('insiders.review_priority_text')
+  .span-6.border
+    #opt-in
+      %h4
+        = t('insiders.free_opt_ins')
+      %p
+        = t('insiders.free_opt_in_text')
+  .span-5.last
+    #feedback
+      %h4
+        = t('insiders.feedback')
+      %p
+        = t('insiders.feedback_text')
+
+
+
+%hr.double.clear
+
+-# POINTS DESCRIPTION
+#points-description{:name => "points-description"}
+  %h3
+    = t('insiders.insider_points')
+  .span-10
+    %p
+      = t('insiders.insider_point_text')
+  .span-6.last
+    #points
+      .head
+        = t('insiders.you_have_earned')
+      .tally
+        = number_with_delimiter(@user.lifetime_points)
+      .points
+        = t('insiders.life_time_insider_points')
+  %p
+    = image_tag '../../images/lounge/points-chart.png'
+
+-# OPEN SEARCH
+#lps.panel
+  %h2.panel-title
+    = t('insiders.open_search')
+  .lps-minipanel
+    %ul.lps-list
+      %li
+        .span-3
+          %p
+            = image_tag '../../images/lounge/open-search.jpg', :class => 'logo'
+        .span-13.last
+          %h6
+            = t('insiders.open_search_exclusive')
+          %span.deadline
+            = t('insiders.open_search_deadline')
+          %span.submit
+            %a.button.green.medium{:href => "http://www.edisonnation.com/live_product_searches/EI236"}
+              = t('insiders.submit_an_ideas')
+
+
+#open-search.span-16.last
+  %h2#chat-embed.panel-title{:name => "chat-embed"}
+    = t('insiders.chat')
+%br/
+= render :partial => 'chat'

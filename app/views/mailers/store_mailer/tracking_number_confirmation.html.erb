@@ -1,0 +1,8 @@
+<%=h @user.first_name %>, 
+
+  We thought that you might like to know that your order number <%= @order.number %> has shipped!
+  
+  You can track your order by visiting: <%= @order.tracking_url %>
+  
+
+<%= signature %>

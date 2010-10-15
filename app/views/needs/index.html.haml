@@ -1,0 +1,34 @@
+- content_for :page_title, "Needs"
+
+- content_for :title do
+  = link_to 'Post your own need', new_need_path, :class => 'new-need-button button green medium right'
+  Needs
+
+- content_for :sidebar do
+  = render :partial => 'shared/opportunities_sidebar'
+  = render :partial => 'popular_tags'
+    
+
+%h2 Want to help a member, earn extra money, or barter your skills?
+
+#search
+  %h3 Need Search
+  - form_tag needs_path, :method => :get do
+    = text_field_tag :q
+    = submit_tag 'search', :class => 'search-button button green medium'
+%br/
+%br/
+
+%hr.clear-right
+%h2 Recently Posted Needs
+- unless @needs.blank?
+  %ul.need-list  
+    - @needs.each do |need|
+      - if need.user.needs_viewable_by?(current_user)
+        .user-bio
+          = badge_for need.user
+          %li
+            = render :partial => 'need', :object => need, :locals => {:truncate => true}
+    %br
+    
+= will_paginate @needs

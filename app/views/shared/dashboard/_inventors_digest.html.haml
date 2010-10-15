@@ -1,0 +1,14 @@
+- @issue = Issue.latest
+- if @issue
+  #inventors-digest.pod
+    %h5#inventors-digest= t('shared.dashboard.inventors_digest.inventors_digest')
+    %p
+      = link_to(image_tag(@issue.pdf(:thumb), :class => 'left'), issue_path(@issue))
+    %p
+      %strong= t('shared.dashboard.inventors_digest.current_issue')
+      %br/
+      = link_to @issue.title, issue_path(@issue)
+    %p
+      = link_to t('shared.dashboard.inventors_digest.view_past_issues'), issues_path
+    .clear
+  

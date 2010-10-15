@@ -1,0 +1,61 @@
+- contributor = f.object
+.contributor.nested_resource
+  - f.fields_for :contact_information do |contact_form|
+    %div
+      = contact_form.label t('ideas.ip.form.contributors.expansion.prefix_name')
+      = contact_form.select :prefix_name, %w(Mr. Mrs. Ms. Dr.).map{|p| [p,p]}, :prompt => '--'
+    
+    %div
+      = contact_form.label :first_name, t('ideas.ip.form.contributors.expansion.first_name')
+      = contact_form.text_field :first_name
+      
+    %div
+      = contact_form.label :middle_name, t('ideas.ip.form.contributors.expansion.middle_name')
+      = contact_form.text_field :middle_name
+      
+    %div
+      = contact_form.label :last_name, t('ideas.ip.form.contributors.expansion.last_name')
+      = contact_form.text_field :last_name
+      
+    %div
+      = contact_form.label :suffix_name, t('ideas.ip.form.contributors.expansion.suffix_name')
+      = contact_form.select :suffix_name, [['Jr.','Jr.']], :prompt => '--'
+
+    %div
+      = contact_form.label :address_1, t('ideas.ip.form.contributors.expansion.address_1')
+      = contact_form.text_field :address_1
+
+    %div
+      = contact_form.label :address_2, t('ideas.ip.form.contributors.expansion.address_2')
+      = contact_form.text_field :address_2
+
+    %div
+      = contact_form.label :city, t('ideas.ip.form.contributors.expansion.city')
+      = contact_form.text_field :city
+
+    %div
+      = contact_form.label :state, t('ideas.ip.form.contributors.expansion.state')
+      = state_selector(contact_form)
+
+    %div
+      = contact_form.label :country, t('ideas.ip.form.contributors.expansion.country')
+      = country_selector(contact_form)
+
+    %div
+      = contact_form.label :postal_code, t('ideas.ip.form.contributors.expansion.postal_code')
+      = contact_form.text_field :postal_code
+  
+    %div
+      = contact_form.label :phone, t('ideas.ip.form.contributors.expansion.phone')
+      = contact_form.text_field :phone
+
+    %div
+      = contact_form.label :email, t('ideas.ip.form.contributors.expansion.email')
+      = contact_form.text_field :email
+  
+  %div
+    = f.label :details, t('ideas.ip.form.contributors.expansion.contribution_details')
+    = f.text_area :details, :class => 'full supershort'
+
+  %div
+    = remove_resource_link(f)

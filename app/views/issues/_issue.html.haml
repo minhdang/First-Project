@@ -1,0 +1,7 @@
+%li
+  %h2= issue.title
+  .textile= issue.description_html
+  = link_to 'Click here to download this issue', issue_path(issue), :class => 'pdf'
+  
+  = image_tag issue.pdf.url(:thumb)
+  

@@ -1,0 +1,28 @@
+- content_for :page_title, "New Membership - #{@user.login}"
+
+%h1= "New Membership - #{@user.login}"
+
+- form_for @membership, :url => admin_user_membership_path(@user) do |f|
+  
+  = required_field_legend
+  
+  %fieldset
+    %legend Monthly Cost
+    
+    = f.error_messages
+    
+    .required
+      = f.label :cost
+      = f.select :cost, [['free','0.0'],[number_to_currency(App.membership_cost), App.membership_cost]]
+
+    #free-reason{:style => 'padding:0;'}
+      .required
+        = f.label :free_reason
+        = f.text_area :free_reason
+  
+  - if @membership.payment    
+    #payment-fields{:style => 'padding:0;'}
+      - f.fields_for :payment do |payment_form|
+        = render :partial => 'admin/payments/fields', :locals => {:f => payment_form}
+
+  %div= f.submit 'Create Membership'

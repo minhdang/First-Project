@@ -1,0 +1,11 @@
+- content_for :page_title, 'Feedback for G7 Submission'
+
+- content_for :head do
+  = stylesheet_link_tag('admin/feedback_responses')
+  = javascript_include_tag('admin/feedback_responses')
+  
+
+
+= select_tag :feedback_template, options_for_select(@feedback_templates.map { |template| [template.title, template.id] })
+  
+#response_form

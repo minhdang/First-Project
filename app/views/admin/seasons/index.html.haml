@@ -1,0 +1,20 @@
+- content_for :page_title, "Everyday Edisons Seasons"
+
+%h1 Seasons
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Season Number
+      %th Description
+      %th{:colspan => "2"}
+  %tbody
+    - @seasons.each do |season|
+      %tr
+        %td= season.id
+        %td
+          = link_to season.season_number, admin_season_path(season)
+          ="(#{link_to(pluralize(season.episodes.size, 'episode'), admin_season_episodes_path(season))})"
+        %td= season.description
+        %td= link_to 'Edit', edit_admin_season_path(season)

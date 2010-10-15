@@ -1,0 +1,5 @@
+%li
+  = render :partial => 'users/bio', :locals => {:user => friend_request.user}
+  = button_to t('friends.accept'), user_friend_path(current_user, friend_request, :decision => 'accept'), :method => :put, :confirm => t('friend.accept_confirm')
+  = button_to t('friends.deny'), user_friend_path(current_user, friend_request, :decision => 'deny'), :method => :put, :confirm => t('friends.deny_confim')
+  

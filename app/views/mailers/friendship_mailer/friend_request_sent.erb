@@ -1,0 +1,9 @@
+<%= h @friendship.friend.name %>,
+
+<%= "#{@friendship.user.name}(#{@friendship.user.login})" %> has sent you a friend request through Edison Nation.
+
+To view all of your friend requests and accept or deny this request please visit:
+
+  <%= "#{site}/users/#{@friendship.friend.login}/friend_requests" %>
+  
+<%= signature %>

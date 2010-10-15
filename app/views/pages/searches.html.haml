@@ -1,0 +1,18 @@
+- content_for :title, 'Searches'
+
+.html=get_snippet('searches-page-copy')
+
+%h2.section-title Current Live Product Searches
+- if LPS.current.any?
+  = render :partial => 'live_product_searches/searches', :locals => {:live_product_searches => LPS.current}
+- else
+  %p
+    %em There are no Live Product Searches at this time.
+
+
+%h2.section-title Current Name Searches
+- if Survey.current.any?
+  = render :partial => 'dashboards/survey/list', :locals => {:surveys => Survey.current}
+- else
+  %p
+    %em New Name Searches coming soon.

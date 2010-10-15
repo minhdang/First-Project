@@ -1,0 +1,65 @@
+<%= @submission.user.name %>,
+
+Cảm ơn đệ trình của bạn để đáp ứng <%= @lps.sponsor.name %> <%= @lps.title %> (LPS ID: <%= @lps.key %>). Số Tìm Kiếm Live của bạn là: <%= @submission.key %>. Ý tưởng của bạn đã được gửi vào <%= @submission.completed_at.to_s(:long_ordinal)%> <%= Time.zone.name %>.Xin cẩn thận đọc xuyên qua toàn bộ email này để có sự giải thích quá trình diễn tiến sau đệ trình.
+
+<%- if @submission.payment -%>
+Payment was made by <%= @submission.payment.billing_address.first_name %> <%= @submission.payment.billing_address.last_name %> using a credit card ending in "<%= @submission.payment.cc_number %>."
+<%- end -%>
+
+Giám sát diễn tiến của bạn:: 
+ 
+Tin cập nhật sẽ hiển thị trong thời gian hiện thực ở mục Tìm kiếm sản phẩm Live trên dashboard, mà bạn có thể truy cập vào trang này:
+http://www.edisonnation.com/dashboard/live_product_search 
+Lưu ý: Bạn có thể được nhắc để đăng nhập 
+ 
+Một vết V màu xanh  trên dashboard của bạn có nghĩa là bạn có được một thuận tiện vào trong giai đoạn kế tiếp, một dấu X màu đỏ có nghĩa là ý tưởng của bạn không được chọn. Bạn có thể "không tham gia" khỏi mục Tìm kiếm sản phẩm Live cho đến khi nào bạn nhận được một vết V màu Xanh trong giai đoạn 7. Khi bạn "không tham gia", bạn chấm dứt hợp đồng với Edison Nation và bạn được tự do để phát triển sản phẩm theo con đường của chính bạn. Nếu bạn nhận được vết V màu xanh trong giai đoạn 7, chúng tôi sẽ trình bày ý tưởng tới phấn tìm kiếm đối tác, Và nếu nó được lựa chọn, bạn có thể đòi hỏi những quyền lợi tới Edison Nation (Nhấn vào đây để biết phần bồi thường chi tiết được phát thào cho sự Thỏa thuận sáng chế).
+
+Sự giải thích về các giai đoạn trên dashboard:
+ 
+Giai đoạn 1:Tiếp nhận sự đệ trình 
+Đệ trình của bạn đã được gửi đi thành công. 
+
+Giai đoạn 2:Kiểm Tra sơ bộ
+Đệ trình của bạn đã đáp ứng được yêu cầu tối thiểu của các tìm kiếm.
+ 
+Giai đoạn 3:Initial IP
+Đệ trình của bạn đã vượt qua vòng đầu tiên của chúng tôi về phân tích cạnh tranh và xem xét lại sở hữu trí tuệ. 
+
+Giai đoạn 4:Nghiên cứu &amp; Thiết kế
+Chúng tôi xem xét và điều chỉnh đệ trình của bạn đối với sản phẩm cạnh tranh. Trong một số trường hợp, ban thiết kế sản phẩm của chúng tôi có thể nâng cao ý tưởng của bạn để mang nó đến cấp độ tiếp theo. 
+
+Giai đoạn 5: Xem xét cuối cùng 
+Chúng tôi điều chỉnh đệ trình của bạn để chống lại những đệ trình khác cho cuộc tìm kiếm. Cách tốt nhất để tiến sâu vào phần xem xét lại sở hữu trí tuệ (giai đoạn ), Tiêu chuẩn xem xét đánh giá bao gồm: tiềm năng thị trường, điểm giá, phù hợp với sự tìm kiếm các nhà tài trợ, và một số đòi hỏi khác trong phần mô tả tìm kiếm.. 
+
+Giai đoạn 6: Xem xét lại IP cuối cùng 
+Chúng tôi thực hiện một phân tích sâu hơn về cạnh tranh sở hữu trí tuệ, bằng sáng chế và ý tưởng trong lĩnh vực công cộng. 
+
+Giai đoạn 7: Vòng chung kết 
+Đây là phần xem xét nội bộ cuối cùng của chúng tôi. Nếu đệ trình của bạn vượt qua giai đoạn này. Nó sẽ được trình bày đến các nhà tài trợ tìm kiếm để xem xét.  
+
+Giai đoạn 8: Success 
+Nếu trình của bạn đã vượt qua giai đoạn này (dấu chấm than màu xanh lá cây), nó đã được lựa chọn bởi các nhà tài trợ tìm kiếm để đưa ra thị trường. 
+
+Thông tin phản hồi:
+ 
+Rất tiếc! chúng tôi không thể cung cấp những phản hồi từng người một. Hãy nhớ rằng Edison Nation đáp ứng nhu cầu đổi mới của sự tìm kiếm của các đối tác, như đã xác định rõ ràng trong phần mô tả tìm kiếm sản phẩm Live. Kết quả là, nếu ý tưởng của bạn không được chọn bởi sự tìm kiếm của các đối tác không có nghĩa rằng nó không phải là khải niệm tốt đáng theo đuổi. Có nghĩa là nó không phù hợp hoàn hảo với sự đổi mới sản phẩm hiện tại cho nhu cầu của họ.
+ 
+Thời gian biểu: 
+ 
+Thời gian cần xem xét lại ý tưởng của bạn phụ thuộc vào những đặc điểm và khối lượng tìm kiếm của bài nộp. Chúng tôi thường bắt đầu xem xét lại các giai đoạn 4 và vượt ra ngoài sau khi tìm kiếm trên đã đóng . Quá trình xem xét sau khi mục tìm kiếm  đóng thường phải mất 4-6 tuần. Sau đó, chúng tôi trình bày các vòng chung kết  cho tìm kiếm Sản phẩm Live của đối tác  của chúng tôi, Họ thường có 45 ngày kể từ ngày trình bày để làm cho các lựa chọn cuối cùng của họ.
+
+Chỉnh sửa đệ trình  của bạn:
+ 
+If you need to edit a submission, visit your Live Product Search Dashboard (http://www.edisonnation.com/dashboard/live_product_search), Scroll down to the "My Ideas" section, Click "Continue" or "Edit" next to the idea you need to update. 
+
+Nếu bạn cần chỉnh sửa một đệ trình, hãy truy cập mục tìm kiếm sản phẩm Live trên Dashboard của bạn (http://www.edisonnation.com/dashboard/live_product_search"), Di chuyển xuống phần "Ý tưởng của tôi, Click "Tiếp tục" hoặc "Sửa đổi" bên cạnh những ý tưởng bạn cần cập nhật.
+ 
+Đăng nhập Có vấn đề:
+ 
+Nếu bạn không thể nhớ tên đăng nhập của bạn, xin vui lòng truy cập http://support.edisonnation.com/faqs/account-basics/logging-in
+
+Nếu bạn có thêm những câu hỏi nào, xin vui lòng truy cập http://support.edisonnation.com ở đó bạn có thể duyệt qua các câu hỏi thường gặp hoặc gửi một câu hỏi riêng tư.
+
+Xin chúc mừng và chúc may mắn!
+
+<%= signature %>

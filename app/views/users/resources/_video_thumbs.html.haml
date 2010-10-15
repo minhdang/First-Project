@@ -1,0 +1,7 @@
+- if !user.user_videos.empty? || current_user == user
+  %h3 
+    = link_to t('links.view_all'), user_videos_path(user), :class => 'action'
+    = t('users.videos.videos')
+  = render :partial => 'user_videos/videos', :locals => { :style => :tiny, :videos => user.user_videos.random.limited(16) }
+  - if current_user == user && user.user_videos.empty?
+    = link_to t('users.videos.add_a_new_video'), new_user_video_path(user) 

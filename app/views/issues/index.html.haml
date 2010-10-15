@@ -1,0 +1,85 @@
+- content_for :title, t('issues.title')
+
+#issues-list
+  %ul#issues
+    = render :partial => 'issue', :collection => @issues
+  
+  %h3 Best of Inventors Digest (volumes 1-20)
+  %ol.list
+    %li= link_to 'INVENTING 101: WHAT EVERY INVENTOR MUST KNOW', 'http://en-resources.s3.amazonaws.com/id/best_of/1.pdf'
+    %li= link_to 'AN OVERVIEW OF THE NEW PRODUCT DEVELOPMENT PROCESS', 'http://en-resources.s3.amazonaws.com/id/best_of/2.pdf'
+    %li= link_to 'AVOIDING SCAMS', 'http://en-resources.s3.amazonaws.com/id/best_of/3.pdf'
+    %li= link_to 'GETTING STARTED', 'http://en-resources.s3.amazonaws.com/id/best_of/4.pdf'
+    %li= link_to 'INVENTION EVALUATION', 'http://en-resources.s3.amazonaws.com/id/best_of/5.pdf'
+    %li= link_to 'INVENTION NOVELTY', 'http://en-resources.s3.amazonaws.com/id/best_of/6.pdf'
+    %li= link_to 'DO YOU HAVE WHAT IT TAKES TO BE AN INVENTOR?', 'http://en-resources.s3.amazonaws.com/id/best_of/7.pdf'
+    %li= link_to 'FINDING MONEY', 'http://en-resources.s3.amazonaws.com/id/best_of/8.pdf'
+    %li= link_to 'PROTOTYPING BASICS', 'http://en-resources.s3.amazonaws.com/id/best_of/9.pdf'
+    %li= link_to 'FINDING PEOPLE WHO CAN HELP', 'http://en-resources.s3.amazonaws.com/id/best_of/10.pdf'
+    %li= link_to 'PATENTS, COPYRIGHTS AND TRADEMARKS', 'http://en-resources.s3.amazonaws.com/id/best_of/11.pdf'
+    %li= link_to 'LICENSING YOUR INVENTION', 'http://en-resources.s3.amazonaws.com/id/best_of/12.pdf'
+    %li= link_to 'HOW TO FIND A LICENSEE', 'http://en-resources.s3.amazonaws.com/id/best_of/13.pdf'
+    %li= link_to 'HOW TO APPROACH A POTENTIAL LICENSEE', 'http://en-resources.s3.amazonaws.com/id/best_of/14.pdf'
+    %li= link_to 'INVENTING AND CREATIVITY', 'http://en-resources.s3.amazonaws.com/id/best_of/15.pdf'
+    %li= link_to 'THE BUSINESS OF INVENTING', 'http://en-resources.s3.amazonaws.com/id/best_of/16.pdf'
+    %li= link_to 'MARKETING: TRADE SHOWS, FREE PR AND PRINT ADS', 'http://en-resources.s3.amazonaws.com/id/best_of/17.pdf'
+    %li= link_to 'MARKETING: TV, INFOMERCIALS AND CATALOGS', 'http://en-resources.s3.amazonaws.com/id/best_of/18.pdf'
+    %li= link_to 'FACTS ON OVERSEAS MANUFACTURING', 'http://en-resources.s3.amazonaws.com/id/best_of/19.pdf'
+    
+#issues-resources
+  %h3 Newsletters
+  %ul
+    %li= link_to 'January 2007', 'http://en-resources.s3.amazonaws.com/id/news/news_01_2007.pdf'
+    %li= link_to 'December 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_12_2006.pdf'
+    %li= link_to 'November 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_11_2006.pdf'
+    %li= link_to 'September 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_09_2006.pdf'
+    %li= link_to 'August 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_08_2006.pdf'
+    %li= link_to 'June 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_06_2006.pdf'
+    %li= link_to 'May 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_05_2006.pdf'
+    %li= link_to 'March 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_03_2006.pdf'
+    %li= link_to 'February 2006', 'http://en-resources.s3.amazonaws.com/id/news/news_02_2006.pdf'
+    %li= link_to 'December 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_12_2005.pdf'
+    %li= link_to 'November 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_11_2005.pdf'
+    %li= link_to 'September 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_09_2005.pdf'
+    %li= link_to 'August 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_08_2005.pdf'
+    %li= link_to 'June 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_06_2005.pdf'
+    %li= link_to 'May 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_05_2005.pdf'
+    %li= link_to 'March 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_03_2005.pdf'
+    %li= link_to 'February 2005', 'http://en-resources.s3.amazonaws.com/id/news/news_02_2005.pdf'
+  
+  %h3 Product Spotlight
+  %ul
+    %li= link_to 'Ab Roller', 'http://en-resources.s3.amazonaws.com/id/products/ab_roller.pdf'
+    %li= link_to 'Absorbers', 'http://en-resources.s3.amazonaws.com/id/products/absorbers.pdf'
+    %li= link_to 'Barbie', 'http://en-resources.s3.amazonaws.com/id/products/barbie.pdf'
+    %li= link_to 'Cranium', 'http://en-resources.s3.amazonaws.com/id/products/cranium.pdf'
+    %li= link_to 'Diaper', 'http://en-resources.s3.amazonaws.com/id/products/diaper.pdf'
+    %li= link_to 'Earmuffs', 'http://en-resources.s3.amazonaws.com/id/products/earmuffs.pdf'
+    %li= link_to 'Ghostline', 'http://en-resources.s3.amazonaws.com/id/products/ghostline.pdf'
+    %li= link_to 'Grill', 'http://en-resources.s3.amazonaws.com/id/products/grill.pdf'
+    %li= link_to 'Guide Light', 'http://en-resources.s3.amazonaws.com/id/products/guidelight.pdf'
+    %li= link_to 'Hover Craft', 'http://en-resources.s3.amazonaws.com/id/products/hovercraft.pdf'
+    %li= link_to 'Jello', 'http://en-resources.s3.amazonaws.com/id/products/jello.pdf'
+    %li= link_to 'MRI', 'http://en-resources.s3.amazonaws.com/id/products/mri.pdf'
+    %li= link_to 'Pace Maker', 'http://en-resources.s3.amazonaws.com/id/products/pacemaker.pdf'
+    %li= link_to 'Respirator', 'http://en-resources.s3.amazonaws.com/id/products/respirator.pdf'
+    %li= link_to 'Robots', 'http://en-resources.s3.amazonaws.com/id/products/robots.pdf'
+    %li= link_to 'Sonar', 'http://en-resources.s3.amazonaws.com/id/products/sonar.pdf'
+    %li= link_to 'Walkie Talkie', 'http://en-resources.s3.amazonaws.com/id/products/walkietalkie.pdf'
+    %li= link_to 'Walkman', 'http://en-resources.s3.amazonaws.com/id/products/walkman.pdf'
+    %li= link_to 'Washwear', 'http://en-resources.s3.amazonaws.com/id/products/washwear.pdf'
+    %li= link_to 'Wordlock', 'http://en-resources.s3.amazonaws.com/id/products/wordlock.pdf'
+    %li= link_to 'Wristies', 'http://en-resources.s3.amazonaws.com/id/products/wristies.pdf'
+    %li= link_to 'Crazy Dream', 'http://en-resources.s3.amazonaws.com/id/products/ss_crazy_dream.pdf'
+    %li= link_to 'Game Inventions', 'http://en-resources.s3.amazonaws.com/id/products/ss_game_inventions.pdf'
+    %li= link_to 'Gizmos & Gadgets', 'http://en-resources.s3.amazonaws.com/id/products/ss_gizmos_and_gadgets.pdf'
+    %li= link_to 'Hoopster', 'http://en-resources.s3.amazonaws.com/id/products/ss_hoopster.pdf'
+    %li= link_to 'In Living Color', 'http://en-resources.s3.amazonaws.com/id/products/ss_in_living_color.pdf'
+    %li= link_to 'Martec Products', 'http://en-resources.s3.amazonaws.com/id/products/ss_martec_products.pdf'
+    %li= link_to 'Open Sesame', 'http://en-resources.s3.amazonaws.com/id/products/ss_open_sesame.pdf'
+    %li= link_to 'Piper Poster', 'http://en-resources.s3.amazonaws.com/id/products/ss_piper_poster.pdf'
+    %li= link_to 'Rain Forest', 'http://en-resources.s3.amazonaws.com/id/products/ss_rain_forest.pdf'
+    %li= link_to 'Smart Spin', 'http://en-resources.s3.amazonaws.com/id/products/ss_smart_spin.pdf'
+    %li= link_to 'Tonkel U-Turn', 'http://en-resources.s3.amazonaws.com/id/products/ss_tonkel_uturn.pdf'
+
+%br.clear/

@@ -1,0 +1,12 @@
+
+- unless flash.keys.empty?
+  %ul#flash-messages
+    - flash.each do |type, message|
+      %li{:class => type}
+        = message
+  :javascript
+    setTimeout(function(){
+      $("ul#flash-messages").slideUp("slow", function () {
+      $("ul#flash-messages").remove();
+          }); }, 4000);
+    

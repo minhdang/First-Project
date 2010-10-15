@@ -1,0 +1,26 @@
+%table#ratings.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        %span#ratings_count= pluralize(submission.ratings.count, 'Rating')
+  %tbody
+    %tr
+      %th{:colspan => 2}
+        - my_rating = (current_user.rating_for(submission) || submission.ratings.new)
+        - form_for my_rating, :url => (my_rating.new_record? ? admin_ratings_path : admin_rating_path(my_rating)), :html => {:class => 'inline ajax'} do |f|
+          = hidden_field_tag :submission_id, submission.id
+          = f.select :rating, (1..7).to_a.reverse.map{|rating| [rating,rating]}, :include_blank => '-- Rating --'
+          = f.submit 'Rate'
+        %table#rating_explanation
+          %td Bad Idea
+          %td Bad Fit Competitors
+          %td Indifferent
+          %td May Present
+          %td Good Idea
+          %td Great Idea
+          %td Must See!
+    - @submission.ratings.not_by_user(current_user).each do |rating|
+      %tr
+        %th.nowrap= rating.user.short_name
+        %td= rating.rating
+        

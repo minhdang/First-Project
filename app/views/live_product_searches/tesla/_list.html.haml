@@ -1,0 +1,20 @@
+%ul.lps-list
+  - live_product_searches.each_with_index do |lps,i|
+    %li{:class => (i==0 ? 'first' : nil)}
+      .span-3
+        = link_to image_tag(lps.sponsor.logo.url(:thumb), :alt => lps.sponsor.name), live_product_search_path(lps), :class => 'logo'
+      
+      .span-13.last
+        %h6= lps.title
+        %span.deadline
+          = distance_of_time_in_words(Time.now, lps.deadline)
+          left
+        %span.submit
+          - if lps.member_search 
+            - if current_user.member? 
+              = link_to "Submit an Idea", live_product_search_path(lps), :class => 'button red medium'
+            - else
+              = link_to "Insiders Only", live_product_search_path(lps), :class => 'button red medium'
+          - else
+            = link_to "Submit an Idea", live_product_search_path(lps), :class => 'button red medium'
+      .clear

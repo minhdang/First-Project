@@ -1,0 +1,23 @@
+- content_for :page_title, 'Edit Topic'
+
+%h1 Edit Topic
+
+- form_for @topic, :url => admin_topic_path(@topic) do |f|
+  
+  = f.error_messages
+  = required_field_legend
+  
+  .required
+    = f.label :title
+    = f.text_field :title
+    
+  .required
+    = f.label :forum_id, 'Forum'
+    = f.select :forum_id, Forum.main.positioned.map{|forum| [h(forum.name),forum.id]}
+    
+  %div
+    = f.label :locked, 'Locked?'
+    = f.check_box :locked
+    
+  %div
+    = f.submit 'Update Topic'

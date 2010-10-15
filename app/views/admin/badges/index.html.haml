@@ -1,0 +1,17 @@
+- content_for :page_title, "Badges"
+
+%h1 Badges
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th
+  %tbody
+    - @badges.each do |badge|
+      %tr
+        %td= badge.id
+        %td= h(badge.name)
+        %td{:style => 'text-align:right'}
+          = image_tag badge.image.url(:thumb)

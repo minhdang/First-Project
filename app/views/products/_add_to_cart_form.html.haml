@@ -1,0 +1,14 @@
+%table#product-options{:cellspacing=>0}
+  - product.types.each do |product_type|
+    %tr
+      %td
+        %h5= h(product_type.name)
+      %td
+        %strong.regular-price= "#{number_to_currency(product_type.price)} " + t('products.s_and_h')
+        %a.tooltip{:title => t('products.special_pricing'), :href => lounge_path}
+          %strong.member-price=  "#{number_to_currency(product_type.member_price)} " + t('products.free_s_and_h')
+      %td
+        - form_tag add_product_store_cart_path(@store) do
+          = submit_tag t('products.add_to_cart'), :class => 'btn-add-to-cart button green medium'
+          = hidden_field_tag 'product_id', product.id
+          = hidden_field_tag 'product_type_id', product_type.id

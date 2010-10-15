@@ -1,0 +1,30 @@
+%ul#nav-bar
+  %li{:class => active_if_here(:dashboards)}
+    = link_to t('navigation.dashboard'), dashboard_path, :class => 'dashboard'
+
+-#  %li{:class => active_if_here(:insiders)}
+-#    = link_to t('navigation.insiders'), '/lounge', :class => 'insiders'
+-#  
+-#  %li{:class => active_if_here(:pages => [:about])}
+-#    = link_to t('navigation.about_us'), '/about', :class => 'about-us'
+-#    
+-#  %li{:class => active_if_here(:pages => [:searches, :sponsor], :needs => :all, :skills => :all, :live_product_searches => :all, :ideas => :all, :submissions => :all, :attachments => :all, :searches => :all)}
+-#    = link_to t('navigation.searches'), '/searches', :class => 'searches'
+-#    
+-#  %li{:class => active_if_here(:successes)}
+-#    = link_to t('navigation.successes'), '/success-stories', :class => 'successes'
+-#    
+-#  %li{:class => active_if_here([:forums, :topics, :posts])}
+-#    = link_to t('navigation.forums'), forums_path, :class => 'forums'
+-#    
+-#  %li
+-#    = link_to t('navigation.blog'), 'http://blog.edisonnation.com', :class => 'blog'
+-#   
+-#  %li{:class => active_if_here([:seasons, :episodes, :video_categories, :videos, :chapters])}
+-#    = link_to t('navigation.videos'), videos_path, :class => 'videos'
+-#     
+-#  %li{:class => active_if_here([:people_and_groups, :users, :groups, :group_memberships, :sessions, :friends, :user_albums, :user_photos, :user_videos, :user_blog_entries, :messages, :campuses])}
+-#    = link_to t('navigation.people_and_groups'), people_and_groups_path, :class => 'people-groups'
+-#
+-#  %li{:class => active_if_here([:stores, :products, :product_categories, :carts, :orders])}
+-#    = link_to 'Shop', '/shop', :class => 'shop'

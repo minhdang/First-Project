@@ -1,0 +1,7 @@
+#profile-sidebar
+  %h2= link_to "#{user.name} (#{user.login})", user_path(user)
+  #profile-actions
+    = badge_for(user)
+    = link_to t('users.profile'), user_path(user), :class => 'view-profile-action'
+    = link_to t('users.photos_videos'), user_path(user), :class => 'view-media-action'
+    = link_to t('users.micro_blog'), user_blog_entries_path(user), :class => 'view-blog-action'

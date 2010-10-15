@@ -1,0 +1,14 @@
+- content_for :page_title, t('dashboard.lps.live_product_search_dashboard')
+
+- content_for :sidebar do
+  - @user = current_user
+  = render :partial => 'shared/dashboard/profile_actions'
+  = render :partial => 'shared/dashboard/insider_points'
+
+%h2.panel-title= t('dashboard.lps.current_lps')
+
+- if @live_product_searches.any?
+  = render :partial => 'live_product_searches/searches', :locals => {:live_product_searches => @live_product_searches}
+- else
+  %p
+    %em= t('dashboard.lps.no_lps_at_this_time')

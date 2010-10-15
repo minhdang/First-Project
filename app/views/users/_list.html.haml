@@ -1,0 +1,8 @@
+%ul.user-list
+  - users.each do |user|
+    %li
+      .controls
+        = link_to t('users.list.email') + " #{user.first_name}", "#{new_user_message_path(user) if logged_in?}", :class => "email-friend button green medium"
+        = friendship_controls_for(user) if logged_in?
+      = render :partial => 'users/bio', :locals => {:user => user}
+      %div.clear

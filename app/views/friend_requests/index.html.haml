@@ -1,0 +1,9 @@
+- content_for :title, t('friend_requests.title')
+
+- content_for :sidebar do
+  = render :partial => 'users/profile_sidebar', :locals => {:user => @user}
+
+- if @friend_requests.any?
+  = render :partial => 'users/list', :locals => {:users => @friend_requests.collect{ |f| f.user }}
+- else
+  %p= t('friend_requests.none_at_this_time')

@@ -1,0 +1,73 @@
+= f.error_messages
+= required_field_legend
+
+%fieldset
+  %legend General Information
+  
+  .required
+    = f.label :title
+    = f.text_field :title
+    
+%fieldset
+  %legend Pricing
+  
+  %div
+    = f.label :submission_fee
+    = f.text_field :submission_fee
+    
+  %div
+    = f.label :submission_fee_members, 'Edison Insider submission fee'
+    = f.text_field :submission_fee_members
+    %span Leave blank if there is no special Edison Insider pricing
+
+%fieldset
+  %legend Launch Information
+  %div
+    = f.label :launch
+    = f.datetime_select :launch, :prompt => true
+    %span= Time.zone.name
+  
+  .required
+    = f.label :deadline
+    = f.text_field :deadline, :default => 1.month.from_now.end_of_day.to_s(:calendar), :value => (f.object.deadline && f.object.deadline.to_s(:calendar)), :class => 'text calendar'
+    %span 
+      Midnight #{Time.zone.name}
+      %br
+      %em Deadlines should fall on Mondays
+    
+  %div
+    = f.label :state, 'Current state'
+    = f.select :state, @survey.available_states.map{|s| [s.to_s.titleize,s.to_s]}
+    %span
+      %strong Legend:
+      %br/
+      &nbsp;&nbsp; Draft - Initial stage. In the process of setting up.
+      %br/
+      &nbsp;&nbsp; Published - Ready to be launched at the launch time or right away if no launch time is specified.
+      %br/ 
+      &nbsp;&nbsp; Archived - Archived Surveys won't show up in the main list of Surveys.
+      %br/
+      &nbsp;&nbsp; Deleted - Survey will not show up anywhere but will remain in the database.
+    
+%fieldset
+  %legend Landing Page
+    
+  %div
+    = f.label :landing_page
+    = f.text_area :landing_page, :class => 'textile'
+  
+  %div
+    = f.label :landing_page_css, 'Landing page CSS'
+    = f.text_area :landing_page_css, :class => 'full short'
+    
+  %div
+    = f.label :landing_page_header
+    = f.file_field :landing_page_header
+    %span The header graphic for the landing page.
+    
+%fieldset
+  %legend Legal Agreement
+  
+  %div
+    = f.label :document_id, 'Document'
+    = f.select :document_id, Document.all.sort_by(&:title).map{|d| [d.title, d.id]}, :prompt => '-- Select a legal document that the user must agree to --'

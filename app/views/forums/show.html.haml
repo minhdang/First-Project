@@ -1,0 +1,19 @@
+- content_for :head do
+  = javascript_include_tag('forum_preferences')
+  = javascript_include_tag('forums/forums')
+- content_for :page_title, "#{@forum.name} - " + t('forums.show.title')
+- content_for :title do
+  = h @forum.name
+  - if @forum.official?
+    %span.official{:title => t('forums.create_topic_restrictions')}= t('forums.show.official')
+  = t('forums.show.topics')
+
+= forums_search_box
+= link_to t('forums.show.create_new_topic'), new_forum_topic_path(@forum), :class => 'new-topic-button button green medium right' if logged_in? && @forum.editable_by?(current_user)
+#forum-nav
+  = link_to t('forums.show.show_forums'), forums_path(:force => true), :class => 'show-forums-button'
+  |
+  = link_to t('forums.show.show_topics'), topics_path, :class => 'show-topics-button'
+%br.clear
+
+= render :partial => 'forums/topics', :locals => {:forum => @forum, :topics => @topics}

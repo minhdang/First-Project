@@ -1,0 +1,4 @@
+- if user.needs.any?
+  #needs.block
+    %h= t('users.needs_any_of')
+    = render :partial => 'needs/need', :collection => user.needs, :locals => {:truncate => true, :editable => (current_user == user)}

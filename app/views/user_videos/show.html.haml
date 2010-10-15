@@ -1,0 +1,10 @@
+- content_for :page_title, @user_video.title
+- content_for :title do
+  = link_to t('user_videos.show.edit'), edit_user_video_path(@user, @user_video), :class => 'edit-user-video-button' if current_user == @user
+  = @user_video.title
+  
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+%p= @user_video.description
+= embed_video(@user_video)
+

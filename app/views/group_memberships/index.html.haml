@@ -1,0 +1,17 @@
+- content_for :page_title, "#{@group.title} " + t('group_memberships.title')
+- content_for :title, content_tag(:span, "#{@group.title} " + t('group_membership.title'), :class => (@group.private? ? 'locked' : nil))
+
+- content_for :sidebar do
+  = render :partial => 'groups/sidebar', :locals => {:group => @group}
+
+- unless @pending_group_memberships.blank?
+  %h3= t('group_memberships.pending')
+  = render :partial => 'list', :locals => {:group_memberships => @pending_group_memberships}
+  %hr
+
+= will_paginate @group_memberships
+%br.clear-right/
+
+= render :partial => 'list', :locals => {:group_memberships => @group_memberships}
+
+= will_paginate @group_memberships

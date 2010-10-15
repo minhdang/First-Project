@@ -1,0 +1,14 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :caption, t('user_photos.fields.caption')
+  = f.text_field :caption
+
+- if controller.action_name == 'edit'
+  .div= image_tag(@photo.src.url(:thumb))
+- else
+  .required 
+    = f.label :src, t('user_photos.fields.file')
+    = f.file_field :src

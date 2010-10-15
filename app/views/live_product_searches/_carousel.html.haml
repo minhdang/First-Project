@@ -1,0 +1,17 @@
+.slider
+  %h2 Current Live Product Searches
+  %ul#carousel
+    - live_product_searches.each_with_index do |lps, i|
+      %li.lps{:id => "lps_#{i}"}
+        %div
+          = image_tag lps.sponsor.logo.url, :alt => lps.sponsor.name
+          %table{:cellspacing=>0}
+            %tr
+              %td{:valign => 'middle'}
+                %p= lps.title
+                = link_to 'Submit an Idea or Learn More', live_product_search_path(lps)
+  .sponsor-container
+    %ul#sponsors
+      - live_product_searches.each_with_index do |lps, i|
+        %li{:id => "sponsor_#{i+1}", :class => "sponsor#{' active' if i == 0}"}
+          = lps.sponsor.name

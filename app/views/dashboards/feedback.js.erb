@@ -1,0 +1,9 @@
+ $.fn.colorbox({
+    width:'65%', 
+    height:'80%',
+    inline: true,
+    onComplete: function() {
+      $('#cboxLoadedContent').append("<%= escape_javascript(render :partial => 'feedback') %>");
+      
+    } // onComplete
+  }) // $.fn.colorbox

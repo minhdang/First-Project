@@ -1,0 +1,10 @@
+- content_for :scripts, javascript_include_tag('admin/lps/questions')
+%h1= "#{@lps.key} - LPS Specific Questions"
+
+%ul#questions
+  - @lps.questions.each do |q|
+    %li
+      = render :partial => 'question', :locals => {:question => q}
+
+%br.clear-left
+= render :partial => 'form', :locals => {:question => @lps.questions.new}

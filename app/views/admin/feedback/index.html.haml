@@ -1,0 +1,17 @@
+- content_for :page_title, 'Feedback for Live Product Searches'
+
+%h2 
+  - if params[:action] == 'complete'
+    Submissions with feedback
+  - else
+    Submissions awaiting feedback
+
+%ul
+  - @submissions.each do |submission|
+    %dl
+      %dt= link_to submission.idea.title, new_admin_feedback_entry_path(:submission_key => submission.key)
+      %dd
+        = truncate submission.idea.detailed_description, :length => 150
+          
+= will_paginate @submissions
+      

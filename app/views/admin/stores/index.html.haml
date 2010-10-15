@@ -1,0 +1,22 @@
+- content_for :page_title, "Stores"
+
+%h1 Stores
+
+= will_paginate @stores
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th
+  %tbody
+    - @stores.each do |store|
+      %tr
+        %td= store.id
+        %td= link_to h(store.name), admin_store_products_path(store)
+        %td.actions
+          = link_to 'Edit', edit_admin_store_path(store)
+          = link_to 'Destroy', admin_store_path(store), :method => :delete, :confirm => 'Are you sure you want to delete this store? All of its products will be deleted also.'
+
+= will_paginate @stores

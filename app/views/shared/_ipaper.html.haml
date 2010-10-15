@@ -1,0 +1,9 @@
+- content_for :head, javascript_include_tag('http://www.scribd.com/javascripts/view.js')
+
+%div
+  #embedded_flash
+    \&nbsp;
+  %script{ :type => "text/javascript" }
+    = "var scribd_doc = scribd.Document.getDocFromUrl('#{url}', 'pub-26844973648467578470');"
+    = "scribd_doc.addParam('height', #{height});"
+    scribd_doc.write('embedded_flash');

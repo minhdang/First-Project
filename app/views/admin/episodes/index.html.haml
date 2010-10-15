@@ -1,0 +1,24 @@
+- content_for :page_title, 'Episodes'
+
+%h1 Episodes
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Title
+      %th Short Description
+      %th Episode
+      %th Season
+      %th{:colspan => "2"}
+  %tbody
+    - @episodes.each do |episode|
+      %tr
+        %td= episode.id
+        %td
+          = link_to episode.title, admin_episode_path(episode)
+          = "(#{link_to pluralize(episode.chapters.size, 'chapter'), admin_episode_chapters_path(episode)})"
+        %td= truncate(episode.description, :length => 50)
+        %td= episode.episode_number
+        %td= episode.season.season_number
+        %td= link_to 'Edit', edit_admin_episode_path(episode)

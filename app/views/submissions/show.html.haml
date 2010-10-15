@@ -1,0 +1,56 @@
+- content_for :title, t('submissions.show.thank_you_title')
+- content_for :sidebar, checklist(@idea, :lps => @lps, :submission => @submission)
+
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+
+%h3.section-title= t('submissions.show.your_submissions')
+
+%table.attributes
+  %tbody
+    %tr
+      %th= t('submissions.show.submission_id')
+      %td= @submission.key
+    %tr
+      %th= t('submissions.show.lps')
+      %td= link_to @lps.title, live_product_search_path(@lps)
+    %tr
+      %th= t('submissions.show.completed_on')
+      %td
+        = @submission.completed_at.to_s(:full_ordinal)
+        %em= Time.zone.name
+%br
+      
+%h3.section-title= t('submissions.show.your_idea')
+
+%table.attributes
+  %tbody
+    %tr
+      %th= t('submissions.show.idea_title')
+      %td= link_to h(@idea.title), idea_path(@idea)
+    %tr
+      %th= t('submissions.show.attachments')
+      %td
+        = boolean_flag(@idea.attachments.any?, pluralize(@idea.attachments.count, 'attachment'))
+        - unless @idea.attachments.any?
+          .dialog
+            %p
+              = t('submissions.show.no_attachments_text')
+              = link_to t('submissions.show.your_ideas_dashboard'), ideas_dashboard_path
+%br
+
+- if @submission.payment
+  %h3.section-title= t('submissions.show.payments')
+  
+  %table.attributes
+    %tbody
+      %tr
+        %th= t('submissions.show.card_number')
+        %td= @submission.payment.cc_number
+      %tr
+        %th= t('submissions.show.amount')
+        %td= number_to_currency @submission.payment.amount
+  %br
+  
+%br
+.confirmation
+  = link_to t('submissions.show.track_my_submission'), ideas_dashboard_path, :class => 'track-my-submission-button'

@@ -1,0 +1,31 @@
+%h4
+  = link_to 'destroy', admin_live_product_search_filter_path(@lps, filter), :method => :delete, :class => 'action', :confirm => 'Are you sure?'
+  = filter.class.name.titleize
+
+- if    filter.instance_of?(PrototypeFilter)
+  .condition= "Prototype <strong>must #{'not' if !filter.prototype_exists} exist</strong>"
+- elsif filter.instance_of?(PatentFilter)
+  .condition= "Patent <strong>must #{'not' if !filter.patent_exists} exist</strong>"
+  - if filter.patent_exists? && !filter.patent_stage.blank?
+    .condition= "Patent <strong>must be #{filter.patent_stage}</strong>"
+  - if filter.patent_exists? && !filter.patent_type.blank?
+    .condition= "Patent <strong>must be #{filter.patent_type}</strong>"
+- elsif filter.instance_of?(QuestionFilter)
+  .question
+    .label Q:
+    = filter.question.label
+  .answer
+    .label A:
+    %strong
+      must
+      - case filter.question_operator
+      - when QuestionFilter::Operators[:is]
+        = "BE '#{filter.question_value}'"
+      - when QuestionFilter::Operators[:contains]
+        = "CONTAIN '#{filter.question_value}'"
+      - when QuestionFilter::Operators[:includes]
+        = "INCLUDE '#{filter.question_choice.label}'"
+      - when QuestionFilter::Operators[:is_true]
+        BE TRUE
+      - when QuestionFilter::Operators[:is_false]
+        BE FALSE

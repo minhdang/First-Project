@@ -1,0 +1,25 @@
+= will_paginate @topics
+
+%table.data
+  %thead
+    %tr
+      - unless @forum
+        %th Forum
+      %th Title
+      %th Replies
+      %th Views
+      %th Last Post
+      %th 
+  %tbody
+    - @topics.each do |topic|
+      %tr
+        - unless @forum
+          %td= link_to h(topic.forum.name), admin_forum_path(topic.forum)
+        %td= link_to h(topic.title), admin_topic_path(topic)
+        %td= topic.posts_count - 1
+        %td= topic.hits
+        %td= "#{time_ago_in_words(topic.last_updated_at)} ago"
+        %td.actions
+          = link_to 'Edit', edit_admin_topic_path(topic)
+          
+= will_paginate @topics

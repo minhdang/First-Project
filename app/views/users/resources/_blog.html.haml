@@ -1,0 +1,12 @@
+#blog.block
+  - if current_user == user    
+    .controls
+      = link_to t('users.blog.add_blog_entry'), new_user_blog_entry_path(user)
+      
+  %h2= t('users.blog.micro_blog')
+  - unless user.blog_entries.empty?
+    %ul
+      = render :partial => 'user_blog_entries/truncated_blog_entry', :collection => user.blog_entries.ordered('created_at DESC').limited(5)
+    = link_to t('users.blog.view_all'), user_blog_entries_path(user)
+  - else
+    = t('users.blog.there_are_no_blog_entries')

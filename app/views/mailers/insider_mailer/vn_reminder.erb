@@ -1,0 +1,13 @@
+Xin chào <%=h @user.first_name %>,
+
+Bạn có nhớ chúng tôi không? Chúng tôi vừa  giải quyết các vấn đề với những email của thành viên. Vì lý do ngoài vòng kiểm xoát của chúng tôi, có nhiều email của chúng tôi được xem là spam bởi dịch vụ internet. Kết quả là, nhiều trong số thành viên đã không nhận được email liên quan đến những thông tin tài khoản quan trọng. Rất may, vấn đề đã được giải quyết ổn thỏa.
+
+Hồ sơ của chúng tôi cho thấy rằng thành viên của bạn trong Edison  Insider gần đây đã hủy . Nếu cá nhân bạn  không tự hủy bỏ nó, có khả năng là thông tin thanh toán của bạn đã hết hạn.
+
+<%= "#{site}/membership/new" %>
+
+
+Email này có liên quan đến tên người xử dùng: <%= @user.login %>
+
+Cám ơn bạn
+<%= site %>

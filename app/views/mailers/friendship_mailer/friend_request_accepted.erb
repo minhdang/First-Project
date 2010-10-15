@@ -1,0 +1,9 @@
+<%= h @friendship.user.name %>,
+
+<%= "#{@friendship.friend.name}(#{@friendship.friend.login})" %> has accepted you as a friend on Edison Nation.
+
+To view all of your friends please visit:
+
+  <%= "#{site}/users/#{@friendship.user.login}/friends" %>
+  
+<%= signature %>

@@ -1,0 +1,5 @@
+- content_for :title, t('errors.404_title')
+
+%p = t('errors.404_text_1')
+%p= "#{link_to t('errors.visit_home_page'), dashboard_path}"
+%p= t('errors.404_text_2') + " #{link_to t('errors.visit_support'), support_path}"

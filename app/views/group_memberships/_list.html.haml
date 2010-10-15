@@ -1,0 +1,8 @@
+%ul.user-list
+  - group_memberships.each do |membership|
+    %li
+      .controls
+        = group_membership_controls_for(membership) if logged_in? && current_user == membership.group.owner && membership.group.private?
+        = friendship_controls_for(membership.user) if logged_in?
+      = render :partial => 'users/bio', :locals => {:user => membership.user}
+      %div.clear

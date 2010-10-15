@@ -1,0 +1,69 @@
+// Generated: <%= Time.now.to_s(:db) %>
+var countries = new Array();
+<%- App.countries.stringify_keys.sort.each do |abbr, country| -%>
+  countries["<%= abbr %>"] = "<%= country %>";
+<%- end -%>
+
+var states = new Array();
+<%- App.states.stringify_keys.sort.each do |country, states| -%>
+  states["<%= country %>"] = new Array();
+  <%- states.stringify_keys.sort.each do |abbr, state| -%>
+    states["<%= country %>"]["<%= abbr %>"] = "<%= state %>";
+  <%- end -%>
+<%- end -%>
+
+var selectedCountry = new Array();
+var selectedState   = new Array();
+
+function populateStatesForCountry(country_selector) {
+  var country = $(country_selector).children("option:selected").val();
+  var state_selector = $(country_selector).parent().parent().find("[name$=[state]]");
+  
+  var element_id    = $(state_selector).attr('id');
+  var element_name  = $(state_selector).attr('name');
+
+  var stateSelectBox  = $("<select id='"+element_id+"' name='"+element_name+"'></select>");
+  var stateTextBox    = $("<input type='text' class='text' id='"+element_id+"' name='"+element_name+"' />");
+  
+  if(states[country] != null) {
+    options = "<option value=\"\">-- Select a State --</option>";
+    for (state in states[country]) {
+      options += "<option value=\"" + state + "\""
+    
+      if(state == selectedState[element_id]) {
+        options += " selected=\"selected\""
+      }
+    
+      options += ">" + states[country][state] + "</option>\n";
+    }
+    
+    stateSelectBox.html(options);
+    state_selector.after(stateSelectBox);
+    state_selector.replaceWith(stateSelectBox);
+  } else {
+    if(country == selectedCountry[country_selector.id]) {
+      stateTextBox.val(selectedState[state_selector.id]);
+    }
+    state_selector.replaceWith(stateTextBox);
+  }
+    
+}
+
+$(document).ready(function(){
+  $("select[name$=[country]]").each(function(i){
+    selectedCountry[this.id] = $(this).val();
+  });
+  $("select[name$=[state]]").each(function(i){
+    selectedState[this.id] = $(this).val();
+  });
+  
+  $("select[name$=[country]]").change(function(){
+    populateStatesForCountry(this);
+  });
+  
+  $("select[name$=[country]]").each(function(i){
+    if($(this).val() != 'US') {
+      populateStatesForCountry(this);
+    }
+  });
+});

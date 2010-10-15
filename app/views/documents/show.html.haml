@@ -1,0 +1,7 @@
+- content_for :page_title, @document.title
+- content_for :title do
+  = link_to t('documents.download'), document_path(@document, :format => :pdf), :class => 'pdf'
+  = @document.title
+  %small= t('documents.last_updated_on') + " #{@document.updated_at.to_s(:date_ordinal)}" 
+
+.html= @document.body_html

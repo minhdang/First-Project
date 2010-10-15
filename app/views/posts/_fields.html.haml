@@ -1,0 +1,9 @@
+= f.error_messages
+
+.required
+  = f.text_area :body, :class => 'full short'
+  
+%div
+  = f.submit t('posts.fields.post_reply'), :class => 'post-reply-button button green medium one-click right'
+  = f.submit t('posts.fields.cancel'), :type => 'reset', :class => 'cancel-button button gray small left'
+%br.clear-left

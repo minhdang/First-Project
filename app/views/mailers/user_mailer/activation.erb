@@ -1,0 +1,14 @@
+Hi <%=h @user.first_name %>, 
+
+Welcome to Edison Nation! Here is your account information:
+ - Your username is: <%= @user.login %>
+ - Your profile page: <%= link_to @user.login, "http://www.edisonnation.com/users/#{@user.login}" %>
+
+Edison Nation is an active community of passionate inventors. Edison Nation teams up with various companies who are looking for new ideas through our Live Product Searches.
+
+Become an Edison Insider: Get access to Insider content, website features, a subscription to Inventor's Digest, and much more! <%= link_to "Learn More »", "http://www.edisonnation.com/lounge"  %>
+
+- Edison Nation Team
+http://www.edisonnation.com/
+
+Please do not reply to this message; it was sent from an unmonitored email address. This message is an email related to your account on Edison Nation. For general inquiries or to request support with your Edison Nation account, please email us at support@edisonnation.com or visit http://support.edisonnation.com/.

@@ -1,0 +1,60 @@
+- content_for :page_title, "Inventor's Dashboard"
+
+
+
+#lps-panel
+  %h2.panel-title Live Product Search
+  
+  .lps-minipanel
+    = render :partial => 'live_product_searches/list', :locals => {:live_product_searches => @live_product_searches}
+  %br/
+  
+  - @surveys = Survey.current.all
+  - unless @surveys.empty?
+    %h3
+      = link_to '&raquo; view all', survey_dashboard_path, :class=>'action'
+      %span.new New!
+      Name Search
+    .lps-minipanel
+      = render :partial => 'surveys/list', :locals => {:surveys => @surveys}
+  
+  - unless @submissions.empty?
+    %h3
+      = link_to '&raquo; view all', submissions_path, :class=>'action'
+      Most Recent Updates
+    .lps-minipanel
+      %ul.submission-list
+        - @submissions.each_with_index do |submission,i|
+          %li{:class => (i==0 ? 'first' : nil)}
+            %strong Idea:
+            = link_to h(submission.idea.title), idea_path(submission.idea)
+            .meta
+              %strong Search:
+              = truncate submission.live_product_search.title, :length => 40
+            = thermo(submission, 'thermo-small')
+      = render :partial => 'shared/progress_explanation'
+    
+#main-panel
+  %h2.panel-title
+    = link_to 'follow us on Twitter', 'http://twitter.com/edisonnation', :class => 'action twitter', :target => '_blank'
+    News
+  = render :partial => 'shared/news', :locals => {:max => 5}
+  %br/
+  
+  - unless @user.member?
+    .dialog.gold-membership
+      %h2 Edison Insider Membership
+      %p
+        Get the most out of Edison Nation by becoming an Edison Insider today.
+        Save $5 off LPS submissions, resubmit your ideas to new searches for 
+        <strong>FREE</strong>, access premium videos, receive a 
+        <strong>FREE</strong> <em>Inventors Digest</em> subscription, and more.
+      = link_to 'learn more &raquo;', new_membership_path
+
+  - unless @notices.empty?
+    %h2.panel-title
+      = link_to '&raquo; view all', user_notices_path(@user), :class => 'action'
+      Site Activity
+    = render :partial => 'notices/list', :locals => {:notices => @notices, :editable => true}
+
+%br.clear/

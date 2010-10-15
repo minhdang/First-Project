@@ -1,0 +1,11 @@
+%h2= link_to "Educational Resources", education_path
+
+%ul
+  %li= link_to "Inventor Organizations", inventor_organizations_path, :class => active_on_page(:inventor_organizations)
+  %li= link_to "Independent Inventor's Products", independent_inventor_products_path, :class => active_on_page(:independent_inventor_products) 
+  %li= link_to "Beware of Scams", beware_of_scams_path, :class => active_on_page(:beware_of_scams)
+  %li= link_to "ABCs of Inventing", inventing_abcs_path, :class => active_on_page(:inventing_abcs) 
+  %li= link_to "Frequently Asked Questions", frequently_asked_questions_path, :class => active_on_page(:frequently_asked_questions) 
+  %li= link_to "Fun Facts", fun_facts_path, :class => active_on_page(:fun_facts)
+  %li= link_to "Other Helpful Links", other_helpful_links_path, :class => active_on_page(:other_helpful_links)
+  %li= link_to "Patent Search", patent_search_path, :class => active_on_page(:patent_search)

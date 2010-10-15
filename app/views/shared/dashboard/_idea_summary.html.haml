@@ -1,0 +1,38 @@
+#submission-updates.panel
+  %h2.panel-title 
+    = t('dashboard.your_recent_updates')
+
+  - if @submissions.empty?
+    
+    %p{:style => 'margin-top:50px;'}
+      = t('dashboard.ideas.no_ideas')
+      = link_to t('dashboard.ideas.create_new_idea'), new_idea_path
+    .div{:style => 'text-align:right;padding:15px 20px 0pt;margin-top:20px;'}
+      = link_to t('dashboard.ideas.your_ideas'), ideas_dashboard_path, :class=>'green button medium'
+      = link_to t('dashboard.submissions.your_submissions'), submissions_path, :class=>'green button medium'
+  
+  - else
+
+    .lps-minipanel
+      %ul.submission-list
+        - @submissions.each_with_index do |submission,i|
+          %div{ :class => (i==0 ? 'span-7 prepend-1' : 'span-7')}
+            %li{:class => (i==0 ? 'first' : nil)}
+              %strong Idea:
+              = link_to h(submission.idea.title), idea_path(submission.idea)
+              .meta
+                %strong Search:
+                = truncate submission.live_product_search.title, :length => 40
+              = thermo(submission, 'thermo-small')
+      .clear
+      .div{:style => 'text-align:right;padding:15px 20px 0pt;'}
+        = link_to t('dashboard.ideas.your_ideas'), ideas_dashboard_path, :class=>'green button medium'
+        = link_to t('dashboard.submissions.your_submissions'), submissions_path, :class=>'green button medium'
+
+
+
+
+
+
+
+  

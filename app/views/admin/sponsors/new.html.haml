@@ -1,0 +1,9 @@
+- content_for :page_title, 'New LPS Sponsor'
+
+%h1 New LPS Sponsor
+
+- form_for @sponsor, :url => admin_sponsors_path, :html => {:multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Create Sponsor'

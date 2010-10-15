@@ -1,0 +1,16 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :chapter_number
+  = f.text_field :chapter_number
+.required
+  = f.label :description
+  = f.text_field :description
+.required
+  = f.label :episode_id
+  = f.select :episode_id, Episode.all.collect {|episode| [episode.title, episode.id]}, :selected => params[:episode_id]
+.required
+  = f.label :video
+  = f.file_field :video

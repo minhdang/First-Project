@@ -1,0 +1,52 @@
+%h2= link_to "#{@user.name} (#{@user.login})"
+  
+#profile-actions
+  = badge_for(@user)
+  = link_to t('shared.dashboard.sidebar.view_edit_profile'), user_path(@user), :class => 'view-profile-action'
+  = link_to t('shared.dashboard.sidebar.add_photos'), user_path(@user), :class => 'view-media-action'
+  = link_to t('shared.dashboard.sidebar.micro_blog'), user_blog_entries_path(@user), :class => 'view-blog-action'
+  - if @user.member?
+    = link_to t('shared.dashboard.sidebar.edison_insider'), membership_path, :class => 'view-membership-action'
+    %br.clear-left/
+    #points
+      %span.tally
+        = @user.reward_points
+      %span.description
+        %a.modal{:href => "points-description"}= t('shared.dashboard.sidebar.free_search_submission')
+  .clear
+.pod
+  %h5= t('shared.dashboard.sidebar.forums')
+  = link_to "#{pluralize(Topic.created_after(@user.last_seen_at).count, t('shared.dashboard.sidebar.new_topic'))} "+ t('shared.dashboard.sidebar.and') + " #{pluralize(Post.created_after(@user.last_seen_at).count, t('shared.dashboard.sidebar.new_post'))} " + t('shared.dashboard.sidebar.in_the_forums'), forums_path
+.pod
+  %h5= t('shared.dashboard.sidebar.friends')
+  = render :partial => 'users/avatars', :locals => {:style => :tiny, :users => prefer_avatars(@user.friends.random)}
+  .clear
+  = link_to t('shared.dashboard.sidebar.view_all_friends'), user_friends_path(@user)
+  - if current_user.friend_requests.any?
+    %br/
+    = link_to "#{pluralize(current_user.friend_requests.count, t('shared.dashboard.sidebar.pending_friend_request'))}", user_friend_requests_path(current_user)
+.pod
+  %h5= t('shared.dashboard.sidebar.invite_friends')
+  = render :partial => 'shared/invitation'
+.pod
+  %h5= t('shared.dashboard.sidebar.follow_edison_nation')
+  %ul.social-media
+    %li= link_to t('shared.dashboard.sidebar.twitter'), 'http://twitter.com/edisonnation', :class => 'action twitter', :target => '_blank'
+    %li= link_to t('shared.dashboard.sidebar.facebook'), 'http://facebook.com/EdisonNation', :class => 'action facebook', :target => '_blank'
+    %br.clear-left/
+    %br/
+  - unless @notices.empty?
+    %h5= link_to t('shared.dashboard.sidebar.site_activity'), user_notices_path(@user), :class => 'action'
+    = render :partial => 'notices/list', :locals => {:notices => @notices, :editable => true}
+.pod
+  %h5#inventors-digest= t('shared.dashboard.sidebar.inventors_digest')
+  %p
+    - @issue = Issue.latest
+    - if @issue
+      = link_to(image_tag(@issue.pdf(:thumb), :class => 'left'), issue_path(@issue))
+  %p
+    %strong= t('shared.dashboard.sidebar.current_issue')
+    %br/
+    = link_to @issue.title, issue_path(@issue)
+  %p
+    = link_to t('shared.dashboard.sidebar.view_past_issues'), issues_path

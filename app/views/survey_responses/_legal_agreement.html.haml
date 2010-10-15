@@ -1,0 +1,13 @@
+- if response.survey.document
+  - agreement = response.versioned_document || response.survey.document
+  .legal-agreement.html
+    = agreement.body_html
+    
+  = f.hidden_field :document_id, :value => response.survey.document_id unless response.complete?
+  = f.hidden_field :document_version, :value => agreement.version unless response.complete?
+  .legal-agreement-downloads
+    - if agreement.is_a?(Document::Version)
+      = link_to(t('survey_responses.agreement.inventor_agreement'), document_version_path(agreement.document, agreement, :format => 'pdf'), :class => 'pdf')
+    - else
+      = link_to(t('survey_responses.agreement.inventor_agreement'), document_path(agreement, :format => 'pdf'), :class => 'pdf')
+    %br.clear

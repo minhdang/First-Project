@@ -1,0 +1,5 @@
+- content_for :page_title, "Edit Video Category - #{@video_category.title}"
+
+- form_for @video_category, :url => admin_video_category_path(@video_category), :html => { :method => :put } do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+  = f.submit

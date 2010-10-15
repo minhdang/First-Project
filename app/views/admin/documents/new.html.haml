@@ -1,0 +1,9 @@
+- content_for :title, 'New Document'
+
+%h1 New Document
+
+- form_for @document, :url => admin_documents_path do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Create Document'

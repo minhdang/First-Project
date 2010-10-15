@@ -1,0 +1,5 @@
+- content_for :page_title, "Submit an Idea &mdash; #{@lps.title}"
+- content_for :title, 'Submit an Idea'
+
+= link_to 'Submit a new idea', new_live_product_search_idea_path(@lps)
+= link_to "Your idea's already in the database? Click here to submit it.", submit_idea_live_product_search_path(@lps)

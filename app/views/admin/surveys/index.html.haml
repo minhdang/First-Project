@@ -1,0 +1,16 @@
+- content_for :page_title, 'Surveys'
+
+%h1 Surveys
+
+%table.data
+  %thead
+    %tr
+      %th.main Title
+      %th Responses
+  %tbody
+    - @surveys.each do |survey|
+      %tr
+        %td= link_to survey.title, admin_survey_path(survey)
+        %td= survey.responses.complete.count
+        
+= will_paginate @surveys

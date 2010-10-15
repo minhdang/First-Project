@@ -1,0 +1,114 @@
+= f.error_messages
+= required_field_legend
+
+%fieldset
+  %legend General Information
+  
+  .required
+    = f.label :title
+    = f.text_field :title
+  
+  .required
+    = f.label :sponsor_id, 'Sponsor'
+    = f.select :sponsor_id, Sponsor.all.sort_by(&:name).map{|s| [s.name,s.id]}, :prompt => '-- Select a Sponsor --'
+  
+  %div
+    = f.label :description
+    = f.text_area :description, :class => 'textile'
+  
+  %div
+    = f.label :requirements
+    = f.text_area :requirements, :class => 'textile'
+    
+%fieldset
+  %legend Special Pricing
+  
+  %div
+    = f.label :submission_fee
+    = f.text_field :submission_fee
+    %span
+      Leave blank for the default submission fee - 
+      = number_to_currency App.idea_submission_cost
+    
+  %div
+    = f.label :submission_fee_details
+    = f.text_area :submission_fee_details, :class => 'textile'
+    %span Shown on submission checkout page where special submission fee is highlighted
+
+%fieldset
+  %legend Launch Information
+  %div
+    = f.label :launch
+    = f.datetime_select :launch, :prompt => true
+    %span= Time.zone.name
+  
+  .required
+    = f.label :deadline
+    = f.text_field :deadline, :default => 1.month.from_now.end_of_day.to_s(:calendar), :value => (f.object.deadline && f.object.deadline.to_s(:calendar)), :class => 'text calendar'
+    %span 
+      Midnight #{Time.zone.name}
+      %br
+      %em Deadlines should fall on Mondays
+  
+  %div
+    = f.label :insider_search
+    = f.check_box :member_search
+    %span Only available to insiders
+  %div
+    = f.label :presentation
+    = f.text_field :presentation, :class => 'text calendar'
+    %span scheduled day for ideas to be presented to the LPS sponsor
+  
+  %div
+    = f.label :multiple_presentations
+    = f.check_box :multiple_presentations
+    %span
+      If there are multiple presentation dates for this search
+      be sure to update the field above with the next one after
+      each presentation.
+  
+  %div
+    = f.label :state, 'Current state'
+    = f.select :state, @lps.available_states.map{|s| [s.to_s.titleize,s.to_s]}
+    %span
+      %strong Legend:
+      %br/
+      &nbsp;&nbsp; Draft - Initial stage. In the process of setting up.
+      %br/
+      &nbsp;&nbsp; Published - Ready to be launched at the launch time or right away if no launch time is specified.
+      %br/ 
+      &nbsp;&nbsp; Archived - Archived LPS won't show up in the main list of LPS.
+      %br/
+      &nbsp;&nbsp; Deleted - LPS will not show up anywhere but will remain in the database.
+    
+%fieldset
+  %legend Landing Page
+  
+  %div
+    = f.label :landing_page_url, 'Landing page'
+    = f.text_field :landing_page_url
+    %span
+      Set this to a full url for an offsite landing page or the path you wish to use for the landing page.
+      For example to have the landing page at <strong>http://www.edisonnation.com/ensearch</strong> set the landing page
+      to <strong>ensearch</strong>.
+    
+  %div
+    = f.label :landing_page
+    = f.text_area :landing_page, :class => 'textile'
+  
+  %div
+    = f.label :landing_page_css, 'Landing page CSS'
+    = f.text_area :landing_page_css, :class => 'full short'
+    
+  %div
+    = f.label :landing_page_header
+    = f.file_field :landing_page_header
+    %span The header graphic for the landing page.
+
+%fieldset
+  %legend Legal Agreement
+  
+  %div
+    = f.label :document_id, 'Document'
+    = f.select :document_id, Document.all.sort_by(&:title).map{|d| [d.title, d.id]}, :prompt => '-- Select a legal document that the user must agree to --'
+

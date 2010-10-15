@@ -1,0 +1,27 @@
+- content_for :page_title, @idea.title
+%h1
+  - star_txt = @idea.star ? 'starred' : 'unstarred'
+  = button_to star_txt, admin_idea_path(@idea, :idea => {:star => (!@idea.star).to_s}), :method => :put, :class => star_txt, :id => 'star'
+  = @idea.title
+
+- content_for :scripts, javascript_include_tag('admin/lps/submission')
+
+%table#submission{:width => '100%'}
+  %tr
+    %td{:style => 'padding-right:10px; width:370px'}
+      = render :partial => 'inventor',        :locals => {:user => @idea.user, :contact => @idea.latest_contact_information}
+      = render :partial => 'attachments',     :locals => {:idea => @idea}
+      
+    %td{:style => 'padding-left:10px; width:370px'}
+      = render :partial => 'comments',                    :locals => {:idea => @idea}
+
+= render :partial => 'idea',                  :locals => {:idea => @idea}
+%br/
+%br/
+= render :partial => 'intellectual_property', :locals => {:idea => @idea}
+%br/
+%br/
+= render :partial => 'submissions',           :locals => {:idea => @idea}
+%br/
+%br/
+= render :partial => 'submit',                :locals => {:idea => @idea}

@@ -1,0 +1,8 @@
+- content_for :page_title, "#{@role.name.humanize} Role"
+
+%h1= "#{@role.name.humanize} Role"
+%strong= pluralize @role.users.count, 'user'
+
+= will_paginate @users
+= render :partial => 'admin/users/list', :locals => {:users => @users}
+= will_paginate @users

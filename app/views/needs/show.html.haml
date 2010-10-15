@@ -1,0 +1,12 @@
+- content_for :page_title, "Needed: #{@need.title}"
+
+- content_for :title do
+  = link_to 'Edit Need', edit_user_need_path(current_user, @need), :class => 'edit-need-button' if current_user == @need.user
+  = yield :page_title
+
+- content_for :sidebar do
+  = render :partial => 'popular_tags'
+  
+.user-bio
+  = badge_for @need.user
+  = render :partial => 'need', :object => @need

@@ -1,0 +1,20 @@
+- content_for :page_title, "#{@video_category.title}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete video category", admin_video_category_path(@video_category), :method => :delete, :confirm => "Are you sure? The video_category will remain in the database with a status of 'deleted' but will not be able to be reactivated.", :class => 'action'
+        = link_to "edit video category", edit_admin_video_category_path(@video_category), :class => 'action'
+        = link_to "New Video", new_admin_video_category_video_path(@video_category), :class => 'action'
+        
+  %tbody
+    %tr
+      %th Video Category ID
+      %td= @video_category.id
+    %tr
+      %th Title
+      %td= @video_category.title
+    %tr
+      %th Videos
+      %td= link_to pluralize(@video_category.videos.size, 'Video'), admin_video_category_videos_path(@video_category)

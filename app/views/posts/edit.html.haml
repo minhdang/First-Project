@@ -1,0 +1,16 @@
+- content_for :page_title, "#{h @topic.title} " + t('posts.edit.edit_reply')
+- content_for :title do
+  = link_to h(@topic.title), forum_topic_path(@forum, @topic)
+  = t('posts.edit.edit_reply')
+
+- if @forum.is_discussion?
+  - content_for :sidebar, discussable_sidebar(@forum.discussable)
+  
+- form_for @post, :url => forum_topic_post_path(@forum, @topic, @post) do |f|
+  = render :partial => 'posts/fields', :locals => {:f => f}
+
+%script= "var backLocation = '#{request.env['HTTP_REFERER']}';"
+:javascript
+  $(document).ready(function(){
+    $('.edit_post .cancel-button').click(function(){ window.location = backLocation; });
+  });

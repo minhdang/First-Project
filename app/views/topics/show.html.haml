@@ -1,0 +1,68 @@
+- content_for :head do
+  = javascript_include_tag('forums/forums')
+  = javascript_include_tag('forums/topic')
+  = javascript_include_tag('forum_preferences')
+
+- content_for :page_title, t('topics.show.title') + " #{@forum.name} &raquo; #{h @topic.title}"
+- content_for :title do
+  = discussables_link(@forum)
+  &raquo;
+  = discussable_link(@forum)
+  &raquo; Topic
+  
+- if @forum.is_discussion?
+  - content_for :sidebar, discussable_sidebar(@forum.discussable)
+  
+= forums_search_box
+- unless @forum.is_discussion?
+  #forum-nav
+    = link_to t('topics.show.forums'), forums_path(:force => true), :class => 'show-forums-button'
+    |
+    = link_to t('topics.show.topics'), topics_path, :class => 'show-topics-button'
+%br.clear
+  
+%table.posts{:cellspacing => 0, :id => dom_id(@topic)}
+  %col{:width => "122"}/
+  %col{:width => "580"}/
+  %thead
+    %tr
+      %th{:colspan => 2}
+        .action
+        
+        - if logged_in? && current_user.monitors_topic?(@topic)
+          = button_to t('topics.show.do_not_email_me'), forum_topic_monitorships_path(@forum, @topic), :method => :delete, :id => dom_id(@topic,:unmonitor), :class => 'action'
+        - else
+          = button_to t('topics.show.email_me'), forum_topic_monitorships_path(@forum, @topic), :id => dom_id(@topic, :monitor), :class => 'action'
+        = h @topic.title
+  
+  %tbody
+    = render :partial => 'posts/post', :locals => {:post => @first_post}
+  
+    %tr
+      %td{:colspan => 2, :style => 'padding:1em 0 0;'}
+        = will_paginate @posts
+        %br.clear-right
+        - if @topic.locked?
+          %a.tooltip.disabled-post-reply-button.button.gray.medium.right{:title => t('topics.show.this_topic_is_closed')}= t('topics.show.posting_disabled')
+        - else
+          - form_for @post, :url => forum_topic_posts_path(@forum, @topic), :html => {:id => 'quick-reply-top', :class => 'quick-reply'} do |f|
+            = render :partial => 'posts/fields', :locals => {:f => f}
+        
+    - @posts.each do |post|
+      = render :partial => 'posts/post', :locals => {:post => post}
+
+- unless @posts.empty?
+  - if @topic.locked?
+    %a.tooltip.disabled-post-reply-button.button.gray.medium.right{:title => t('topics.show.this_topic_is_closed')}= t('topics.show.posting_disabled')
+  - else
+    - form_for @post, :url => forum_topic_posts_path(@forum, @topic), :html => {:id => 'quick-reply-bottom', :class => 'quick-reply'} do |f|
+      = render :partial => 'posts/fields', :locals => {:f => f}
+    
+
+  %br{:class => 'clear-right'}/
+  %br/
+
+= will_paginate @posts
+= link_to t('topics.show.return_to_forums'), forums_path
+  
+  

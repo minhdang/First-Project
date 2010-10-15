@@ -1,0 +1,78 @@
+- content_for :title, "#{@user.name}" + t('users.show.title')
+
+#profile-meta
+  = badge_for @user, :large
+  - if @user.member?
+    - if @user.has_role?(:staff)
+      .forum-points{:style => "font-size:31px;"}
+        &#8734;
+        .title
+          = t('users.show.insider_points')
+    - else
+      .forum-points
+        = number_with_delimiter(@user.lifetime_points)
+        .title
+          = t('users.show.insider_points')
+
+  - if current_user == @user
+    = link_to t('buttons.edit_your_profile'), edit_user_path(@user), :class => 'button green small'
+  - else
+    - if logged_in? && !@user.friends_with?(current_user)
+      = button_to(t('users.show.add_to_friends'), user_friendships_path(current_user, :friend => @user.to_param), :class => 'add-user button green medium', :id => "add_#{dom_id(@user)}", :confirm => t('users.show.add_friend_confirm'))
+    %br/
+    = email_link(@user)
+  %br/
+  .div{:style => 'padding:5px 0;'}
+    = render :partial => 'shared/social_buttons', :locals => { :url =>  'http://edisonnation.com/'+request.env['REQUEST_URI'] }
+  %br/
+  %h3
+    = link_to t('users.show.view_all_friends'), user_friends_path(@user), :class => 'action'
+    = t('users.show.friends')
+
+  = render :partial => 'users/avatars', :locals => {:style => :tiny, :users => prefer_avatars(@user.friends.random)}
+
+  = display_user_resource_if_viewable(@user, :videos_public, :partial => 'video_thumbs')
+
+  = display_user_resource_if_viewable(@user, :photos_public, :partial => 'photo_thumbs')
+
+#profile-info
+  %h1= "#{@user.name} (#{@user.login})"
+
+  %h3.member-status.gold= t('users.show.insider_member') if @user.member?
+
+  #general.block
+
+    - if @user.any_private_resources?(current_user)
+      %p#private-notice
+        = t('users.show.protected')
+        %br
+        = t('users.show.to_view_full_profile')
+
+    %table.attributes
+      - unless @user.user_skills.empty?
+        %tr
+          %th= t('users.show.skills_activities')
+          %td= linked_list_of_skills(@user.user_skills)
+
+      - unless @user.groups.empty?
+        %tr
+          %th= t('users.show.groups')
+          %td
+            - @user.groups.each do |group|
+              = link_to h(group.title), group_path(group)
+              %br/
+
+  = display_user_resource_if_viewable(@user, :blog_public, :partial => 'blog')
+
+  = display_user_resource_if_viewable(@user, :education_public, :partial => 'education')
+
+  = display_user_resource_if_viewable(@user, :needs_public, :partial => 'needs')
+
+  = display_user_resource_if_viewable(@user, :videos_public, :partial => 'latest_video')
+
+  - if (@user == current_user || @user.friends_with?(current_user)) && !@notices.empty?
+    #activity.block
+      %h2= t('users.show.recent_activity')
+      = render :partial => 'notices/list', :locals => {:notices => @notices, :editable => (current_user == @user)}
+
+

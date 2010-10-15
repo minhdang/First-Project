@@ -1,0 +1,40 @@
+- content_for :head do
+  = stylesheet_link_tag('hulu')
+
+- content_for :sidebar do
+  = render :partial => 'videos/sidebar'
+
+
+= render :partial => 'hulu_embed'
+
+-# Needs some logic. Don't want to display insider promo to insider members
+-# There is a spacing issues with the watch all video link in the video category
+-# Combine spread stylesheet into main css file
+-# Look again for any Hulu customization for the embed 
+-# remove hulu.png image before deploying 
+-# Finish insider promo box 
+
+
+- if current_user
+  - unless current_user.member?
+    %p.promo-box= link_to image_tag('insider-promo-box.png'), insiders_path
+- else
+  %p.promo-box= link_to image_tag('insider-promo-box.png'), insiders_path
+  
+  
+- @video_categories.each do |video_category|
+  - unless video_category.videos.active.empty?
+    - div_for video_category do
+      %h2= video_category.title
+      %ul.videos
+        - video_category.videos.active.find(:all, :limit => 4).each do |video|
+          %li
+            = link_to image_tag(video.image.url, :alt => video.title), video_category_video_path(video.video_category, video)
+            - if video.free?
+              = image_tag('freeVideo.gif', :class => 'free-video')
+            - else
+              = image_tag('insiderVideo.gif', :class => 'free-video')
+            
+            %h3= h video.title
+            %p= h truncate(video.description, 120)
+      %p= link_to t('videos.hulu.watch_all') +" #{video_category.title} " + t('videos.hulu.videos'), video_category_path(video_category)

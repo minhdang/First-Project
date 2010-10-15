@@ -1,0 +1,18 @@
+%ul#nav
+  %li.first{:class => active_if_here(:dashboards)}= link_to 'Dashboard', admin_dashboard_path
+  - if current_user.has_role? :lps_commentator, :lps_judge, :lps_admin, :superuser
+    %li{:class => active_if_here([:contests, :submissions])}= link_to 'LPS', admin_live_product_searches_path
+    %li{:class => active_if_here([:surveys, :survey_responses])}= link_to 'Surveys', admin_surveys_path
+  - if current_user.has_role? :staff
+    %li{:class => active_if_here([:users, :memberships])}= link_to 'Users', admin_users_path
+    %li{:class => active_if_here(:groups)}= link_to 'Groups', admin_groups_path
+    %li{:class => active_if_here([:videos, :video_categories, :episodes, :seasons, :chapters])}= link_to 'Videos', admin_videos_path
+    %li{:class => active_if_here([:issues])}= link_to 'Issues', admin_issues_path
+    %li{:class => active_if_here([:banners])}= link_to 'Banners', admin_banners_path
+    %li{:class => active_if_here(:campaigns)}= link_to 'Campaigns', admin_campaigns_path
+    %li{:class => active_if_here(:pages)}= link_to 'Pages', admin_pages_path
+    %li{:class => active_if_here([:lounge, :base, :announcements])}= link_to 'Lounge', admin_lounge_root_path
+  - if current_user.has_role? :store_admin, :fulfillment_provider, :superuser
+    %li{:class => active_if_here([:stores, :products, :product_types, :orders, :product_categories])}= link_to 'Stores', admin_stores_path
+  %li= link_to 'Log Out', logout_path
+  %li.last{:style => 'float:right'}= link_to 'Back to EN', root_path

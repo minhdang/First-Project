@@ -1,0 +1,56 @@
+%h1 Admin Dashboard
+
+- if current_user.has_role?(:staff)
+  %table.data
+    %thead
+      %tr
+        %th
+        %th Total
+        %th Today
+    %tbody
+      %tr
+        %th  Active Members
+        %td= User.active.count
+        %td= User.active.activated_on(Time.zone.today).count
+      %tr
+        %th  Edison Insiders
+        %td= Membership.active_on(Time.zone.today).count
+        %td= Membership.activated_on(Time.zone.today).count
+      %tr
+        %th  Paid Edison Insiders
+        %td= Membership.paid.active_on(Time.zone.today).count
+        %td= Membership.paid.activated_on(Time.zone.today).count
+      %tr
+        %th  Free Edison Insiders
+        %td= Membership.free.active_on(Time.zone.today).count
+        %td= Membership.free.activated_on(Time.zone.today).count
+      %tr
+        %th  Total LPS Submissions
+        %td= Submission.complete.count
+        %td= Submission.complete.completed_on(Time.zone.today).count
+      %tr
+        %th  Original LPS Submissions
+        %td= Submission.original.complete.count
+        %td= Submission.original.complete.completed_on(Time.zone.today).count
+      %tr
+        %th  Opt-in LPS Submissions
+        %td= Submission.original(false).complete.count
+        %td= Submission.original(false).complete.completed_on(Time.zone.today).count
+
+  %h3 Users + Memberships (Total)
+  = chart(['total_users','total_paid_memberships'], :id => 'total_users_chart')
+
+  %h3 Users + Memberships (Daily)
+  = chart(['daily_users','daily_paid_memberships'], :id => 'daily_users_chart')
+
+  %h3 Gold Conversion Rate (Total + Daily)
+  = chart(['total_gold_conversion_rate','daily_gold_conversion_rate'], :id => 'gold_conversion_chart', :decimal_places => 2)
+
+  %h3 Submissions + New vs. Opt In (Total)
+  = chart(['total_submissions','total_new_submissions','total_opt_in_submissions'], :id => 'total_submissions_chart')
+
+  %h3 Submissions + New vs. Opt In (Daily)
+  = chart(['total_daily_submissions','daily_new_submissions','daily_opt_in_submissions'], :id => 'daily_submissions_chart')
+
+  %h3 Searches Launched (Total)
+  = chart(['total_searches_launched'], :id => 'searches_chart')

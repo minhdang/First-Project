@@ -1,0 +1,10 @@
+%fieldset
+  %legend Insider Announcement
+  
+  .required
+    = f.label :title
+    = f.text_field :title
+  
+  %div
+    = f.label :body
+    = f.text_area :body, :class => 'textile'

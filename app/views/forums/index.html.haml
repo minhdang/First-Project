@@ -1,0 +1,35 @@
+- content_for :head do
+  = javascript_include_tag('forum_preferences')
+  = javascript_include_tag('forums/forums')
+- content_for :title, t('forums.forum_title')
+
+= forums_search_box
+= link_to t('forums.create_new_topic'), new_topic_path, :class => 'new-topic-button button green medium right'
+#forum-nav
+  = link_to t('forums.show_topics'), topics_path, :class => 'show-topics-button'
+%br.clear
+
+%table.forums.main{:cellspacing => 0}
+  %thead
+    %tr
+      %th= t('forums.forum')
+      %th= t('forums.topics')
+      %th= t('forums.posts')
+      %th= t('forums.last_post')
+  %tbody
+    - @forums.each do |forum|
+      %tr{:class => cycle('alt', nil)}
+        %td.main
+          = link_to h(forum.name), forum_path(forum), :class => 'view-topic'
+          - if forum.official?
+            %span.official{:title => t('forums.create_topic_restrictions')}= t('forums.show.official')
+          - unless forum.description.blank?
+            .meta= h(forum.description)
+        %td= forum.topics_count
+        %td= forum.posts_count
+        %td.nowrap
+          - if forum.recent_topic
+            = timeago(forum.recent_topic.last_updated_at)
+            = t('forums.by')
+            %br/
+            ="#{link_to(forum.recent_topic.last_post.user.login, user_path(forum.recent_topic.last_post.user))}"

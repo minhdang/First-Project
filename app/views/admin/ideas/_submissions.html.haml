@@ -1,0 +1,14 @@
+- submissions = defined?(except) ? idea.submissions.complete.except(except) : idea.submissions.complete
+%table.data
+  %thead
+    %tr
+      %th= pluralize(submissions.size, (defined?(except) ? 'Other Submissions' : 'Submissions'))
+  %tbody
+    %tr
+      %td.window
+        .mask
+          %ul#submissions
+            - submissions.each do |submission|
+              %li
+                %h3= link_to(submission.live_product_search.title, admin_live_product_search_submission_path(submission.live_product_search, submission))
+                = render :partial => 'admin/submissions/thermo', :locals => {:submission => submission, :editable => false}

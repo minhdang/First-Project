@@ -1,0 +1,122 @@
+= f.error_messages
+= required_field_legend
+
+%fieldset
+  %legend 
+    =t('ideas.your_idea')
+  
+  = hidden_field_tag :live_product_search_id, @lps.key if @lps
+  
+  .required
+    = f.label :title, t('ideas.form.title')
+    = f.text_field :title
+    %span
+      = t('ideas.form.5_words_or_less')
+    
+  .required
+    = f.label :category_id, t('ideas.form.category')
+    = f.select :category_id, IdeaCategory.all.sort.map{|c| [c.name,c.id]}, :prompt => t('ideas.form.category_prompt')    
+    
+  .required
+    = f.label :detailed_description, t('ideas.form.detailed_description')
+    = f.text_area :detailed_description, :class => 'full'
+    %span 
+      =t('ideas.form.500_words_or_less')
+    
+  .required
+    = f.label :innovation, t('ideas.form.innovation')
+    = f.text_area :innovation, :class => 'full supershort'
+    %span
+      =t('ideas.form.100_words_or_less')
+    
+  .required
+    = f.label :problem, t('ideas.form.problem')
+    = f.text_area :problem, :class => 'full supershort'
+    %span
+      =t('ideas.form.100_words_or_less')
+    
+    
+
+%fieldset
+  %legend
+    =t('ideas.form.target_market')
+  
+  .required
+    = f.label :target_user
+    = f.text_field :target_user
+    %span 
+      =t('ideas.form.target_user_span')
+    
+  .required
+    = f.label :target_customer
+    = f.text_field :target_customer
+    %span 
+      =t('ideas.form.target_customer_span')
+    
+  %div
+    = f.label :price, 'Price/Value'
+    = f.text_field :price, :value => (@idea.price && '%0.2f' % @idea.price)
+    %span 
+      =t('ideas.form.target_price_span')
+  
+%fieldset
+  %legend
+    =t('ideas.form.competition')
+  
+  %div
+    = f.label :competitors, t('ideas.form.competitors')
+    = f.text_area :competitors, :class => 'supershort'
+    %span
+      =t('ideas.form.competitors_span')
+    
+  %div
+    = f.label :competitive_advantage, t('ideas.form.competitive_advantage')
+    = f.text_area :competitive_advantage, :class => 'full supershort'
+    %span
+      =t('ideas.form.competitive_advantage_span')
+    
+%fieldset
+  %legend
+    = t('ideas.form.design_process')
+    
+  %div
+    %label
+      =t('ideas.form.design_process_label')
+    %span 
+      =t('ideas.form.check_all_that_apply')
+    = f.check_box :completed_industrial_design
+    = f.label :completed_industrial_design, t('ideas.form.industrial_design'), :class => 'inline'
+    %br/
+    = f.check_box :completed_engineering
+    = f.label :completed_engineering, t('ideas.form.engineering'), :class => 'inline'
+    %br/
+    = f.check_box :completed_prototyping
+    = f.label :completed_prototyping, t('ideas.form.prototyping'), :class => 'inline'
+    %br/
+    = f.check_box :completed_branding
+    = f.label :completed_branding, t('ideas.form.branding'), :class => 'inline'
+    %br/
+    = f.check_box :completed_packaging
+    = f.label :completed_packaging, t('ideas.form.packaging'), :class => 'inline'
+    %br/
+    = f.check_box :completed_manufacturing
+    = f.label :completed_manufacturing, t('ideas.form.manufacturing'), :class => 'inline'
+    
+%fieldset
+  %legend
+    =t('ideas.form.prototyping')
+
+  %div
+    %label
+      =t('ideas.form.do_you_have_in_your_possession')
+    %span
+      =t('ideas.form.check_all_that_apply')
+    = f.check_box :prototype
+    = f.label :prototype, t('ideas.form.prototype'), :class => 'inline'
+    %br/
+    = f.check_box :factory_sample
+    = f.label :factory_sample, t('ideas.form.factory_sample'), :class => 'inline'
+    
+.confirmation
+  = f.submit t('ideas.form.save_and_continue'), :class => 'save-and-continue-button button green'
+  = f.submit t('ideas.form.save_for_later'), :class => 'save-for-later-button button green'

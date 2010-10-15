@@ -1,0 +1,9 @@
+- content_for :title, 'Edit Document'
+
+%h1 Edit Document
+
+- form_for @document, :url => admin_document_path(@document) do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Update Document'

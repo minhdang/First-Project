@@ -1,0 +1,23 @@
+- style ||= :tiny
+- break_after ||= 4
+- editable ||= false
+- thickbox ||= false
+- img_attrs = Hash.new
+- link_attrs = Hash.new
+
+%ul.photos
+  - photos.each_with_index do |photo, count|
+    - img_attrs.merge!(:alt => photo.caption, :class => 'photo')
+    - link_attrs.merge!(:title => photo.caption, :rel => photo.user_album.url, :class => 'thickbox') if thickbox
+    %li
+      - if thickbox
+        = link_to(image_tag(photo.src.url(style), img_attrs), photo.src.url(:large, include_time_stamp = false), link_attrs)
+      - else
+        = link_to(image_tag(photo.src.url(style), img_attrs), user_album_path(photo.user_album.user,photo.user_album))
+      - if editable && current_user == photo.user_album.user
+        %br/
+        = link_to(t('user_photos.edit'), edit_user_album_photo_path(photo.user_album.user, photo.user_album, photo))
+      
+    - if (((count + 1) % break_after) == 0)
+      %li.clear-left 
+.clear-left

@@ -1,0 +1,18 @@
+- content_for :page_title, 'Forums'
+
+%h1= "Forums"
+
+%table.data
+  %thead
+    %tr
+      %th Name
+      %th Topics
+      %th Posts
+      %th
+  %tbody
+    - @forums.each do |forum|
+      %tr
+        %td= link_to h(forum.name), admin_forum_path(forum)
+        %td= forum.topics_count
+        %td= forum.posts_count
+        %td.actions= link_to 'Edit', edit_admin_forum_path(forum)

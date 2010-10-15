@@ -1,0 +1,15 @@
+#lps-banner
+  %div
+    = linked_sponsor_logo(live_product_search.sponsor)
+    %h4= live_product_search.title
+    %p.deadline{:class => (live_product_search.past_deadline? ? 'past-deadline' : nil)}
+      %strong Deadline:
+      = live_product_search.deadline.to_s(:full_ordinal)
+      %em= Time.zone.name
+    %div.clear
+    = link_to 'more info', '#TB_inline?height=400&width=480&inlineId=lps-info', :class => 'thickbox'
+    #lps-info{:style => 'display:none'}
+      %h2.section-title Description
+      .html= live_product_search.description_html
+      %h2.section-title Requirements
+      .html= live_product_search.requirements_html

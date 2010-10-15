@@ -1,0 +1,21 @@
+!!! XML
+- colors = ['#ED1C24','#248F11','#233FBF']
+
+%chart
+  %series
+    - @series.each_with_index do |date,i|
+      %value{:xid => i}= date.strftime('%m-%d-%Y')
+  %graphs
+    - @data.each_with_index do |data, i|
+      %graph{:gid => i+1, :title => data.first.name.titleize, :color => colors[i]}
+        - data.each_with_index do |statistic, i|
+          %value{:xid => i}= statistic.data
+  %labels
+    %label
+      %x 0
+      %y 20
+      %align center
+      %text
+        <![CDATA[
+        %b= @types.map(&:titleize).to_sentence
+        ]]>

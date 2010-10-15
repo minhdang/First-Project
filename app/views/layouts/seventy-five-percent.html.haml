@@ -1,0 +1,45 @@
+!!! Strict
+%html{ html_attrs("en_us"), "xmlns:fb" => "http://www.facebook.com/2008/fbml"  }
+  %head
+    = yield :top_head
+    = render :partial => 'shared/dashboard/head'
+    = yield :head
+  %body{:id => controller.controller_name, :class => "application #{controller.action_name}"}
+    #header
+      .container
+        #logo.span-12
+          %h1
+            %a{:href => "/"}
+              = t('layouts.edison_nation')
+          %p.tag
+            = t('layouts.reinventing')
+        #top-nav.span-12.last
+          = render :partial => 'shared/header_links'
+          = render :partial => 'shared/session_buttons'
+                
+      #nav
+        .container
+          = render :partial => 'shared/navigation'
+    #main
+      .container
+        = render :partial => 'shared/flash_messages', :locals => {:flash => flash}
+        - if current_user
+          - if !current_user.member
+            #content.span-18.round.center
+              = yield
+          - else
+            #content.span-18.round
+              = yield
+            #sidebar.span-5.last
+              = yield :sidebar
+        - else
+          #content.span-18.round.center
+            = yield
+
+
+    #footer
+      .container
+        = render :partial => 'shared/footer'
+
+    = render :partial => 'shared/google_analytics'
+    = yield :scripts

@@ -1,0 +1,45 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :name
+  = f.text_field :name
+  
+.required
+  = f.label :sku, "SKU"
+  = f.text_field :sku
+
+%div
+  = f.label :on_hand
+  = f.text_field :on_hand
+  %span The amount of inventory on hand
+
+%div
+  = f.label :price
+  = f.text_field :price
+  
+%div
+  = f.label :member_price
+  = f.text_field :member_price
+  %span Special price available to Edison Insiders only
+  
+%div
+  = f.label :shipping
+  = f.text_field :shipping
+  %span 
+    Amount for Shipping &amp; Handling
+    %strong per
+    item
+  
+.required
+  = f.label :fulfillment_provider
+  = f.select :fulfillment_provider, App.store[:fulfillment_providers].split.map {|provider| [provider.humanize, provider.underscore]}
+
+%div
+  = f.label :taxable_area_ids, 'Taxable Areas'
+  - TaxableArea.all.each do |area|
+    = check_box_tag 'product_type[taxable_area_ids][]', area.id, f.object.taxable_areas.include?(area)
+    %strong= "#{area.region}-#{area.country}"
+    &nbsp;&nbsp;
+  = hidden_field_tag 'product_type[taxable_area_ids][]', nil

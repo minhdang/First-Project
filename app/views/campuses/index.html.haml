@@ -1,0 +1,27 @@
+- content_for :title, t('campuses.campuses')
+- content_for :head do 
+  = autocomplete_javascript
+  = autocomplete_css
+
+- content_for :sidebar do
+  = render :partial => 'popular_campuses'
+  
+#search
+  %h3= t('campuses.campus_search')
+  - form_tag campuses_path, :method => :get do
+    = text_field_tag :q, nil, :class => 'autocomplete-campuses'
+    = submit_tag 'search', :class => 'search-button button green medium'
+%br/
+%br/
+
+
+%hr.clear-right
+%h2= t('campuses.recently_added')
+- unless @campuses.blank?
+  %ul#campuses  
+    - @campuses.each do |campus|
+      %li
+        %h3= link_to campus.title, campus_path(campus)
+        - unless campus.concentrations.empty?
+          %strong= "#{pluralize(campus.concentrations.size, t('campuses.concentration'))}:"
+          = campus.concentrations.collect(&:title).join(', ')

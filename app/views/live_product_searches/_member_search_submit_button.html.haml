@@ -1,0 +1,19 @@
+- if !lps.published? || (lps.launch && lps.launch > Time.zone.now)
+  %p.times-up-button
+    This live product search has not launched yet.
+    %em check back soon
+- elsif lps.past_deadline?
+  %p.times-up-button
+    The deadline for this search has passed
+    %em Thank you to all who submitted ideas
+- else
+  %a.signup-and-submit-button.ajax{:href => insider_search_modal_live_product_searches_path}
+    - if logged_in?
+      Click here to submit your idea
+      - if lps.free?
+        %em just $25 to submit ($20 for Edison Nation Insiders) 
+      - elsif lps.member_search?
+        %em This search is for Edison Nation Insiders only
+    - else
+      Create your Edison Nation account for free
+      %em It only takes about 10 seconds.

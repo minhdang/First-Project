@@ -1,0 +1,21 @@
+- content_for :head, javascript_include_tag('states_selector')
+
+%h2 Review your order
+= render :partial => 'orders/order', :locals => {:order => @order}
+
+- form_for @order, :url => admin_order_path(@order) do |f|
+  = required_field_legend
+  
+  = f.error_messages
+
+  - f.fields_for :payment do |payment_form|
+    = render :partial => 'payments/fields', :locals => {:f => payment_form}
+    
+  %fieldset
+    %legend Shipping Address
+    
+    - f.fields_for :ship_to_address do |address_form|
+      = render :partial => 'contact_informations/address', :locals => {:f => address_form}
+        
+
+  = f.submit 'Complete Checkout', :class => 'complete-checkout-button button green medium right one-click'

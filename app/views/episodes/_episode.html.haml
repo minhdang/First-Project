@@ -1,0 +1,5 @@
+= link_to image_tag(episode.image.url, :alt => episode.title), season_episode_chapters_path(episode.season, episode)
+= image_tag('freeVideo.gif', :class => 'free-video') if episode.free?
+%h5= "Episode #{episode.season_sequence}"
+%h6= episode.title
+%p= episode.description

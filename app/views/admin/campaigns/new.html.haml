@@ -1,0 +1,9 @@
+- content_for :page_title, 'New Campaign'
+
+%h1 New Campaign
+
+- form_for @campaign, :url => admin_campaigns_path do |f|
+  
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div= f.submit 'Create Campaign'

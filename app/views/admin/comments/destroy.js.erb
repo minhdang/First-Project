@@ -1,0 +1,4 @@
+var current = /(\d+) Comments?/i.exec($('#comments_count').text())[1];
+current = parseInt(current);
+$('#comments_count').text((current-1)+" Comments");
+$('#comment_<%= @comment.id %>').remove();

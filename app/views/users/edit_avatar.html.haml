@@ -1,0 +1,26 @@
+- content_for :title, t('users.edit.crop_avatar')
+
+- content_for :head do
+  = javascript_include_tag 'jquery/jquery.jcrop.js', 'avatar-cropper'
+  = stylesheet_link_tag 'jquery/jquery.jcrop.css'
+
+.cropper-wrapper
+  %h3 Original Image 
+  = image_tag @user.avatar.url(:crop), :id => 'avatar-cropper'
+
+%h3 Large Preview
+.avatar-wrapper.large
+  #avatar-preview-large
+    = image_tag @user.avatar.url(:crop)
+
+%h3 Small Preview
+.avatar-wrapper.thumb  
+  #avatar-preview-thumb
+    = image_tag @user.avatar.url(:crop)
+    
+- form_tag update_avatar_user_path(@user), :method => :put do
+  = hidden_field_tag 'crop_x', 0, :id => 'crop_x'
+  = hidden_field_tag 'crop_y', 0, :id => 'crop_y'
+  = hidden_field_tag 'crop_w', 100, :id => 'crop_w'
+  = hidden_field_tag 'crop_h', 100, :id => 'crop_h'
+  = submit_tag 'Crop Avatar'

@@ -1,0 +1,5 @@
+- content_for :page_title, 'Feedback Responses for Submissions'
+
+%h2 Feedback Responses 
+- @feedback_responses.each do |response|
+  %li= link_to response.title, admin_response_path(response)

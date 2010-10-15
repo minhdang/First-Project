@@ -1,0 +1,22 @@
+%h2 Group Info
+
+%table.attributes
+  %tr
+    %th= t('groups.sidebar.member_count')
+    %td= group.members_count
+  %tr
+    %th= t('groups.sidebar.owner')
+    %td= link_to group.owner.name, user_path(group.owner)
+  - unless group.website.blank?
+    %tr
+      %th= t('groups.sidebar.website')
+      %td= link_to truncate(group.website.gsub(/^[a-zA-Z]+:\/\//, '')), group.website, :target => '_blank'
+  - unless group.region.blank?
+    %tr
+      %th= t('groups.sidebar.region')
+      %td= group.region
+
+%h2
+  = link_to t('groups.sidebar.view_all'), group_members_path(group), :class => 'action'
+  = t('groups.sidebar.members')
+= render :partial => 'users/avatars', :locals => {:style => :tiny, :users => prefer_avatars(group.members.random)}

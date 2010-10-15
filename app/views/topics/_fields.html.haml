@@ -1,0 +1,17 @@
+= f.error_messages
+
+.required
+  = f.label :title
+  = f.text_field :title
+  
+- unless @forum
+  .required
+    = f.label :forum_id, t('topics.fields.forum')
+    = f.select :forum_id, Forum.main.unofficial.all.map{|forum| [forum.name,forum.id]}
+
+.required
+  = f.label :body
+  = f.text_area :body, :class => 'full short'
+
+%div
+  = f.submit t('topics.fields.create_topic'), :class => 'create-topic-button button green medium one-click'

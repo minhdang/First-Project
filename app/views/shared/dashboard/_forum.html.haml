@@ -1,0 +1,3 @@
+.pod.alt
+  %h5 = t('shared.dashboard.forum.forum_updates')
+  = link_to "#{pluralize(Topic.created_after(@user.last_seen_at).count, t('shared.dashboard.forum.new_topic'))} " + t('shared.dashboard.forum.and') + " #{pluralize(Post.created_after(@user.last_seen_at).count, t('shared.dashboard.forum.new_post'))} in the forums", forums_path

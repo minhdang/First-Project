@@ -1,0 +1,18 @@
+- content_for :page_title, 'Feedback for G7 Submission'
+
+- content_for :head do
+  = stylesheet_link_tag('admin/feedback_entries')
+  = javascript_include_tag('admin/feedback_entries')
+  
+.submission-recap
+  .user
+    %h2= @submission.user.login
+    = image_tag @submission.user.avatar.url(:thumb)
+  .idea
+    %h2= @submission.idea.title
+    %p= @submission.idea.detailed_description
+  .clear
+%h2 Choose a feedback template
+= select_tag :feedback_template, options_for_select(@feedback_templates.map { |template| [template.title, template.id] })
+
+#response_form{:class => "#{@submission.key}"}

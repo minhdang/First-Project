@@ -1,0 +1,259 @@
+- content_for :title do 
+  #{h @idea.title} &mdash;
+  =t('ideas.ip.title')
+- content_for :scripts do
+  = javascript_include_tag('lps/intellectual_property', 'jquery/ui/ui.datepicker.js')
+  /[if IE]><script type=\"text/javascript\" src=\"/javascripts/jquery/jquery.bgiframe.js\"></script><![endif]
+  
+- content_for :sidebar do
+  = checklist(@idea, :submission => @submission, :lps => @lps)
+  
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+  
+%h2
+  =t('ideas.ip.title')
+%p 
+  = t('ideas.ip.text_1')
+%p
+  = t('ideas.ip.text_2')
+%p
+  = t('ideas.ip.text_3')
+%br/
+
+- form_for setup_for_ip(@idea), :html => {:multipart => true} do |f|
+  
+  = f.error_messages
+  
+  = hidden_field_tag :intellectual_property, true
+  = hidden_field_tag :live_product_search_id, @lps.key if @lps
+  
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.issued_patents')
+    
+    %div
+      %label
+        = t('ideas.ip.form.do_you_have_an_patent')
+      = f.radio_button :patent_issued, true
+      = f.label :patent_issued_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :patent_issued, false
+      = f.label :patent_issued_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+      
+    .expansion{:class => open_if(@idea.patent_issued?)}
+      #issued_patents.nested_resources
+        - f.fields_for :issued_patents do |ip_form|
+          = render :partial => 'patent_form', :locals => {:f => ip_form}
+      = add_issued_patent_link(t('ideas.ip.form.add_another_patent'), f)
+  
+  
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.patent_pending.legend')
+
+    %div
+      %label
+        = t('ideas.ip.form.patent_pending.actively_pending')
+      = f.radio_button :patent_pending, true
+      = f.label :patent_pending_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :patent_pending, false
+      = f.label :patent_pending_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+      %span
+        = t('ideas.ip.form.patent_pending.span')
+      
+    .expansion{:class => open_if(@idea.patent_pending?)}
+      #pending_patents.nested_resources
+        - f.fields_for :pending_patents do |pp_form|
+          = render :partial => 'patent_form', :locals => {:f => pp_form}
+      = add_pending_patent_link(t('ideas.ip.form.add_another_app'), f)
+      
+      
+  %fieldset.expandable
+    %legend 
+      = t('ideas.ip.form.patent_search.legend')
+
+    %div
+      %label
+        = t('ideas.ip.form.patent_search.label')
+      = f.radio_button :patent_search, true
+      = f.label :patent_search_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :patent_search, false
+      = f.label :patent_search_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+      
+    .expansion{:class => open_if(@idea.patent_search)}
+      %div
+        = f.label :patent_search_results, t('ideas.ip.form.patent_search.expanison.label')
+        = f.text_area :patent_search_results, :class => 'full short'
+      %div
+        = f.label :patent_search_performed_by, t('ideas.ip.form.patent_search.expanison.search')
+        = f.text_field :patent_search_performed_by
+      
+      
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.idea_origin.legend')
+    %div
+      %label 
+        = t('ideas.ip.form.idea_origin.label') 
+      = f.radio_button :independent_idea, true
+      = f.label :independent_idea_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :independent_idea, false
+      = f.label :independent_idea_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+      %span
+        = t('ideas.ip.form.idea_origin.span')
+  
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.time_of_invention.legend')
+    %div
+      %label
+        = t('ideas.ip.form.time_of_invention.label')
+      = f.radio_button :invented_remember_when, true
+      = f.label :invented_remember_when_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :invented_remember_when, false
+      = f.label :invented_remember_when_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+    
+    .expansion{:class => open_if(@idea.invented_remember_when)}
+      %div
+        = f.label :invented_on, t('ideas.ip.form.time_of_invention.expanison.label_date')
+        = f.text_field :invented_on, :class => 'calendar'
+        %span 
+          = t('ideas.ip.form.time_of_invention.expanison.span')
+      %div
+        = f.label :invented_around, t('ideas.ip.form.time_of_invention.expanison.label_invented')
+        = f.text_field :invented_around
+      
+      
+  %fieldset
+    %legend
+      = t('ideas.ip.form.circumstances.legend')
+    %div
+      = f.label :invented_where, t('ideas.ip.form.circumstances.label_where')
+      = f.text_area :invented_where, :class => 'full supershort'
+    %div
+      = f.label :invented_how, t('ideas.ip.form.circumstances.label_how')
+      = f.text_area :invented_how, :class => 'full supershort'
+  
+  
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.disclosure.legend')
+    %div
+      %label
+        = t('ideas.ip.form.disclosure.label')
+      = f.radio_button :disclosed_idea, true
+      = f.label :disclosed_idea_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :disclosed_idea, false
+      = f.label :disclosed_idea_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+      
+    .expansion{:class => open_if(@idea.disclosed_idea?)}
+      #disclosures.nested_resources
+        - f.fields_for :disclosures do |disclosure_form|
+          = render :partial => 'disclosure_form', :locals => {:f => disclosure_form}
+      = add_disclosure_link(t('ideas.ip.form.add_another_disclosure'), f)
+      
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.disclosure_continued.legend')
+    %div
+      %label 
+        = t('ideas.ip.form.disclosure_continued.label')
+      = f.radio_button :used_invention, true
+      = f.label :used_invention_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :used_invention, false
+      = f.label :used_invention_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+
+    .expansion
+      %div
+        = f.label :used_invention_on, t('ideas.ip.form.disclosure_continued.expansion.label_invention_on')
+        = f.text_field :used_invention_on, :class => 'calendar'
+      %div
+        = f.label :used_invention_how, t('ideas.ip.form.disclosure_continued.expansion.label_invention_how')
+        = f.text_area :used_invention_how, :class => 'full supershort'
+        %span
+          = t('ideas.ip.form.disclosure_continued.expansion.span')
+      
+  %fieldset.expandable
+    %legend
+      = t('ideas.ip.form.contributors.legend')
+    %div
+      %label
+        = t('ideas.ip.form.contributors.label')
+      = f.radio_button :other_contributors, true
+      = f.label :other_contributors_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :other_contributors, false
+      = f.label :other_contributors_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+      
+    .expansion{:class => open_if(@idea.other_contributors?)}
+      #contributors.nested_resources
+        - f.fields_for :contributors do |contributor_form|
+          = render :partial => 'contributor_form', :locals => {:f => contributor_form}
+      = add_contributor_link('Add Another Contributor', f)
+      
+  %fieldset.expandable
+    %legend= t('ideas.ip.form.online_posts.legend')
+    %div
+      %label= t('ideas.ip.form.online_posts.label')
+      = f.radio_button :posted_online, true
+      = f.label :posted_online_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :posted_online, false
+      = f.label :posted_online_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+    
+    .expansion{:class => open_if(@idea.posted_online)}
+      %div
+        = f.label :posted_online_on, t('ideas.ip.form.when')
+        = f.text_field :posted_online_on, :class => 'calendar'
+        %span= t('ideas.ip.form.first_post')
+      %div
+        = f.label :posted_online_where, t('ideas.ip.form.where')
+        = f.text_area :posted_online_where, :class => 'full supershort'
+        %span= t('ideas.ip.form.address_of_site')
+      
+  %fieldset.expandable
+    %legend= t('ideas.ip.form.websites.legend')
+    %div
+      %label= t('ideas.ip.form.websites.label')
+      = f.radio_button :website, true
+      = f.label :website_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :website, false
+      = f.label :website_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+    
+    .expansion
+      %div
+        = f.label :website_url, t('ideas.ip.form.url')
+        = f.text_field :website_url
+        %span= t('ideas.ip.form.enter_website_name')
+      %div
+        = f.label :website_launched_on, t('ideas.ip.form.launch_date')
+        = f.text_field :website_launched_on, :class => 'calendar'
+        %span= t('ideas.ip.form.website_go_live')
+      
+  %fieldset.expandable
+    %legend= t('ideas.ip.form.other_venues.legend')
+    %div
+      %label= t('ideas.ip.form.other_venues.label')
+      = f.radio_button :other_venues, true
+      = f.label :other_venues_true, t('ideas.ip.form.checkbox_yes'), :class => 'inline'
+      &nbsp;&nbsp;
+      = f.radio_button :other_venues, false
+      = f.label :other_venues_false, t('ideas.ip.form.checkbox_no'), :class => 'inline'
+    
+    .expansion
+      %div
+        = f.label :other_venues_list, t('ideas.ip.form.what_venues')
+        = f.text_field :other_venues_list
+        %span= t('ideas.ip.form.list_venues')
+
+      
+  .confirmation
+    = f.submit t('ideas.ip.form.savd_and_continue'), :class => 'save-and-continue-button green button'
+    = f.submit t('ideas.ip.form.save_for_later'), :class => 'save-for-later-button green button'

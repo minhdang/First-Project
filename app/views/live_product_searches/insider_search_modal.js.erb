@@ -1,0 +1,10 @@
+$.fn.colorbox({
+  width:'750px', 
+  height:'280px',
+  inline: true,
+	onComplete: function() { 
+	  $('#cboxLoadedContent').append("<%= escape_javascript(render :partial => 'modal_box') %>");
+    
+    
+  } //onComplete
+})

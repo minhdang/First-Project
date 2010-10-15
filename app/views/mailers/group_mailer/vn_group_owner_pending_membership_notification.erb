@@ -1,0 +1,11 @@
+<%= h @owner.name %>,
+
+<%= "#{@user.name} (#{@user.login})" %> mong muốn gia nhập một nhóm bạn là chủ sở hữu của:
+
+  Group - <%= @group.title %>
+
+Để xem tất cả  những thành viên đang được xét duyệt trong nhóm này và chấp nhận hoặc là từ chối những thỉnh cầu của họ thì  ghé thăm
+
+  <%= "#{site}/groups/#{@group.url}/members" %>
+  
+<%= signature %>

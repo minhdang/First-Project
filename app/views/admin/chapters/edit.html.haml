@@ -1,0 +1,7 @@
+- content_for :page_title, 'Edit Chapter'
+
+%h1 Edit Chapter
+
+- form_for @chapter, :url => admin_episode_chapter_path(:episode_id => @chapter.episode_id), :html => { :method => :put, :multipart => true } do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+  = f.submit "Update Chapter"

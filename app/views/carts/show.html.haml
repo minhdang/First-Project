@@ -1,0 +1,9 @@
+- content_for :title, t('carts.title') + " (#{pluralize(@cart.total_items, 'item')})"
+
+- if @cart.empty?
+  %p 
+    = t('carts.nothing_in_cart')
+    = link_to t('carts.click_here'), store_path(@store)
+    = t('carts.browse_products')
+-else
+  = render :partial => 'cart'

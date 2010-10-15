@@ -1,0 +1,6 @@
+.idea-search
+  - form_tag admin_live_product_search_submissions_path(@lps), :method => :get do
+    = text_field_tag :q, nil, :class => 'autocomplete-admin-submissions'
+    = submit_tag 'search'
+    %script{:type => 'text/javascript'}
+      = "var scopeLpsId = '#{@lps.to_param}';"

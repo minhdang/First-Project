@@ -1,0 +1,40 @@
+- content_for :page_title, "Edison Insider - #{@membership.user.login}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "cancel membership", admin_membership_path(@membership), :method => :delete, :confirm => "Are you sure? The user will be notified via email that their Edison Insider membership has been canceled.", :class => 'action' unless @membership.canceled?
+        = "#{@membership.user.login}'s Edison Insider Membership &mdash; #{@membership.status.titleize}"
+  %tbody
+    %tr
+      %th  Membership ID
+      %td= @membership.id
+    %tr
+      %th  Subscription ID
+      %td= @membership.subscription_id || 'n/a'
+    %tr
+      %th  Monthly Cost
+      %td= currency_or_free(@membership.cost)
+    %tr
+      %th  User
+      %td
+        = link_to "#{@membership.user.name}", admin_user_path(@membership.user)
+        = "(#{@membership.user.login})"
+    %tr
+      %th  Status
+      %td= @membership.status
+    %tr
+      %th  Created at
+      %td= @membership.created_at.to_s(:long)
+    %tr
+      %th  Updated at
+      %td= @membership.updated_at.to_s(:long)
+    - if @membership.past_due?
+      %tr
+        %th  Auto cancel after
+        %td= @membership.auto_cancel_at.to_s(:long)
+    - elsif @membership.canceled?
+      %tr
+        %th  Canceled at
+        %td= @membership.canceled_at.to_s(:long)

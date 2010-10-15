@@ -1,0 +1,16 @@
+- content_for :title, (@submission.free? ? t('submissions.redeem.agreement') : t('submissions.redeem.payment_agreement'))
+- content_for :scripts do
+  = javascript_include_tag('lps/agreement')
+
+- content_for :sidebar, checklist(@idea, :lps => @lps, :submission => @submission)
+
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+
+%h2
+  = t('submissions.redeem.reward_points')
+  
+%p
+  = t('submissions.redeem.redeem_points')
+  = link_to t('general.yes'), :action => 'redeem', :redeem => 'true'
+  %br/
+  = link_to t('general.no'), :action => 'agreement', :redeem => 'false'

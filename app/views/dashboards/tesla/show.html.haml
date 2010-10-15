@@ -1,0 +1,82 @@
+- content_for :page_title, t('dashboard.tesla.page_title')
+
+- content_for :sidebar do
+  %h2= link_to "#{@user.name} (#{@user.login})"
+    
+  #profile-actions
+    = badge_for(@user)
+    = link_to t('dashboard.tesla.view_edit_profile'), user_path(@user), :class => 'view-profile-action'
+    = link_to t('dashboard.tesla.add_photos'), user_path(@user), :class => 'view-media-action'
+    = link_to t('dashboard.tesla.micro_blog'), user_blog_entries_path(@user), :class => 'view-blog-action'
+    - if @user.member?
+      = link_to t('dashboard.tesla.edison_insider'), membership_path, :class => 'view-membership-action'
+      #points
+        %span.tally
+          = number_with_delimiter(@user.reward_points)
+        %span.description
+          %a.modal{:href => "points-description"} 50,000 Insider Points = Free Search Submission
+  .clear
+  .pod
+    %h5= t('dashboard.tesla.friends')
+    = render :partial => 'users/avatars', :locals => {:style => :tiny, :users => prefer_avatars(@user.friends.random)}
+    .clear
+    = link_to t('dashboard.tesla.view_all_friends'), user_friends_path(@user)
+    - if current_user.friend_requests.any?
+      %br/
+      = link_to "&raquo; #{pluralize(current_user.friend_requests.count, t('dashboard.tesla.pending_friend_request'))}", user_friend_requests_path(current_user)
+  .pod.alt
+    %h5= t('dashboard.tesla.invite_friends')
+    = render :partial => 'shared/invitation'
+  .pod
+    %h5= t('dashboard.tesla.twitter_updates')
+    = render :partial => 'shared/news'
+  
+  .pod.alt
+    %h5= t('dashboard.tesla.follow_edison_nation')
+    %ul.social-media
+      %li= link_to t('dashboard.tesla.twitter'), 'http://twitter.com/edisonnation', :class => 'action twitter', :target => '_blank'
+      %li= link_to t('dashboard.tesla.facebook'), 'http://facebook.com/EdisonNation', :class => 'action facebook', :target => '_blank'
+
+  
+  .pod
+    %h5#inventors-digest= t('dashboard.tesla.inventors_digest')
+    %p
+      - @issue = Issue.latest
+      - if @issue
+        = link_to(image_tag(@issue.pdf(:thumb), :class => 'left'), issue_path(@issue))
+    %p
+      %strong= t('dashboard.tesla.current_issue')
+      %br/
+      = link_to @issue.title, issue_path(@issue)
+    %p
+      = link_to t('dashboard.tesla.view_past_issues'), issues_path
+    .clear
+    
+.span-10.dashboard-announcements
+  - @site_bulletins.each do |site_bulletin|
+    %h2.panel-title
+      = site_bulletin.title
+    = textilize site_bulletin.body
+
+
+     
+#lps.panel
+  %h2.panel-title= t('dashboard.tesla.live_product_search')
+  .lps-minipanel
+    = render :partial => 'live_product_searches/tesla/list', :locals => {:live_product_searches => @live_product_searches}
+
+#name.panel
+  %h2.panel-title 
+    = t('dashboard.tesla.name_searches')
+  - @surveys = Survey.current.all
+  - if @surveys.any?
+    = render :partial => 'dashboard/survey/list', :locals => {:surveys => @surveys}
+  - else
+    %p
+      %em= t('dashboard.tesla.no_name_searches')
+    
+    
+  
+
+
+

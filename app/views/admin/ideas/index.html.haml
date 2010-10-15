@@ -1,0 +1,23 @@
+- content_for :page_title, 'Ideas'
+- content_for :head do 
+  = javascript_include_tag('jquery/jquery.autocomplete.js', 'admin/autocomplete')
+  = stylesheet_link_tag('admin/autocomplete')
+
+- content_for :sidebar do
+  = render(:partial => 'filter') if @search
+
+%div{:style=>'float:right'}
+  - form_tag admin_ideas_path, :method => :get do
+    = text_field_tag :q, nil, :class => 'autocomplete-admin-ideas'
+    = submit_tag 'search'
+%h1= pluralize(@ideas.total_entries, 'Idea')
+- if @search && @search.conditions.any?
+  %h5= "Results for #{@search.conditions.to_sentence}"
+  
+%ul#idea-list
+  - @ideas.each do |idea|
+    %li
+      = link_to h(idea.title), admin_idea_path(idea)
+      = "(by #{idea.user.name})"
+        
+= will_paginate @ideas

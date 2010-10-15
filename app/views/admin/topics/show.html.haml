@@ -1,0 +1,24 @@
+- content_for :page_title, "Topics - #{h(@topic.title)}"
+
+%table#topic.data
+  %thead
+    %tr
+      %th{:colspan => 2}= "Topics - #{h(@topic.title)}"
+  %tbody
+    %tr
+      %th
+        = badge_for(@first_post.user)
+        = "#{@first_post.user.name} (#{link_to @first_post.user.login, admin_user_path(@first_post.user)})"
+      %th.textile
+        = @first_post.body
+        %br/
+        .meta= "posted #{time_ago_in_words(@first_post.created_at)} ago"
+    - @replies.each do |reply|
+      %tr
+        %td
+          = badge_for(reply.user)
+          = "#{reply.user.name} (#{link_to reply.user.login, admin_user_path(reply.user)})"
+        %td.textile
+          = reply.body
+          %br/
+          .meta= "posted #{time_ago_in_words(reply.created_at)} ago"

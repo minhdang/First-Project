@@ -1,0 +1,23 @@
+- content_for :page_title, "Edit Forum - #{h @forum.name}"
+
+%h1= "Edit Forum - #{@forum.name}"
+
+- form_for @forum, :url => admin_forum_path(@forum) do |f|
+  = f.error_messages
+  
+  = required_field_legend
+  
+  .required
+    = f.label :name
+    = f.text_field :name
+    
+  %div
+    = f.label :position
+    = f.text_field :position
+    
+  %div
+    = f.label :official, 'Official?'
+    = f.check_box :official
+    
+  %div
+    = f.submit 'Update Forum'

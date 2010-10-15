@@ -1,0 +1,61 @@
+- content_for :page_title, "#{h @store.name} - #{h @product.name}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete product", admin_store_product_path(@store, @product), :method => :delete, :confirm => "Are you sure? This action cannot be undone.", :class => 'action'
+        = link_to "edit product", edit_admin_store_product_path(@store, @product), :class => 'action'
+        = link_to "view in store", store_category_product_path(@store, @product.category,@product), :class => 'action'
+        
+        = h @product.name
+  %tbody
+    %tr
+      %th  Product ID
+      %td= @product.id
+    %tr
+      %th  Name
+      %td= h @product.name
+    %tr
+      %th  Store
+      %td= h @store.name
+    %tr
+      %th  Category
+      %td= h @product.category.name
+    %tr
+      %th  Description
+      %td.textile= @product.description_html
+    %tr
+      %th  Detailed Description
+      %td= @product.detailed_description_html
+      
+%h3
+  = link_to 'New Product Type', new_admin_store_product_type_path(@store,@product), :class => 'action'
+  Product Types
+
+%table.data
+  %thead
+    %tr
+      %th SKU
+      %th.name Name
+      %th.nowrap On Hand
+      %th Price
+      %th Members
+      %th Shipping
+      %th.nowrap Fulfillment by
+      %th.nowrap Taxed In
+      %th
+  %tbody
+    - @product.types.each do |product_type|
+      %tr
+        %td= product_type.sku
+        %td.main= h product_type.name
+        %td= product_type.on_hand
+        %td= number_to_currency product_type.price
+        %td= product_type.member_price ? number_to_currency(product_type.member_price) : 'n/a'
+        %td= number_to_currency product_type.shipping
+        %td= product_type.fulfillment_provider.humanize
+        %td= product_type.taxable_areas.map {|area| area.region}.join(', ')
+        %td.actions
+          = link_to 'Edit', edit_admin_store_product_type_path(@store, @product, product_type)
+          = link_to 'Destroy', admin_store_product_type_path(@store, @product, product_type), :method => :delete, :confirm => 'Are you sure you want to delete this product type? It will no longer be available for purchase on the store. It may be better to just set the inventory to 0.'

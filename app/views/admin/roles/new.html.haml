@@ -1,0 +1,16 @@
+- content_for :page_title, "New Role"
+
+%h1= "New Role"
+
+- form_for @role, :url => admin_roles_path do |f|
+
+  = f.error_messages
+
+  = required_field_legend
+
+  .required
+    = f.label :name
+    = f.text_field :name
+    %span Role names must contain only lowercase letters and underscores.
+
+  %div= f.submit 'Create Role'

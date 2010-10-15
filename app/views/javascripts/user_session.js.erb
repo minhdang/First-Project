@@ -1,0 +1,44 @@
+var userLogin = null;
+<%- if logged_in? -%>
+userLogin = "<%= @user.login %>";
+
+$(document).ready(function(){
+  setLogoutButton();
+  addTopProfileLink();
+  <%= "addAdminButton();" if current_user.admin? %>
+});
+
+function setLogoutButton() {
+  button = $('<a/>');
+  button.text('<%= t('javascript.user_session.logout') %>');
+  button.attr('href', '/logout');
+  button.attr('class', 'button medium green')
+  //button.addClass('log-out');
+  listItem = $('<li/>');
+  listItem.append(button);
+  $("ul#session-buttons").empty();
+  $("ul#session-buttons").append(listItem);
+}
+
+function addTopProfileLink() {
+  button = $('<a/>');
+  button.text('<%= t('javascript.user_session.membership') %>');
+  button.attr('href', '/membership');
+  listItem = $('<li/>');
+  listItem.append(button);
+  $("ul#header-links").prepend(listItem);
+}
+
+function addAdminButton() {
+  adminButton = $("<li class='last admin'><a href='/admin' class='admin'><%= t('javascript.user_session.admin') %></a></li>");
+  $("ul#header-links li").removeClass('last')
+  $("ul#header-links").append(adminButton);
+}
+
+<%- else -%>
+
+$(document).ready(function(){
+  $('#notifier-banner').delay(1000).slideDown();
+});
+
+<%- end -%>

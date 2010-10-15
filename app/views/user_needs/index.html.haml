@@ -1,0 +1,14 @@
+- content_for :page_title, "#{@user.login}" + t('user_needs.title')
+
+- content_for :title do
+  = link_to t('user_needs.add_new'), new_need_path, :class => 'new-need-button' if current_user == @user
+  = yield :page_title
+  
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+    
+- unless @needs.blank?
+  %ul.need-list  
+    - @needs.each do |need|
+      %li
+        = render :partial => 'needs/need', :object => need, :locals => {:truncate => true, :editable => (current_user == @user)}        
+  %br

@@ -1,0 +1,52 @@
+%table.data
+  %thead
+    %tr
+      %th Idea
+  %tbody
+    %tr
+      %td.window
+        .mask
+          %table.data
+            %tr
+              %th  Description
+              %td= simple_format auto_link(idea.detailed_description, :href_options => {:target => '_blank'})
+            %tr
+              %th  Competitors
+              %td= simple_format auto_link(na(idea.competitors), :href_options => {:target => '_blank'})
+            %tr
+              %th  Competitive Advantage
+              %td= simple_format na(idea.competitive_advantage)
+            %tr
+              %th Prototyping
+              %td
+                = boolean_flag idea.prototype, 'Prototype'
+                = boolean_flag idea.factory_sample, 'Factory Sample'
+            %tr
+              %th  Innovation
+              %td= simple_format auto_link(idea.innovation, :href_options => {:target => '_blank'})
+            %tr
+              %th  Category
+              %td= idea.category.name
+     
+            %tr
+              %th  Problem Solved
+              %td= simple_format auto_link(idea.problem, :href_options => {:target => '_blank'})
+            %tr
+              %th  Target User
+              %td= idea.target_user
+            %tr
+              %th  Target Customer
+              %td= idea.target_customer
+            %tr
+              %th  Price
+              %td= idea.price ? number_to_currency(idea.price) : '<em>n/a</em>'
+            %tr
+              %th  Design Process
+              %td
+                = boolean_flag idea.completed_industrial_design, 'Industrial Design'
+                = boolean_flag idea.completed_engineering, 'Engineering'
+                = boolean_flag idea.completed_prototyping, 'Prototyping'
+                = boolean_flag idea.completed_branding, 'Branding'
+                = boolean_flag idea.completed_packaging, 'Packaging'
+                = boolean_flag idea.completed_manufacturing, 'Manufacturing'
+            

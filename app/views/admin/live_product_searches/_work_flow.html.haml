@@ -1,0 +1,14 @@
+.workflow
+  %span.chosen
+    - count = lps.submissions.complete.alive.at_stage(Submission::LastStage).count
+    = count.zero? ? '<small>-</small>' : link_to(count, admin_live_product_search_submissions_path(lps, :search => {:alive_at_stage => 8}))
+  %ul
+    - 2.upto(8) do |stage|
+      %li{:class => "stage-#{stage}"}
+        %span.alive
+          - count = lps.submissions.complete.pending_at_stage(stage).count
+          = count.zero? ? '<small>-</small>' : link_to(count, admin_live_product_search_submissions_path(lps, :search => {:pending_at_stage => stage}))
+        %span.dead
+          - count = lps.submissions.complete.dead.at_stage(stage).count
+          = count.zero? ? '<small>-</small>' : link_to(count, admin_live_product_search_submissions_path(lps, :search => {:dead_at_stage => stage}))
+  .clear

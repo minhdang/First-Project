@@ -1,0 +1,14 @@
+Xin chào <%=h @user.first_name %>, 
+
+Chào mừng bạn đến với Edison Nation! Đây là thông tin tài khoản của bạn:
+ - Your username is: <%= @user.login %>
+ - Your profile page: <%= link_to @user.login, "http://www.edisonnation.com/users/#{@user.login}" %>
+
+Edison Nation là một cộng đồng hoạt động của những nhà đam mê phát minh. Edison Nation hoạt động chung với nhiều công ty khác nhau, Những công ty này đang tìm những ý tưởng mới qua hệ thống tìm kiếm sản phẩm Live.
+
+Trở thành một Edison Insider: Hãy truy cập vào nội dung của Insider, đặc tính của trang web, đặt mua báo Digest Inventor, và nhiều hơn nữa! <%= link_to "Learn More »", "http://www.edisonnation.com/lounge"  %>
+
+- Đội ngũ Edison Nation
+http://www.edisonnation.com/
+
+Xin vui lòng đừng trả lời thông báo này, nó được gửi từ một địa chỉ email không kiểm xoát. Tin nhắn này là một email liên quan đến tài khoản của bạn trên Edison Nation. Đối với yêu cầu chung hoặc để yêu cầu hỗ trợ với tài khoản  Edison Nation của bạn, hãy gửi email cho chúng tôi tại support@edisonnation.com hoặc truy cập http://support.edisonnation.com/.

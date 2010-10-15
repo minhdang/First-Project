@@ -1,0 +1,12 @@
+<%- if @comment.errors.any? -%>
+  alert("<%= flash[:error] %>");
+<%- else -%>
+  var comment = "<%= render(:partial => 'admin/comments/comment', :locals => {:comment => @comment}).gsub("\n","").gsub("\"", "\\\"") %>";
+  $('#comment_<%= @comment.id %>').replaceWith(comment);
+  $("#comments-list .comment-wrapper.alt").removeClass('alt');
+  $("#comments-list .comment-wrapper:odd").addClass('alt');
+  $('#comment_<%= @comment.id %>').effect('highlight', {}, 3000);
+  activateEditCommentButtons();
+  activateDeleteCommentButtons();
+  activateAjaxForms();
+<%- end -%>

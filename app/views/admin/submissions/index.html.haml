@@ -1,0 +1,58 @@
+- content_for :title, 'Submissions'
+- content_for :head do 
+  = javascript_include_tag('jquery/jquery.autocomplete.js', 'admin/autocomplete')
+  = stylesheet_link_tag('admin/autocomplete')
+  
+- content_for :sidebar do
+  = render(:partial => 'filter') if @search
+      
+
+= render :partial => 'search'
+
+%h1= params[:q] ? "Search Results for '#{params[:q]}'" : pluralize(@submissions.total_entries, 'Submission')
+- if @search
+  %h5= "Results for #{@search.conditions.to_sentence}"
+
+= will_paginate @submissions
+%br.clear
+
+-# This needs DRY'ed up
+%ul#submission-list
+  - @submissions.each do |submission|
+    -if params[:insiders]
+      -if submission.user.member
+        %li
+          = link_to h(submission.idea.title), admin_live_product_search_submission_path(@lps,submission)
+          %em= "by #{submission.user.name} #{insider_flag(submission.user.member)}"
+          .date-box
+            Submitted on: 
+            = submission.created_at.strftime("%m/%d/%Y")
+          .flags
+            = boolean_flag(submission.first?, 'new')
+            = boolean_flag(submission.idea.attachments_count > 0, 'attachments')
+            = boolean_flag(submission.idea.prototype?, 'prototype')
+            = boolean_flag(submission.idea.patent_issued?, 'issued patent')
+            = boolean_flag(submission.idea.patent_pending?, 'pending patent')
+            = boolean_flag(submission.ratings.any?, 'rated')
+            = boolean_flag(submission.comments.any?, 'commented')
+            = boolean_flag(submission.move_pending?, 'move pending')
+            %div.clear-left
+    - else
+      %li
+        = link_to h(submission.idea.title), admin_live_product_search_submission_path(@lps,submission)
+        %em= "by #{submission.user.name} #{insider_flag(submission.user.member)}"
+        .date-box
+          Submitted on: 
+          = submission.created_at.strftime("%m/%d/%Y")
+        .flags
+          = boolean_flag(submission.first?, 'new')
+          = boolean_flag(submission.idea.attachments_count > 0, 'attachments')
+          = boolean_flag(submission.idea.prototype?, 'prototype')
+          = boolean_flag(submission.idea.patent_issued?, 'issued patent')
+          = boolean_flag(submission.idea.patent_pending?, 'pending patent')
+          = boolean_flag(submission.ratings.any?, 'rated')
+          = boolean_flag(submission.comments.any?, 'commented')
+          = boolean_flag(submission.move_pending?, 'move pending')
+          %div.clear-left
+
+= will_paginate @submissions

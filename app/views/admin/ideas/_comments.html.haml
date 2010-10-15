@@ -1,0 +1,24 @@
+- idea      ||= submission.idea
+- comments  = defined?(submission) ? idea.comments.relevant_to(submission) : idea.comments
+%table#comments.data
+  %thead
+    %tr
+      %th
+        %span#comments_count= pluralize comments.size, 'Comment'
+  %tbody
+    %tr
+      %td#comments-list
+        - comments.each do |comment|
+          = render :partial => 'admin/comments/comment', :locals => {:comment => comment}
+            
+    %tr
+      %th
+        - form_for Comment.new, :url => admin_comments_path, :html => {:class => 'inline ajax'} do |f|
+          = f.text_area :body, :class => 'full supershort'
+          = hidden_field_tag :idea_id, idea.id
+          - if defined?(submission)
+            = radio_button_tag :submission_id, submission.id, true
+            = label_tag "submission_id_#{submission.id}", 'This particular submission', :class => 'inline'
+            = radio_button_tag :submission_id, ''
+            = label_tag "submission_id_", 'This whole idea', :class => 'inline'
+          = f.submit 'Post Comment', :class => 'create-comment'

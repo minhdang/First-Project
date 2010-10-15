@@ -1,0 +1,9 @@
+<%=h @user.first_name %>,
+
+You have requested to change the email address associated with your Edison Nation account from <%= h @user.email %> to <%= h @user.new_email %>.
+
+Please click on the following link to confirm this change:
+
+  <%= "#{site}/activate/#{@user.activation_code}" %>
+  
+<%= signature %>

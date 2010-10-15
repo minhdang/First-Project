@@ -1,0 +1,19 @@
+- submissions = defined?(except) ? idea.submissions.complete.except(except) : idea.submissions.complete
+%table.data
+  %thead
+    %tr
+      %th Submit Idea to a Live Product Search on the User's Behalf
+  %tbody
+    %tr
+      %td
+        - form_for idea.submissions.new, :url => admin_idea_submissions_path(idea) do |f|
+          = required_field_legend
+          
+          .required
+            - available_lps = LPS.current.all - idea.live_product_searches
+            = f.label :live_product_search_id, 'Live Product Search'
+            = f.select :live_product_search_id, available_lps.map{|lps| [truncate(lps.title, :length => 100), lps.key]}, :prompt => '-- Select an LPS --'
+            %span This will submit the idea to a given search free of charge.
+            
+          %div
+            = f.submit 'Submit'

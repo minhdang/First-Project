@@ -1,0 +1,20 @@
+#header
+  .container
+    #logo.span-12
+      %h1
+        %a{:href => "/"}
+          = t('layouts.edison_nation')
+      %p.tag
+        = t('layouts.reinventing')
+    #top-nav.span-12.last
+      = render :partial => 'shared/header_links'
+      %ul#session-buttons
+        %li
+          %a.button.medium.green
+            Sign Up
+          %a.button.medium.green
+            Login
+            
+  #nav
+    .container
+      = render :partial => 'shared/navigation'

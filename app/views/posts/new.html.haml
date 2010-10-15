@@ -1,0 +1,7 @@
+- content_for :page_title, "#{h @topic.title} " + t('posts.new.post_reply')
+- content_for :title do
+  = link_to h(@topic.title), forum_topic_path(@forum, @topic)
+  = t('posts.new.post_reply')
+  
+- form_for @post, :url => forum_topic_posts_path(@forum, @topic) do |f|
+  = render :partial => 'posts/fields', :locals => {:f => f}

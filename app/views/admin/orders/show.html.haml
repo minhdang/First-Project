@@ -1,0 +1,147 @@
+- content_for :page_title, "Order - ##{@order.number}"
+
+#order.left
+  %table#order.data
+    %thead
+      %tr
+        %th{:colspan => 2}
+          = "##{@order.number}"
+    %tbody
+      %tr
+        %th Date
+        %td= @order.created_at.to_s(:long)
+      %tr
+        %th Total
+        %td= number_to_currency(@order.total)
+      %tr
+        %th State
+        %td= @order.state
+      %tr
+        %th Shipped
+        %td= boolean_flag(@order.shipped?)
+
+      - if @order.paid? || @order.processing? || @order.shipped?
+        %tr
+          %th Tracking Number
+          %td
+            - if @order.shipped? && @order.tracking_number?
+              = @order.tracking_number
+              %br
+              = link_to 'Track this order', @order.tracking_url, :target => '_blank'
+          
+            - if @order.paid? || @order.processing?
+              - form_for @order, :url => admin_order_path(@order) do |f|
+                = f.text_field :tracking_number
+                = f.select :carrier, carrier_options
+                = f.submit 'Ship!', :confirm => "Shipping an order will send the customer an email with their tracking url. Are you sure you want to ship this order?"
+
+
+  %table#order-credit-card-info.data
+    %thead
+      %tr
+        %th{:colspan => 2}
+          Credit Card Info
+    %tbody
+      %tr
+        %th Type
+        %td= @order.payment.cc_type
+      %tr
+        %th Number
+        %td= @order.payment.cc_number
+      %tr
+        %th Exp. Month
+        %td= @order.payment.cc_exp_month
+      %tr
+        %th Exp. Year
+        %td= @order.payment.cc_exp_year
+      %tr
+        %th Authorization Code
+        %td= @order.payment.authorization_code
+
+#order.right
+  %table#order-shipping-info.data
+    %thead
+      %tr
+        %th{:colspan => 2}
+          Shipping Info
+    %tbody
+      %tr
+        %th Name
+        %td= link_to @order.ship_to_address.name, admin_user_path(@order.user)
+      %tr
+        %th Address 1
+        %td= @order.ship_to_address.address_1
+      %tr
+        %th Address 2
+        %td= @order.ship_to_address.address_2
+      %tr
+        %th City
+        %td= @order.ship_to_address.city
+      %tr
+        %th State
+        %td= @order.ship_to_address.state
+      %tr
+        %th Postal Code
+        %td= @order.ship_to_address.postal_code
+      
+
+  %table#order-billing-info.data
+    %thead
+      %tr
+        %th{:colspan => 2}
+          Billing Info
+    %tbody
+      %tr
+        %th Name
+        %td= link_to @order.ship_to_address.name, admin_user_path(@order.user)
+      %tr
+        %th Address 1
+        %td= @order.payment.billing_address.address_1
+      %tr
+        %th Address 2
+        %td= @order.payment.billing_address.address_2
+      %tr
+        %th City
+        %td= @order.payment.billing_address.city
+      %tr
+        %th State
+        %td= @order.payment.billing_address.state
+      %tr
+        %th Postal Code
+        %td= @order.payment.billing_address.postal_code
+
+      
+%br.clear
+
+%h2 Order Items
+%table.data
+  %thead
+    %tr
+      %th Qty.
+      %th{:style => 'width:100%'} Product
+      %th Total
+  %tbody
+    - @order.order_items.each do |item|
+      %tr
+        %td= item.quantity
+        %td= "#{item.product.name} - #{item.product_type.name}"
+        %td= number_to_currency(item.price)
+    %tr
+      %td{:colspan => 3, :style => 'padding: 0px;'}
+        %table.data{:style => 'width: auto; float:right; margin-bottom: 20px;'}
+          %tr.subtotal
+            %td
+            %td Subtotal
+            %td= number_to_currency(@order.subtotal)
+          %tr.shipping
+            %td
+            %td Shipping
+            %td= number_to_currency(@order.shipping)
+          %tr.tax
+            %td
+            %td *Tax
+            %td= number_to_currency(@order.tax)
+          %tr.grand-total
+            %td
+            %td Grand Total
+            %td= number_to_currency(@order.total)

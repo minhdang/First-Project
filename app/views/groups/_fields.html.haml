@@ -1,0 +1,24 @@
+= f.error_messages
+
+= required_field_legend
+
+.required
+  = f.label :title, t('groups.fields.title')
+  = f.text_field :title
+
+%div
+  = f.label :description, t('groups.fields.description')
+  = f.text_area :description
+
+%div
+  = f.label :website, t('groups.fields.website')
+  = f.text_field :website
+  
+%div
+  = f.label :region, t('groups.fields.region')
+  = f.select :region, App.states[:US].sort.to_a.map {|a| a.reverse}, :include_blank => t('groups.fields.non_regional')
+
+%div
+  = f.label :private, t('groups.fields.private')
+  = f.check_box :private
+  %span = t('groups.fields.private_text')

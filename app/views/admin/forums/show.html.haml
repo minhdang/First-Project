@@ -1,0 +1,5 @@
+- content_for :page_title, "Forums - #{h @forum.name}"
+
+%h1= "#{h @forum.name} - Topics"
+
+= render :partial => 'admin/topics/list'

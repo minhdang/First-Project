@@ -1,0 +1,13 @@
+Hello <%=h @user.first_name %>,
+
+Did you miss us? We recently resolved issues with member emails. Due to circumstances outside of our control many of our emails were being marked as spam by internet service providers. As a result, many of our members were not receiving email concerning important account information. Fortunately, the issues have been resolved.
+
+Our records show that your Edison Insider membership was recently canceled. If you did not personally cancel it, it is likely that your payment information has expired.
+
+<%= "#{site}/membership/new" %>
+
+
+This email is regarding username: <%= @user.login %>
+
+Thank You
+<%= site %>

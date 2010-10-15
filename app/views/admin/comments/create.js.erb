@@ -1,0 +1,16 @@
+<%- if @comment.new_record? -%>
+  alert("<%= flash[:error] %>");
+<%- else -%>
+  var current = /(\d+) Comments?/i.exec($('#comments_count').text())[1];
+  current = parseInt(current);
+  $('#comments_count').text((current+1)+" Comments");
+  $('#new_comment textarea').val('');
+  var comment = "<%= render(:partial => 'admin/comments/comment', :locals => {:comment => @comment}).gsub("\n","").gsub("\"", "\\\"") %>";
+  $('#comments-list').append(comment);
+  $("#comments-list .comment-wrapper.alt").removeClass('alt');
+  $("#comments-list .comment-wrapper:odd").addClass('alt');
+  $("#comments-list .comment-wrapper:last-child").effect('highlight', {}, 3000);
+  activateEditCommentButtons();
+  activateDeleteCommentButtons();
+  activateAjaxForms();
+<%- end -%>

@@ -1,0 +1,14 @@
+- content_for :title, 'Sign up for a free account'
+
+%h2 Enjoying Edison Nation?
+
+%p
+  Please join our
+  %span.free free
+  community now
+  
+%em it only takes about 10 seconds to create an account
+
+.links
+  = link_to 'Sign up for free', signup_path, :class => 'sign-up-for-free'
+  = link_to '&raquo; No Thanks',   @continue_to,     :class => 'continue'

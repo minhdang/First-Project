@@ -1,0 +1,10 @@
+- style ||= :thumb
+- break_after ||= 4
+
+%ul.avatars
+  - users.each_with_index do |user, count|
+    %li= link_to(image_tag(user.avatar.url(style), :alt => "#{user.login}" + t('users.avatar.avatar'), :title => "#{user.name} (#{user.login})", :class => 'avatar'), user_path(user))
+    - if (((count + 1) % break_after) == 0)
+      %li.clear-left
+.clear-left
+    

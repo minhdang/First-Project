@@ -1,0 +1,12 @@
+- content_for :page_title, "#{@lps.key} - LPS Filters"
+- content_for :scripts, javascript_include_tag('admin/lps/filters')
+
+%h1= "#{@lps.key} - Filters"
+
+%ul#filters
+  - @filters.each do |f|
+    %li
+      = render :partial => 'filter', :locals => {:filter => f}
+
+%br.clear-left
+= render :partial => 'form', :locals => {:filter => @lps.filters.new}

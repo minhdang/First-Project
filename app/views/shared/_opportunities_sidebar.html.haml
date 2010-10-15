@@ -1,0 +1,6 @@
+%h2= link_to t('shared.opportunities_sidebar.opportunities'), opportunities_path
+
+%ul
+  %li= link_to t('shared.opportunities_sidebar.lps'), live_product_search_dashboard_path, :class => active_on_page(:inventor_organizations)
+  %li= link_to t('shared.opportunities_sidebar.skills_db'), skills_path, :class => active_if_here(:skills)
+  %li= link_to t('shared.opportunities_sidebar.needs_db'), needs_path, :class => active_if_here(:needs)

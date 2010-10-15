@@ -1,0 +1,7 @@
+- content_for :page_title, "#{@version.title} " + t('documents.version') + " #{@version.version}"
+- content_for :title do
+  = link_to t('documents.download'), document_version_path(@document, @version, :format => :pdf), :class => 'pdf'
+  = "#{@version.title} " + t('documents.version') + " #{@version.version}"
+  %small= t('documents.last_updated_on') + " #{@version.updated_at.to_s(:date_ordinal)}" 
+
+.html= @version.body_html

@@ -1,0 +1,12 @@
+- content_for :head do
+  = javascript_include_tag('forum_preferences')
+  = javascript_include_tag('forums/forums')
+- content_for :title, t('topics.all_topics')
+
+= forums_search_box
+= link_to t('topics.create_a_new_topic'), new_topic_path, :class => 'new-topic-button button green medium right'
+#forum-nav
+  = link_to t('topics.show_forums'), forums_path(:force => true), :class => 'show-forums-button'
+%br.clear
+
+= render :partial => 'forums/topics', :locals => {:topics => @topics}

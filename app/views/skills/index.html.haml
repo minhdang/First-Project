@@ -1,0 +1,10 @@
+- content_for :page_title, t('skills.skills')
+- content_for :title do
+  = add_skills_button if logged_in?
+  = t('skills.skills')
+
+- content_for :sidebar do
+  = render :partial => 'shared/opportunities_sidebar'
+  = render :partial => 'popular_skills'
+      
+= render :partial => 'users/list', :locals => {:users => @newest_user_skills.collect {|user_skill| user_skill.user}}

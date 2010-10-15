@@ -1,0 +1,10 @@
+= required_field_legend
+= f.error_messages
+
+.required
+  = f.label :title
+  = f.text_field :title, :disabled => (!f.object.new_record?)
+  
+.required
+  = f.label :body
+  = f.text_area :body, :class => 'textile'

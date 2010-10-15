@@ -1,0 +1,35 @@
+- content_for :sidebar do
+  = render :partial => 'shared/dashboard/profile_actions'
+  = render :partial => 'shared/dashboard/lounge_insider_points'
+
+.span-8.colborder
+  #office-hours
+    %h4 
+      You are RSVPing for
+      = @event.guest
+    %p
+      = @event.blurb
+.span-7.last
+  %h4 About Office Hours
+  %p
+    Office Hours are hour-long opportunities for Insiders to speak one-on-one with industry experts. We will call Insiders in the order in which they RSVP. Each call will be limited to 10 minutes so that others may participate as well. Once you RSVP, please make a point to be available on your phone. If we call and you do not answer, we will move on to the next RSVP.
+  - if @event.rsvps.count >= 6
+    %h4 This Office Hours is full. 
+    %p We have filled all available guaranteed RSVPs for this Office Hours. 
+    %p 
+      If you would like to be added as an alternate in case our calls run short or
+      some RSVPs do not answer their phones, please sign up below. We will call
+      alternates in the order in which they RSVP.
+      
+.clear
+
+- form_for Rsvp.new, :url => office_hours_rsvp_path, :method => 'post' do |f|
+  %fieldset{:style => 'text-align:center;background:#FFEFD1;border:none;'}
+    = f.label        :your_phone_number
+    = f.text_field   :phone
+    = f.hidden_field :user_id,    :value => @user.id
+    = f.hidden_field :event_id,   :value => @event.id
+    = f.hidden_field :first_name, :value => @user.first_name
+    = f.hidden_field :last_name,  :value => @user.last_name
+    = f.submit('Create RSVP')
+

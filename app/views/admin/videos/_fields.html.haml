@@ -1,0 +1,21 @@
+= required_field_legend
+
+= f.hidden_field :video_category_id, :value => @video_category.id if @video_category
+.required
+  = f.label :title
+  = f.text_field :title
+.required
+  = f.label :description
+  = f.text_area :description
+.required
+  = f.label :image
+  = f.file_field :image
+.required
+  = f.label :video
+  = f.file_field :video
+.required
+  = f.label :free
+  = f.check_box :free
+.required
+  = f.label :active
+  = f.check_box :active

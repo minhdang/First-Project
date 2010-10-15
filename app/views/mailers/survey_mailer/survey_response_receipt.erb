@@ -1,0 +1,11 @@
+<%= @response.user.name %>,
+
+Thank you for your response to our Name Search. Your response number is: <%= @response.id %>. Your idea was submitted on <%= @response.completed_at.to_s(:long_ordinal)%> <%= Time.zone.name %>.
+
+<%- if @response.payment -%>
+Payment was made by <%= @response.payment.billing_address.first_name %> <%= @response.payment.billing_address.last_name %> using a credit card ending in "<%= @response.payment.cc_number %>."
+<%- end -%>
+
+Congratulations and good luck!
+
+<%= signature %>

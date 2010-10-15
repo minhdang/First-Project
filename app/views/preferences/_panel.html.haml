@@ -1,0 +1,23 @@
+#preference-panel{ :style => 'display:none' }
+  - form_for( preferences,:url =>user_preferences_path(current_user), :html => {:class => 'preferences'}) do |f|
+    %table.attributes
+      %tr
+        %th= t('forums.preferences.default_view')
+        %td
+          = f.radio_button 'forums_view_mode', 'forums'
+          = label_tag 'preferences_forums_view_mode_forums', t('forums.preferences.forums')
+          = f.radio_button 'forums_view_mode', 'topics'
+          = label_tag 'preferences_forums_view_mode_topics', t('forums.preferences.topics')
+      %tr
+        %th= t('forums.preferences.show_new_posts')
+        %td
+          = f.radio_button 'posts_order', 'DESC'
+          = label_tag 'preferences_posts_order_DESC', t('forums.preferences.first')
+          = f.radio_button 'posts_order', 'ASC'
+          = label_tag 'preferences_posts_order_ASC', t('forums.preferences.last')
+      %tr
+        %th= t('forums.preferences.items_per_page')
+        %td= f.select 'per_page', [25,50,100]
+      %tr
+        %th
+        %td= f.submit t('forums.preferences.save_preferences')

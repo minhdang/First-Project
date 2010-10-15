@@ -1,0 +1,31 @@
+- create = question.new_record?
+- form_for question, :url => (create ? admin_live_product_search_questions_path(@lps) : admin_live_product_search_question_path(@lps, question)) do |f|
+  
+  %fieldset
+    %legend= create ? 'New Question' : 'Update Question'
+    
+    = f.error_messages
+    = required_field_legend
+    
+    .required
+      = f.label  :question_type
+      = f.select :question_type, Question::Types.values.sort, {:prompt => '-- Question Type --'}, {:class => 'question-type-dropdown'}
+    .required
+      = f.label :label, 'Question'
+      = f.text_field :label
+    %div
+      = f.label :memo
+      = f.text_field :memo
+      %span A memo gives the user more info. It shows up below the input field just like *this* text.
+    %div
+      = f.label :required
+      = f.check_box :required
+    %div.choices-wrapper
+      = label_tag :choices
+      .choices.nested_resources
+        - f.object.choices.build if f.object.choices.empty?
+        - f.fields_for :choices do |choice_form|
+          = render :partial => 'choice_form', :locals => {:f => choice_form}
+      = add_choice_link('Add another choice', f)
+    %div
+      = f.submit(create ? 'Add Question' : 'Update')

@@ -1,0 +1,44 @@
+- content_for :scripts do 
+  :javascript
+    $(document).ready(function(){
+      $('.forum-points').live('click', function(){
+        window.location = 'http://edisonnation.com/lounge'
+      })
+    })
+
+
+- search_results = false if search_results.nil?
+%tr{:id => dom_id(post), :class => (!search_results && post.first_post? ? 'first_post' : nil)}
+  %td
+    - if post.user
+      = badge_for(post.user)
+      = link_to post.user.name, user_path(post.user)
+      %br/
+      = truncate(post.user.login, :length => 20)
+      %br/
+      - if post.user.member?
+        .forum-points{:style => 'cursor: hand;'}
+          - if post.user.has_role?(:staff)
+            &#8734;
+          - else
+            = number_with_delimiter(post.user.lifetime_points)
+
+        .title
+          = t('posts.post.insider_points')
+      
+  %td.main
+    %a{:name => dom_id(post)}>
+    .post-body
+      - if search_results
+        %h5.topic-title= "Topic: #{link_to(h(post.topic.title), forum_topic_path(post.forum, post.topic))}"
+      .textile= post.body_html
+    .meta
+      = t('posts.post.posted')
+      - if post.created_at
+        = timeago(post.created_at)
+        = "(#{forum_post_actions(post, search_results)})"
+        - if post.first_post?
+          .div{:style => 'padding:10px 0;'}
+            = render :partial => 'shared/social_buttons', :locals => { :url => 'http://edisonnation.com' + request.env['REQUEST_URI'] }
+        
+      

@@ -1,0 +1,20 @@
+- content_for :page_title, "New Badge"
+
+%h1= "New Badge"
+
+- form_for @badge, :url => admin_badges_path, :html => {:multipart => true} do |f|
+
+  = f.error_messages
+
+  = required_field_legend
+
+  .required
+    = f.label :name
+    = f.text_field :name
+    
+  .required
+    = f.label :image
+    = f.file_field :image
+    %span Please use a PNG image for the badge as it is cleaner when resized.
+
+  %div= f.submit 'Create Badge'

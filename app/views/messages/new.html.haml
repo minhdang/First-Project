@@ -1,0 +1,20 @@
+- content_for :title, t('messages.new.message') + " #{@user.login}"
+
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+- if current_user.admin? || @user.admin? || @friends
+  - form_for @message, :url => user_messages_path(@user) do |f|  
+    = f.error_messages
+  
+    .required
+      = f.label :body, t('messages.new.message')
+      = f.text_area :body, :class => 'full short'
+    .div
+      = f.label :cc, t('messages.new.cc_me')
+      = f.check_box :cc
+    .div
+      = f.submit t('messages.new.send')
+- else
+  %p
+    = t('messages.new.for_security') + " #{@user.first_name} " + t('messages.new.as_a_friend')
+    = button_to(t('messages.new.add_to_friends'), user_friendships_path(current_user, :friend => @user.to_param), :class => 'add-friend button green medium', :id => "add_#{dom_id(@user)}", :confirm => 'Are you sure you would like to add this user to your friends list?')

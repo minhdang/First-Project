@@ -1,0 +1,22 @@
+- content_for :title, t('memberships.new.title')
+
+- unless current_user && current_user.member?
+
+  %p
+    %strong
+      = t('memberships.new.membership_cost_per_month')
+  %p
+    = t('memberships.new.text')
+
+- form_for @membership, :url => membership_path, :html => {:method => :post} do |f|
+  = required_field_legend
+  
+  - f.fields_for :payment do |payment_form|
+    = render :partial => 'payments/fields', :locals => {:f => payment_form}
+  
+  %div.float-right
+    = f.submit t('memberships.new.upgrade'), :class => 'one-click'
+    
+= render :partial => 'shared/ssl'
+
+- content_for :ad_space

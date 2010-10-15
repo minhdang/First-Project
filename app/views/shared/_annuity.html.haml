@@ -1,0 +1,18 @@
+#annuity
+  %p = t('shared.annuity.text_1')
+  %ul.list
+    %li 
+      = t('shared.annuity.text_2')
+    %li 
+      = t('shared.annuity.text_3')
+    %li 
+      = t('shared.annuity.text_4')
+    %li 
+      = t('shared.annuity.text_5')
+      
+:javascript
+  $('#annuity').hide();
+  $('a.annuity-link').click(function(){
+    $('#annuity').slideToggle();
+    return(false);
+  });

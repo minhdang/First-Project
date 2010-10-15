@@ -1,0 +1,36 @@
+- content_for :page_title, 'Edit Episode'
+    
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete episode", admin_episode_path(@episode), :method => :delete, :confirm => "Are you sure? The episode will be destroyed.", :class => 'action'
+        = link_to "edit episode", edit_admin_episode_path(@episode), :class => 'action'
+        = link_to "Add Chapter", new_admin_episode_chapter_path(@episode), :class => 'action'
+
+  %tbody
+    %tr
+      %th  Episode ID
+      %td= @episode.id
+    %tr
+      %th  Title
+      %td= @episode.title
+    %tr
+      %th  Description
+      %td= @episode.description
+    %tr
+      %th Image
+      %td= image_tag(@episode.image.url)
+    %tr
+      %th Season
+      %td= @episode.season.season_number
+    %tr
+      %th  Active
+      %td= boolean_flag(@episode.active?)
+    %tr
+      %th  Free
+      %td
+        = boolean_flag(@episode.free?)
+    %tr
+      %th  Chapters
+      %td= link_to pluralize(@episode.chapters.size, 'Chapter'), admin_episode_chapters_path(@episode)

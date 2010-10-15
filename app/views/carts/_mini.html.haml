@@ -1,0 +1,9 @@
+#mini-cart
+  %h2= t('carts.title') + " (#{pluralize(@cart.total_items, 'item')})"
+
+  %table.attributes
+    %tr
+      %th= t('carts.total')
+      %td= number_to_currency(@cart.total)
+
+  = link_to t('carts.view_cart'), store_cart_path(@store), :class => 'view-cart-button'

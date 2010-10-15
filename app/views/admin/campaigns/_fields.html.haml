@@ -1,0 +1,17 @@
+= f.error_messages
+= required_field_legend
+
+%fieldset
+  %legend General Information
+  
+  .required
+    = f.label :title
+    = f.text_field :title
+    
+  %div
+    = f.label :description
+    = f.text_area :description
+    
+  .required
+    = f.label :target
+    = f.text_field :target, :value => (@campaign.target.blank? ? 'http://' : @campaign.target)

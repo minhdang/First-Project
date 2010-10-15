@@ -1,0 +1,12 @@
+<%= h @user.first_name %>,
+
+Tài khoản của bạn đã được tạo.
+
+  Username: <%=h @user.login %>
+  <%= "Password: #{h(@user.password)}" if @user.password %>
+
+Truy cập URL này để kích hoạt tài khoản Edison Nation của bạn:
+
+  <%= "#{site}/activate/#{@user.activation_code}" %>
+  
+<%= signature %>

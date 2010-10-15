@@ -1,0 +1,33 @@
+-#%ul.lps-list.span-16
+-#  - surveys.each_with_index do |survey,i|
+-#    %li{:class => (i==0 ? 'first' : nil)}
+-#      %h6= link_to survey.title, survey_path(survey)
+-#      %span.submit
+-#        = link_to 'Submit an Idea', new_survey_response_path(survey), :class => 'button red medium'
+-#      %span.deadline
+-#        %strong Deadline:
+-#        = midnight_or_full_time(survey.deadline)
+-#        %em= Time.zone.name
+-#        %br/
+-#        - if @user
+-#          You've submitted
+-#          %strong= pluralize(@user.survey_responses.complete.for(survey).count,'idea')
+%ul.lps-list{:style => 'list-style-type:none;'}
+  - surveys.each_with_index do |survey,i|
+    %li{:class => (i==0 ? 'first' : nil), :style => (i==0 ? 'margin-bottom:25px;' : nil)}
+      .span-4
+        %h6
+          = link_to survey.title, survey_path(survey)
+      .span-12.last
+        %p{:style => 'padding:10px 0 0;'}
+          %strong Deadline:
+          = midnight_or_full_time(survey.deadline)
+          %em= Time.zone.name
+        %span.submit
+          = link_to t('dashboard.survey.submit_an_idea'), new_survey_response_path(survey), :class => 'button red medium'
+        - if @user
+          You've submitted
+          %strong= pluralize(@user.survey_responses.complete.for(survey).count,'idea')
+      .clear
+
+  

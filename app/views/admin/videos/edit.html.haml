@@ -1,0 +1,5 @@
+- content_for :page_title, "Edit Video - #{@video.title}"
+
+-form_for @video, :url => admin_video_path(@video), :html => {:method => :put, :multipart => true} do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  %div= f.submit 'Update video'

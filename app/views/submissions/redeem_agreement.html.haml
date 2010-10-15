@@ -1,0 +1,123 @@
+- content_for :title, (@submission.free? ? t('submissions.redeem.agreement') : t('submissions.redeem.payment_agreement'))
+- content_for :scripts do
+  = javascript_include_tag('states_selector')
+  = javascript_include_tag('lps/agreement')
+
+- content_for :sidebar, checklist(@idea, :lps => @lps, :submission => @submission)
+
+= render :partial => 'live_product_searches/banner', :locals => {:live_product_search => @lps} if @lps
+
+- if @coupon
+  .coupon
+    - if @submission.coupon == @coupon
+      - if @coupon.code == 'rewardpoint'
+        %strong
+          = t('submissions.agreement.used_reward_points')
+      - else
+        %strong
+          = t('submissions.agreement.the_coupon')
+          = "'#{@coupon.code}'"
+          = t('submissions.agreement.was_successfully_applied')
+          = "#{number_to_currency(@submission.fee_before_coupon - @submission.fee)}."
+    - else
+      %strong
+        = t('submissions.agreement.sorry')
+        = "'#{@coupon.code}'"
+        = t('submissions.agreement.not_applicable')
+
+- form_for @submission, :url => live_product_search_idea_submission_path(@lps, @idea) do |f|
+
+  = f.error_messages
+  = required_field_legend
+  
+  = hidden_field_tag :agreement, true
+  = hidden_field_tag :redeem, true
+  = hidden_field_tag :accepting_terms, true unless @submission.complete?
+  
+  - unless @submission.complete? || @submission.free?  
+    - f.fields_for :payment do |payment_form|
+      = render :partial => 'payments/fields', :locals => {:f => payment_form}
+  
+  %fieldset
+    %legend= t('submissions.agreement.contact_info')
+    - f.fields_for :contact_information do |cf|
+      = cf.error_messages :object_name => 'contact information'
+    
+      .required
+        = cf.label :first_name, t('submissions.agreement.first_name')
+        = cf.text_field :first_name
+      .required
+        = cf.label :last_name, t('submissions.agreement.last_name')
+        = cf.text_field :last_name
+      .required
+        = cf.label :email, t('submissions.agreement.email')
+        = cf.text_field :email
+      .required
+        = cf.label :phone, t('submissions.agreement.phone')
+        = cf.text_field :phone
+      .required
+        = cf.label :address_1, t('submissions.agreement.address_1')
+        = cf.text_field :address_1
+      %div
+        = cf.label :address_2, t('submissions.agreement.address_2')
+        = cf.text_field :address_2
+      .required
+        = cf.label :city, t('submissions.agreement.city')
+        = cf.text_field :city
+      .required
+        = cf.label :state, t('submissions.agreement.state')
+        = state_selector(cf)
+      .required
+        = cf.label :country, t('submissions.agreement.country')
+        = country_selector(cf)
+      .required
+        = cf.label :postal_code, t('submissions.agreement.postal_code')
+        = cf.text_field :postal_code
+        
+  
+  %fieldset
+    %legend= t('submissions.agreement.legal_agreement')
+    
+    = render :partial => 'legal_agreement', :locals => {:f => f, :submission => @submission}
+      
+    .required.checkbox
+      = f.check_box :agree_to_terms, :disabled => @submission.complete?
+      = f.label :agree_to_terms, t('submissions.agreement.agree_to_terms')
+    .required.checkbox
+      = f.check_box :agree_to_age_requirements, :disabled => @submission.complete?
+      = f.label :agree_to_age_requirements, t('submissions.agreement.agree_to_age_requirements')
+    .required.checkbox
+      = f.check_box :agree_to_no_feedback, :disabled => @submission.complete?
+      = f.label :agree_to_no_feedback, t('submissions.agreement.agree_to_no_feedback')
+    - unless @submission.free?
+      .required.checkbox
+        = f.check_box :agree_to_submission_fee, :disabled => @submission.complete?
+        = f.label :agree_to_submission_fee, t('submissions.agreement.agree_to_submission_fee_1') + " #{number_to_currency(@submission.fee)} " + t('submissions.agreement.agree_to_submission_fee_2')
+    
+    - unless @submission.complete? && @submission.signature.blank?
+      .required.signature-area
+        = f.text_field :signature, :disabled => @submission.complete?
+        = f.label :signature, t('submissions.agreement.please_signature')
+        %span= t('submissions.agreement.examples_of_signatures')
+      
+      
+      - if @submission.will_be_first? && !current_user.member? && !@submission.free?
+        #upsell
+          %h3#limited-offer= t('submissions.agreement.limited_time_offer')
+          %h4 
+            = t('submissions.agreement.limited_time_offer_text')
+          %h5= link_to t('submissions.agreement.learn_about_benefits'), '#TB_inline?height=480&width=708&inlineId=membership_benefits', :class => 'thickbox'
+          .checkbox
+            = check_box_tag :upgrade_to_gold
+            = label_tag :upgrade_to_gold, t('submissions.agreement.upgrade_my_account') + " #{number_to_currency(App.membership_cost)} " + t('submissions.agreement.per_month')
+            %span
+              = t('submissions.agreement.i_agree')
+              = number_to_currency(App.membership_cost)
+        #membership_benefits= render :partial => 'memberships/benefits'
+        
+  .confirmation
+    - if @submission.complete?
+      = f.submit t('submissions.agreement.save_and_continue'), :class => 'save-and-continue-button one-click'
+    - else
+      = f.submit t('submissions.agreement.submit_my_idea'), :class => 'submit-my-idea-button one-click'
+    = render :partial => 'shared/ssl'

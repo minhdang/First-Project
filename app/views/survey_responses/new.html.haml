@@ -1,0 +1,26 @@
+- content_for :title, t('survey_responses.name_search_title')
+
+%h2= @survey.title
+
+- content_for :scripts do
+  = javascript_include_tag('jquery/ui/ui.datepicker.js')
+  /[if IE]><script type=\"text/javascript\" src=\"/javascripts/jquery/jquery.bgiframe.js\"></script><![endif]
+
+- form_for @response, :url => survey_responses_path(@survey) do |f|
+  
+  = f.error_messages
+  = required_field_legend
+  
+  %fieldset
+  
+    - f.fields_for :answers do |answer_field|
+      - answer = answer_field.object
+      %div{:class => (answer.question.required? ? 'required' : nil)}
+        = answer_field.hidden_field :question_id, :value => answer.question.id
+        = answer_field.label :value, answer.question.label
+        = answer_input_field(answer_field, answer)
+        - unless answer.question.memo.blank?
+          %span= answer.question.memo
+    
+  .confirmation
+    = f.submit t('survey_responses.submit'), :class => 'continue-button'

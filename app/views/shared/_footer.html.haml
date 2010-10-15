@@ -1,0 +1,8 @@
+%p
+  = "&copy; #{Time.zone.now.year}"
+  = t('shared.footer.text')
+  = link_to t('shared.footer.terms'), '/documents/terms-of-service'
+  |
+  = link_to t('shared.footer.privacy_policy'), '/documents/privacy-policy'
+  = t('shared.footer.site_designed_by')
+  %a#enventys{:href => 'http://www.enventys.com', :target => '_blank'} Enventys

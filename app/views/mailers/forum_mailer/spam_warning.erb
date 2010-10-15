@@ -1,0 +1,11 @@
+*****************************************************************************
+The Following Post was marked as spam
+
+Forum:         <%= @post.forum.name %>
+Topic:         <%= @post.topic.title %>
+Current State: <%= @post.state %>
+Spam Count:    <%= @post.spam_count %>
+Moderator:     <%= "#{@post.moderator.login}" if @post.moderator %>
+*****************************************************************************
+
+<%= @post.body %>

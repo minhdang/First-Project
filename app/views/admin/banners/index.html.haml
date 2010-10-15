@@ -1,0 +1,20 @@
+- content_for :page_title, 'Banners'
+
+%h1= "Banners"
+
+%table.data
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Link
+      %th Image
+      %th{:colspan => "2"}
+  %tbody
+    - @banners.each do |banner|
+      %tr
+        %td= banner.id
+        %td= link_to banner.name, admin_banner_path(banner)
+        %td= banner.link
+        %td= banner.ad_file_name
+        %td.actions= link_to 'Edit', edit_admin_banner_path(banner)

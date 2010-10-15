@@ -1,0 +1,8 @@
+- content_for :title, t('groups.new.start_group')
+
+- form_for @group do |f|
+  
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit t('groups.new.create')

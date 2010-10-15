@@ -1,0 +1,9 @@
+- content_for :page_title, "Edit Coupon"
+
+%h1= "Edit Coupon"
+
+- form_for @coupon, :url => admin_coupon_path(@coupon) do |f|
+
+  = render :partial => 'fields', :locals => {:f => f}
+
+  %div= f.submit 'Update Coupon'

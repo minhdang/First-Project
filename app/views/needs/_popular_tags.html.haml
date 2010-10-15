@@ -1,0 +1,4 @@
+%h2 Popular Tags
+%ul
+  - @popular_need_tags.each do |tag|
+    %li= "#{link_to tag.title, needs_path(:q => tag.title)} (#{tag.needs_count})"

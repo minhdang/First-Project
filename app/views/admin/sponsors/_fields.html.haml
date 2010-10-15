@@ -1,0 +1,21 @@
+= f.error_messages
+= required_field_legend
+
+.required
+  = f.label :name
+  = f.text_field :name
+  
+.required
+  = f.label :initials
+  = f.text_field :initials
+  %span Used to generate LPS number (ex. initials 'EN' -> LPS 'EN1234')
+  
+%div
+  = f.label :website
+  = f.text_field :website
+  %span Full web address including <strong>http://</strong> (ex. 'http://www.edisonnation.com')
+  
+.required
+  = f.label :logo
+  = f.file_field :logo
+  %span Preferred dimensions: 92x62px (Logo will be resized to fit inside 92x92px space)

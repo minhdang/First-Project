@@ -1,0 +1,3 @@
+- if Rails.env.development? || request.ssl?
+  .secure-connection
+    = t('shared.ssl.text')

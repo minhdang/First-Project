@@ -1,0 +1,7 @@
+-content_for :title, t('user_albums.new.title')
+
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+- form_for @album, :url => user_albums_path(@user) do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+  %p= f.submit t('user_albums.new.submit')

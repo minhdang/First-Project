@@ -1,0 +1,55 @@
+- content_for :head, javascript_include_tag('states_selector')
+
+%fieldset
+  %legend= t('payments.fields.credit_card')
+  = f.error_messages :object_name => 'payment'
+  
+  .required
+    = f.label :card_number, t('payments.fields.card_number')
+    = f.text_field :card_number
+    
+  .required
+    = f.label :cc_type, t('payments.fields.type')
+    = cc_type_selector(f)
+  .required
+    = f.label :cc_exp_month, t('payments.fields.cc_exp_month')
+    = cc_exp_month_selector(f)
+  .required
+    = f.label :cc_exp_year, t('payments.fields.cc_exp_year')
+    = cc_exp_year_selector(f)
+  .required
+    = f.label :security_code, t('payments.fields.security_code')
+    = f.text_field :security_code
+    %span
+      = link_to t('payments.fields.what_is_this'), '/resources/security-code/help.html?height=460&width=500', :class => 'thickbox'
+  
+  
+%fieldset
+  %legend Billing Address
+  - f.fields_for :billing_address do |address_form|
+    = address_form.error_messages :object_name => 'billing address'
+    
+    .required
+      = address_form.label :first_name, t('users.edit.first_name')
+      = address_form.text_field :first_name
+    .required
+      = address_form.label :last_name, t('users.edit.last_name')
+      = address_form.text_field :last_name
+    .required
+      = address_form.label :address_1, t('users.edit.contact_information.address_1')
+      = address_form.text_field :address_1
+    %div
+      = address_form.label :address_2, t('users.edit.contact_information.address_2')
+      = address_form.text_field :address_2
+    .required
+      = address_form.label :city, t('users.edit.contact_information.city')
+      = address_form.text_field :city
+    .required
+      = address_form.label :state, t('users.edit.contact_information.state')
+      = state_selector(address_form)
+    .required
+      = address_form.label :country, t('users.edit.contact_information.country')
+      = country_selector(address_form)
+    .required
+      = address_form.label :postal_code, t('users.edit.contact_information.postal_code')
+      = address_form.text_field :postal_code

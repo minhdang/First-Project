@@ -1,0 +1,28 @@
+- content_for :page_title, "Banner #{@banner.name}"
+
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2}
+        = link_to "delete banner", admin_banner_path(@banner), :method => :delete, :confirm => "Are you sure? The banner will be deleted.", :class => 'action'
+        = link_to "edit banner", edit_admin_banner_path(@banner), :class => 'action'
+        = link_to "Create Banner", new_admin_banner_path, :class => 'action'
+  %tbody
+    %tr
+      %th  ID
+      %td= @banner.id
+    %tr
+      %th  Name
+      %td= @banner.name
+    %tr
+      %th  Link
+      %td= @banner.link
+    %tr
+      %th Image
+      %td= @banner.ad_file_name
+    %tr
+      %th Custom
+      %td= @banner.html
+    %tr
+      %th Custom HTML
+      %td= h @banner.html

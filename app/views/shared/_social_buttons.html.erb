@@ -1,0 +1,10 @@
+
+<div class='social-buttons'>
+  <ul>
+    <li class='twitter'><%= render :partial => 'shared/retweet_btn'%></li>
+    <li class='facebook'><%= render :partial => 'shared/facebook_like', :locals => { :url =>  'http://edisonnation.com'+request.env['REQUEST_URI'] }%></li>
+  </ul>
+
+
+
+</div>

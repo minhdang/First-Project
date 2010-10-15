@@ -1,0 +1,18 @@
+-# POINTS DESCRIPTION
+.span-10{:style => 'padding:20px;'}
+  #points-description
+    %h3
+      = t('dashboard.points.insider_points')
+    .span-10
+      %p
+        = t('dashboard.points.you_can_earn_insider_points')
+    .span-6.last
+      #points
+        
+    %p
+      = image_tag '../../images/lounge/points-chart.png'
+    - if current_user.member
+      = link_to t('dashboard.points.see_more_details'), lounge_path, :class => 'red button bigrounded'
+    - else
+      = link_to t('dashboard.points.learn_more'), lounge_path, :class => 'red button bigrounded'
+      

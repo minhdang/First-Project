@@ -1,0 +1,85 @@
+- content_for :page_title, "LPS - #{@lps.title}"
+- content_for :head do 
+  = javascript_include_tag('jquery/jquery.autocomplete.js', 'admin/autocomplete')
+  = stylesheet_link_tag('admin/autocomplete')
+
+= render :partial => 'admin/submissions/search'
+
+%h1= "LPS - #{@lps.title}"
+
+%table.data
+  %thead
+    %tr
+      %th Live Product Search
+      %th.actions
+        = link_to 'landing page', live_product_search_path(@lps)
+        |
+        = link_to 'submissions', admin_live_product_search_submissions_path(@lps)
+        |
+        = link_to 'edit', edit_admin_live_product_search_path(@lps)
+  %tbody
+    %tr
+      %th= image_tag(@lps.sponsor.logo.url()) if @lps.sponsor.logo
+      %td
+        %strong= @lps.key
+        = "- #{@lps.title}"
+    %tr
+      %th Description
+      %td.html= @lps.description_html
+    %tr
+      %th Requirements
+      %td.html= @lps.requirements_html
+    %tr
+      %th Insider Search
+      %td.html= @lps.member_search?
+    %tr
+      %th Submission Fee
+      %td
+        = number_to_currency(@lps.submission_fee || App.idea_submission_cost)
+        = "(default)" unless @lps.submission_fee
+    %tr
+      %th Submission Fee Details
+      %td.html= @lps.submission_fee_details_html
+    %tr
+      %th Launch
+      %td= @lps.launch ? @lps.launch.to_s(:long_ordinal) : 'Not Specified'
+    %tr
+      %th Deadline
+      %td= @lps.deadline.to_s(:long_ordinal)
+    %tr
+      %th Status
+      %td= @lps.state.titleize
+    %tr
+      %th Extended Submissions Link
+      %td
+        = link_to new_live_product_search_submission_url(@lps, :token => @lps.token), new_live_product_search_submission_url(@lps, :token => @lps.token)
+        .meta Allows users to submit ideas past the search deadline
+
+- if @lps.published?
+  %h3 Submissions
+  %table.data
+    %thead
+      %tr
+        %th
+        %th new
+        %th opt-ins
+        %th daily total
+        %th running total
+    %tbody
+      - date = Date.today
+      - if date > @lps.deadline.to_date
+        - date = @lps.deadline.to_date
+        %tr
+          %th After Deadline
+          %td{:style => 'width:auto'}= @lps.submissions.original.complete.completed_after(@lps.deadline).count
+          %td= @lps.submissions.original(false).complete.completed_after(@lps.deadline).count
+          %td= @lps.submissions.complete.completed_after(@lps.deadline).count
+          %td= @lps.submissions.complete.count
+      - until date < @lps.launch.to_date
+        %tr
+          %th= date.today? ? "Today (as of #{Time.zone.now.to_s(:time)})<br/><small>#{Time.zone.name}</small>" : date.strftime("%m/%d/%y")
+          %td{:style => 'width:auto'}= @lps.submissions.original.complete.completed_on(date).count
+          %td= @lps.submissions.original(false).complete.completed_on(date).count
+          %td= @lps.submissions.complete.completed_on(date).count
+          %td= @lps.submissions.complete.completed_by(date).count
+        - date = date - 1.day

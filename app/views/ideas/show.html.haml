@@ -1,0 +1,241 @@
+- content_for :title, h(@idea.title)
+
+- content_for :head do
+  = stylesheet_link_tag('admin/colorbox')
+  
+
+- content_for :scripts do
+  = javascript_include_tag('admin/feedback_entries')
+  = javascript_include_tag('admin/lps/colorbox')
+
+%table.lite{:cellspacing => '15'}
+  %tbody
+    %tr
+      %th= t('ideas.show.complete')
+      %td.main= boolean_flag(@idea.complete?, yes_or_no(@idea.complete?))
+    %tr
+      %th= t('ideas.show.category')
+      %td= @idea.category.name
+    %tr
+      %th= t('ideas.show.description')
+      %td= simple_format @idea.detailed_description
+    %tr
+      %th= t('ideas.show.innovation')
+      %td= simple_format @idea.innovation
+    %tr
+      %th= t('ideas.show.problem_solved')
+      %td= simple_format @idea.problem
+    %tr
+      %th= t('ideas.show.target_user')
+      %td= @idea.target_user
+    %tr
+      %th= t('ideas.show.target_customer')
+      %td= @idea.target_customer
+    %tr
+      %th= t('ideas.show.price')
+      %td= @idea.price ? number_to_currency(@idea.price) : '<em>n/a</em>'
+    %tr
+      %th= t('ideas.show.competitors')
+      %td= simple_format na(@idea.competitors)
+    %tr
+      %th= t('ideas.show.competitive_advantage')
+      %td= simple_format na(@idea.competitive_advantage)
+    %tr
+      %th= t('ideas.show.design_process')
+      %td
+        = boolean_flag @idea.completed_industrial_design, t('ideas.show.industrial_design')
+        = boolean_flag @idea.completed_engineering, t('ideas.show.engineering')
+        = boolean_flag @idea.completed_prototyping, t('ideas.show.prototyping')
+        = boolean_flag @idea.completed_branding, t('ideas.show.branding')
+        = boolean_flag @idea.completed_packaging, t('ideas.show.packaging')
+        = boolean_flag @idea.completed_manufacturing, t('ideas.show.manufacturing')
+        %br.clear
+    %tr
+      %th= t('ideas.show.prototyping')
+      %td
+        = boolean_flag @idea.prototype, t('ideas.show.prototype')
+        = boolean_flag @idea.factory_sample, t('ideas.show.factory_sample')
+        %br.clear
+        
+- if @idea.issued_patents.any?
+  %h2.section-title= pluralize @idea.issued_patents.count, t('ideas.show.issued_patent')
+  - for patent in @idea.issued_patents
+    %table.lite{:cellspacing => '15'}
+      %tbody
+        %tr
+          %th= t('ideas.show.patent_type')
+          %td= patent.patent_type
+        %tr
+          %th= t('ideas.show.patent_number')
+          %td= patent.patent_number
+        %tr
+          %th= t('ideas.show.issued_on')
+          %td= patent.issued_on ? patent.issued_on.to_s(:date_ordinal) : na
+    %br/
+    
+- if @idea.pending_patents.any?
+  %h2.section-title= pluralize @idea.pending_patents.count, t('ideas.show.patent_pending')
+  - for patent in @idea.pending_patents
+    %table.lite{:cellspacing => '15'}
+      %tbody
+        %tr
+          %th= t('ideas.show.patent_type')
+          %td= patent.patent_type
+        %tr
+          %th= t('ideas.show.filed_on')
+          %td= patent.filed_on ? patent.filed_on.to_s(:date_ordinal) : na
+        - if patent.application?
+          %tr
+            %th= t('ideas.show.application')
+            %td
+              %em= link_to patent.application_file_name, idea_patent_path(@idea, patent)
+              = "(#{number_to_human_size(patent.application_file_size)})"
+    %br/
+        
+- if @idea.patent_search?
+  %h2.section-title= t('ideas.show.patent_search')
+  %table.lite{:cellspacing => '15'}
+    %tbody
+      %tr
+        %th= t('ideas.show.results')
+        %td= simple_format na(@idea.patent_search_results)
+      %tr
+        %th= t('ideas.show.performed_by')
+        %td= na(@idea.patent_search_performed_by)
+        
+%h2.section-title= t('ideas.show.circumstances')
+%table.lite{:cellspacing => 15}
+  %tbody
+    %tr
+      %th= t('ideas.show.independent_idea')
+      %td= boolean_flag @idea.independent_idea
+    - if @idea.invented_remember_when?
+      %tr
+        %th= t('ideas.show.invented_on')
+        %td= @idea.invented_on ? @idea.invented_on.to_s(:date_ordinal) : na
+      %tr
+        %th= t('ideas.show.invented_around')
+        %td= na @idea.invented_around
+    %tr
+      %th= t('ideas.show.where')
+      %td= simple_format na(@idea.invented_where)
+    %tr
+      %th= t('ideas.show.how')
+      %td= simple_format na(@idea.invented_how)
+
+- if @idea.disclosures.any?
+  %h2.section-title= pluralize @idea.disclosures.count, t('ideas.show.disclosure')
+  - for disclosure in @idea.disclosures
+    %table.lite{:cellspacing => 15}
+      %tbody
+        %tr
+          %th= t('ideas.show.disclosed_to')
+          %td= simple_format na(disclosure.disclosed_to)
+        %tr
+          %th= t('ideas.show.on')
+          %td= disclosure.disclosed_on ? disclosure.disclosed_on.to_s(:date_ordinal) : na
+        %tr
+          %th= t('ideas.show.confidentiality_agreement')
+          %td= boolean_flag disclosure.confidentiality_agreement, yes_or_no(disclosure.confidentiality_agreement)
+    %br/
+    
+- if @idea.contributors.any?
+  %h2.section-title= pluralize @idea.contributors.count, t('ideas.show.contributor')
+  - for contributor in @idea.contributors
+    %table.lite{:cellspacing => 15}
+      %tbody
+        - if contact = contributor.contact_information
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.name')
+            %td= na contact.name
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.address_1')
+            %td= na contact.address_1
+          - unless contact.address_2.blank?
+            %tr
+              %th= t('ideas.ip.form.contributors.expansion.address_2')
+              %td= contact.address_2
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.city')
+            %td= na contact.city
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.state')
+            %td= na contact.state
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.postal_code')
+            %td= na contact.postal_code
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.country')
+            %td= na contact.country
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.phone')
+            %td= na contact.phone
+          %tr
+            %th= t('ideas.ip.form.contributors.expansion.email')
+            %td= na contact.email
+        %tr
+          %th= t('ideas.ip.form.contributors.expansion.contribution_details')
+          %td= simple_format na(contributor.details)
+    %br/
+
+- if @idea.used_invention?
+  %h2.section-title= t('ideas.show.used_invention')
+  %table.lite{:cellspacing => 15}
+    %tbody
+      %tr
+        %th= t('ideas.show.first_used')
+        %td= @idea.used_invention_on ? @idea.used_invention_on.to_s(:date_ordinal) : na
+      %tr
+        %th= t('ideas.show.circumstances')
+        %td= simple_format na(@idea.used_invention_how)
+        
+- if @idea.posted_online?
+  %h2.section-title= t('ideas.show.online_posts')
+  %table.lite{:cellspacing => 15}
+    %tbody
+      %tr
+        %th= t('ideas.show.when')
+        %td= @idea.posted_online_on ? @idea.posted_online_on.to_s(:date_ordinal) : na
+      %tr
+        %th= t('ideas.show.where')
+        %td= simple_format na(@idea.posted_online_where)
+
+- if @idea.website?
+  %h2.section-title= t('ideas.show.website')
+  %table.lite{:cellspacing => 15}
+    %tbody
+      %tr
+        %th= t('ideas.show.url')
+        %td= @idea.website_url.blank? ? na : auto_link(@idea.website_url)
+      %tr
+        %th= t('ideas.show.launched_on')
+        %td= @idea.website_launched_on ? @idea.website_launched_on.to_s(:date_ordinal) : na
+        
+- if @idea.other_venues?
+  %h2.section-title= t('ideas.show.other_venues')
+  %table.lite{:cellspacing => 15}
+    %tbody
+      %tr
+        %th= t('ideas.show.what_venues')
+        %td= na @idea.other_venues_list
+
+%h2.section-title= pluralize @idea.attachments.count, t('ideas.show.attachments')
+- if @idea.attachments.any?
+  = render :partial => 'attachments/attachments', :locals => {:attachments => @idea.attachments, :editable => false}
+- else
+  .dialog
+    %p
+      = t('ideas.show.attachments_text')
+      = link_to t('ideas.show.click_to_add_attachments'), idea_attachments_path(@idea)
+%br/
+%br/
+        
+- if @submissions.any?
+  %h2.section-title= t('ideas.show.you_submitted_this_idea') + " " + pluralize(@submissions.size, t('ideas.show.time'))
+  
+  = will_paginate @submissions
+  %br.clear
+  
+  = render :partial => 'dashboards/live_product_search/submissions', :locals => {:submissions => @submissions, :editable => true}
+  
+  = will_paginate @submissions

@@ -1,0 +1,15 @@
+<%= h @user.first_name %>,
+Trong khi xử lý sự đăng ký hàng tháng với Edison Nation của bạn, có một thông tin thanh toán nhầm lỗi <%= @user.membership.updated_at.strftime("%B %d, %Y") %>.
+
+
+Xin vui lòng truy cập vào trang sau để cập nhật thông tin thanh toán của bạn để bạn có thể tiếp tục được hưởng chế độ thành viên Edison Nation của bạn
+
+
+  <%= "#{site}/membership/edit" %>
+
+
+Nếu bạn không cập nhật thông tin thanh toán của bạn trước ngày <%= @user.membership.auto_cancel_at.strftime("%B %d, %Y") %>, Tình trạng Edison Nation của bạn sẽ tự động bị gỡ bỏ.
+
+Nếu bạn có bất kỳ câu hỏi thanh toán liên quan đến tài khoản của bạn, xin vui lòng liên hệ với chúng tôi tại support@edisonnation.com.
+
+<%= signature %>

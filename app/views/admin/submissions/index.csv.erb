@@ -1,0 +1,4 @@
+Submission Key,Title,User,URL,Status,Patent Pending,Patent Issued,Prototype,Attachments,Ratings
+<%- @search.find_each(:include => [:live_product_search, :idea, :user, :ratings], :batch_size => 500) do |submission| -%>
+<%= submission.to_csv_row %>
+<%- end -%>

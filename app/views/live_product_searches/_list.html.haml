@@ -1,0 +1,7 @@
+%ul.lps-list
+  - live_product_searches.each_with_index do |lps,i|
+    %li{:class => (i==0 ? 'first' : nil)}
+      = link_to image_tag(lps.sponsor.logo.url, :alt => lps.sponsor.name), live_product_search_path(lps), :class => 'logo'
+      %h6.title= lps.title
+      = link_to 'learn more or submit an idea', live_product_search_path(lps), :class => 'learn-more'
+      

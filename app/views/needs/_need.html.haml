@@ -1,0 +1,34 @@
+%table.attributes
+  %tr
+    %th Needed: 
+    %td
+      %strong= link_to need.title, need_path(need)
+  %tr
+    %th Posted:
+    %td= need.created_at.strftime('%B %d %Y')
+  - unless need.location.blank?
+    %tr
+      %th  Location:
+      %td= need.location
+  - unless need.budget.blank?
+    %tr
+      %th Budget:
+      %td= number_to_currency(need.budget)
+  - unless need.barter.blank?
+    %tr
+      %th Barter:
+      %td= barter_label need.barter?
+  - unless need.tags.blank?
+    %tr
+      %th  Tags:
+      %td= linked_list_of_tags(need.tags)
+    %tr
+      %th Details:
+      %td= local_assigns[:truncate] ? truncate_html(need.details, :length => App.truncate[:need_details], :omission => "&hellip; #{link_to 'continue reading', need_path(need)}") : need.details
+
+  - if local_assigns[:editable]
+    - if current_user == need.user
+      %tr
+        %th Edit:
+        %td= link_to 'Click Here to Edit', edit_user_need_path(need.user, need)
+    

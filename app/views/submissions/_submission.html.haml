@@ -1,0 +1,31 @@
+- lps = submission.live_product_search
+%table.search-layout
+  %tr
+    %td.search-info
+      = linked_sponsor_logo(lps.sponsor)
+      = link_to lps.title, live_product_search_path(lps)
+    %td
+      %h4= link_to h(submission.idea.title), idea_path(submission.idea)
+      = thermo(submission)
+      .meta
+        %strong= t('submissions.submission.status') + ":"
+        = submission.status
+        - if submission.visible_stage == 7
+          - m7 = submission.moves.to_stage(7).first
+          %em= "(" + t('submissions.submission.updated_on') + " #{m7.move_at.to_s(:full_ordinal)})" if m7
+        %br/
+        - if submission.next_visible_stage
+          %strong= t('submissions.submission.next_step') + ":"
+          = Submission::Stages[submission.next_visible_stage]
+          %br/
+        %strong
+          - if lps.multiple_presentations
+            = lps.presentation.nil? || Date.today < lps.presentation ? t('submissions.submission.next') : t('submissions.submission.last')
+          = t('submissions.submission.presentation') + ":"
+        %a{:title => t('submissions.submission.presentation_tool_tip'), :class => 'tooltip'}
+          = lps.presentation ? lps.presentation.to_s(:date_ordinal) : t('submissions.submission.tba')
+          %br/
+        - if submission.feedback == 'complete' && submission.visible_stage == 8
+          %p
+            %a{:href => '#', :class => 'submission-feedback', :id => "submission-#{submission.id}" }
+              = t('submissions.submission.left_feedback')

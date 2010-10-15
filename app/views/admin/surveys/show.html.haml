@@ -1,0 +1,21 @@
+- content_for :page_title, "Survey &mdash; #{@survey.title}"
+
+%h1= "Survey &mdash; #{@survey.title}"
+
+%table.data
+  %thead
+    %tr
+      %th Survey
+      %th.actions
+        = link_to pluralize(@survey.responses.complete.count, 'response'), '#'
+        |
+        = link_to 'edit', edit_admin_survey_path(@survey)
+        |
+        = link_to 'destroy', admin_survey_path(@survey), :method => :delete, :confirm => 'Are you sure? The survey and all of its responses will be destroyed?'
+  %tbody
+    %tr
+      %th Title
+      %td= @survey.title
+    %tr
+      %th Created
+      %td= @survey.created_at && @survey.created_at.to_s(:full_ordinal)

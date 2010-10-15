@@ -1,0 +1,8 @@
+- content_for :title, @campus.title
+
+- content_for :sidebar do
+  = render :partial => 'popular_campuses'
+
+= render :partial => 'users/list', :locals => { :users => @users }
+
+= will_paginate @users

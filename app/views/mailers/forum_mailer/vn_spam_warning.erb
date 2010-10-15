@@ -1,0 +1,11 @@
+*****************************************************************************
+Các bài đăng sau đây được đánh dấu là spam
+
+Forum:         <%= @post.forum.name %>
+Topic:         <%= @post.topic.title %>
+Current State: <%= @post.state %>
+Spam Count:    <%= @post.spam_count %>
+Moderator:     <%= "#{@post.moderator.login}" if @post.moderator %>
+*****************************************************************************
+
+<%= @post.body %>

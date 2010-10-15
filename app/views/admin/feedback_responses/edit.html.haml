@@ -1,0 +1,11 @@
+- content_for :page_title, 'Editing a Response'
+
+%h1 Edit Response
+
+- form_for @feedback_response, :url => admin_response_path(@feedback_response) do |f|
+  
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Update Response'
+

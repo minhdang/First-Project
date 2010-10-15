@@ -1,0 +1,98 @@
+<%= @submission.user.name %>,
+
+<p>Thank you for your submission in response to the <%= @lps.sponsor.name %> <%= @lps.title %> (LPS ID: <%= @lps.key %>). Your Live Search Submission number is: <%= @submission.key %>. Your idea was submitted on <%= @submission.completed_at.to_s(:long_ordinal)%> <%= Time.zone.name %>. Please carefully read through this entire email as it explains the process after submission.</p>
+
+<%- if @submission.payment -%>
+<p>Payment was made by <%= @submission.payment.billing_address.first_name %> <%= @submission.payment.billing_address.last_name %> using a credit card ending in "<%= @submission.payment.cc_number %>."</p>
+<%- end -%>
+
+<b>Monitoring Your Progress: </b>
+ 
+<p>
+  Updates will be displayed in real-time on your Live Product Search 
+  dashboard, which can be accessed on this page: 
+  <a href="http://www.edisonnation.com/dashboard/live_product_search">http://www.edisonnation.com/dashboard/live_product_search</a>. Note: You may be prompted to log in. </p>
+ 
+<p>
+  A green check mark on your dashboard means you have advanced to the 
+next stage, a red X means that your idea was not selected. You may 
+"opt out" of the Live Product Search up until you receive a green 
+check mark in stage 7, by clicking the "opt out" button next to your 
+submission. When you "opt out," you terminate your contract with 
+Edison Nation and you are released and free to develop the product on 
+your own. If you receive a green check mark on stage 7, we will be 
+presenting the idea to the search partner, and if it is selected, you 
+assign all rights to Edison Nation (Click here for compensation 
+details outlined in the Innovator Agreement).
+</p>
+
+<p><b>Explanation of Dashboard Stages:</b></p>
+
+<p> 
+<b>Stage 1:</b> Submission Received <br />
+Your submission has been submitted successfully. 
+</p>
+
+<p>
+<b>Stage 2:</b> Pre-Screen <br />
+Your submission has met the minimum requirements of the search. 
+</p>
+
+<p>
+<b>Stage 3:</b> Initial IP <br />
+Your submission has passed our first round of competitive analysis and intellectual property review. 
+</p>
+
+<p>
+<b>Stage 4:</b> Research &amp; Design <br />
+We review and benchmark your submission against competitive products. In some cases, our product designers may enhance your idea to take it to the next level. 
+</p>
+
+<p>
+<b>Stage 5:</b> Final Consideration <br />
+We benchmark your submission against the other submissions for the search. The best move forward for more in-depth intellectual property review (stage 6). Key review criteria include: market potential, price point, match for the search sponsor, and any other requirements defined in the search description. 
+</p>
+
+<p>
+<b>Stage 6:</b> Final IP Review <br />
+We perform a more in-depth analysis of competing intellectual property, patents and ideas in the public domain. 
+</p>
+
+<p>
+<b>Stage 7:</b> Finalists <br /> 
+This is our final internal review. If your submission passes this stage, it will be presented to the search sponsor for consideration.  
+</p>
+
+<p>
+<b>Stage 8:</b> Success <br />
+If your submission has passed this stage (the exclamation point turns green), it has been selected by the search sponsor to take to market. 
+</p>
+
+<p><b>Feedback: </b></p>
+<p>
+Unfortunately, we can not offer one-on-one feedback for participants. Keep in mind that Edison Nation aims to satisfy the innovation needs of our search partners, as clearly defined in their Live Product Search descriptions. As a result, if your idea is not selected by the search partner it does not necessarily mean that it is not a good concept worth pursuing. It may simply means it was not the best fit for their current product innovation needs.
+</p>
+
+<p><b>Timeline:</b></p>
+
+<p>
+The time it takes to review your idea depends on the search specifics and the volume of submissions. We typically begin reviewing stages 4 and beyond after the search has closed. The review process after the search closes typically takes 4-6 weeks. After which, we present the finalists to our Live Product Search partner, who typically has 45 days from the presentation date to make their final selections.
+</p>
+
+<p><b>Editing Your Submission:</b></p>
+<p>
+If you need to edit a submission, visit your Live Product Search Dashboard (<a href="http://www.edisonnation.com/dashboard/live_product_search">http://www.edisonnation.com/dashboard/live_product_search</a>), Scroll down to the "My Ideas" section, Click "Continue" or "Edit" next to the idea you need to update.
+</p>
+
+<p><b>Login Troubles:</b></p>
+ 
+<p> 
+  If you cannot remember your login, please visit <a href="http://support.edisonnation.com/faqs/account-basics/logging-in">http://support.edisonnation.com/faqs/account-basics/logging-in</a>
+</p>
+
+<p>
+If you have any addition questions please visit the Edison Nation Support Site http://support.edisonnation.com where you can browse frequently asked questions or submit a private question.
+</p>
+<p>Congratulations and good luck!</p>
+
+<p><%= signature %></p>

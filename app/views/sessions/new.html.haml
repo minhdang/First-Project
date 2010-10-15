@@ -1,0 +1,21 @@
+- content_for :page_title, t('log_in.page_title')
+- content_for :title, t('log_in.title')+ " <span>#{link_to t('log_in.sign_up'), signup_path}</span>"
+
+#login-panel 
+  - form_tag session_path, :class => 'mini' do
+    .required
+      = label_tag 'login', t('log_in.username')
+      = text_field_tag 'login', @login, :tabindex => 1
+
+    .required
+      = label_tag 'password', t('log_in.password')+" <span>#{link_to t('log_in.forgot_password'), forgot_password_path}</span>"
+      = password_field_tag 'password', nil, :tabindex => 2
+      
+    %div
+  
+    .checkbox
+      = check_box_tag 'remember_me', '1', @remember_me, :tabindex => 3
+      = label_tag 'remember_me', t('log_in.remember_me')
+
+    .confirmation
+      = submit_tag t('log_in.page_title'), :class => 'login-button button green', :tabindex => 4

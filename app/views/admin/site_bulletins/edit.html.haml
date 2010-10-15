@@ -1,0 +1,7 @@
+%h1 Editing Site Bulletin 
+
+- form_for @site_bulletin, :url => admin_site_bulletin_path(@site_bulletin) do |f|
+  = render :partial => 'fields', :locals => {:f => f}
+  
+  %div
+    = f.submit 'Update Site Bulletin'

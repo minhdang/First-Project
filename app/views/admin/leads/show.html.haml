@@ -1,0 +1,19 @@
+- content_for :page_title, "Lead #{@lead.key}"
+
+%h1= "Lead #{@lead.key}"
+
+%h3= pluralize @lead.actions.count, 'action'
+
+%ul.actions
+  - @lead.actions.each do |action|
+    %li{:class => action.action_type}
+      %h5
+        %span.date= action.created_at.to_s(:full_ordinal)
+        = action.action_type.to_s.titleize
+      
+      .data
+        - action.data.each do |key, value|
+          %strong= "#{key}:"
+          = value
+          %br/
+

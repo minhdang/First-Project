@@ -1,0 +1,15 @@
+- content_for :page_title, t('user_photos.edit.title')
+- content_for :title do
+  - if current_user == @user
+    = button_to t('user_photos.edit.delete'), user_album_photo_path(@user, @album, @photo), :method => :delete, :confirm => t('user_photos.edit.delete_confirm'), :class => 'delete-photo-button button red medium right', :id => "delete_#{dom_id @photo}"
+  = yield :page_title
+  
+
+- content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+
+
+- form_for @photo, :url => user_album_photo_path(@user, @album, @photo) do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+  = link_to t('user_photos.edit.cancel'), :back
+  = f.submit

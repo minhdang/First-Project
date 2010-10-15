@@ -1,0 +1,33 @@
+- content_for :page_title, "Pages - #{@page.title}"
+
+%h1
+  - if @page.ancestors.any?
+    = @page.ancestors.reverse.map{|p| link_to p.title, admin_page_path(p)}.join(' &raquo; ')
+    &raquo;
+  = @page.title
+
+%table.data
+  %thead
+    %tr
+      %th Page
+      %th.actions
+        - if @page.published?
+          = link_to 'view', page_path(@page.full_path)
+          |
+        = link_to 'edit', edit_admin_page_path(@page)
+        |
+        = link_to 'delete', admin_page_path(@page), :method => :delete, :confirm => "Are you sure?"
+  %tbody
+    %tr
+      %th Status
+      %td= @page.published? ? 'Published' : 'Draft'
+    %tr
+      %th Created
+      %td= @page.created_at && @page.created_at.to_s(:long_ordinal)
+    %tr
+      %th Last Updated
+      %td= @page.updated_at && @page.updated_at.to_s(:long_ordinal)
+    %tr
+      %th Body
+      %td
+        .html= @page.body_html

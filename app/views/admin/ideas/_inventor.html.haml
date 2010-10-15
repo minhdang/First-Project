@@ -1,0 +1,20 @@
+%table.data
+  %thead
+    %tr
+      %th{:colspan => 2} Inventor
+  %tbody
+    %tr
+      %td{:rowspan => (contact ? 5 : nil)}= badge_for user
+      %td
+        %h4
+          = h(contact ? contact.name : user.name)
+          = "(#{link_to user.login, admin_user_path(user), :target => '_blank'})"
+    - if contact
+      %tr
+        %td= "#{pluralize(user.ideas.complete.count, 'idea')} &mdash; #{pluralize(user.submissions.complete.count, 'submission')}"
+      %tr
+        %td= nl2br h(contact.full_address)
+      %tr
+        %td= contact.phone
+      %tr
+        %td= auto_link contact.email

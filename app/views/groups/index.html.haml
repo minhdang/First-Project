@@ -1,0 +1,33 @@
+- content_for :title do
+  = if @user then "#{@user.login}" + t('groups.users_groups') elsif params[:q] then t('groups.group_search') + " - #{params[:q]}" elsif params[:region] then "#{params[:region]} " + t('groups.regional_groups') else t('groups.groups') end
+  
+- if @user
+  - content_for :sidebar, render(:partial => 'users/profile_sidebar', :locals => {:user => @user})
+
+= will_paginate @groups
+= link_to t('groups.start_new_group'), new_group_path, :class => 'new-group-button button green medium'
+%br/
+
+- unless @groups.blank?
+  %ul#groups
+    - @groups.each do |group|
+      %li
+        %h3= link_to group.title, group_path(group), :class => (group.private? ? 'locked' : nil), :title => (group.private? ? t('groups.private_group') : nil)
+        
+        %table.attributes
+          %tr
+            %th= t('groups.members')
+            %td= group.members_count
+          %tr
+            %th= t('groups.created_by')
+            %td
+              = group.owner.name
+              = "(#{link_to group.owner.login, user_path(group.owner)})"
+          - unless group.description.blank?
+            %tr
+              %th= t('groups.description')
+              %td= simple_format group.description
+
+  %br/
+  = will_paginate @groups
+  = link_to t('groups.start_new_group'), new_group_path, :class => 'new-group-button button green medium'

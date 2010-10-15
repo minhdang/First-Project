@@ -1,0 +1,24 @@
+%table.data
+  %thead
+    %tr
+      %th Feedback
+  %tbody
+    %tr
+      %td
+        #response_form
+          -if @submission.feedback == 'complete'
+            %h1
+              - form_tag admin_feedback_entry_path(@submission.feedback_entry), :method => :put do
+                %fieldset
+                  %div
+                    = text_area_tag 'feedback_entry[body]', @submission.feedback_entry.body, :class => 'textile'
+                    = hidden_field_tag 'feedback_entry[title]', @submission.feedback_entry.title
+                    = hidden_field_tag '[submission_key]', @submission.key
+                    = hidden_field_tag '[lps_key]', @lps.key
+
+                  = submit_tag('Update Feedback')
+          -elsif @submission.feedback == 'pending'
+            %h1 You need to leave feedback
+          -else
+            %h1 Submission has not qualified for feedback 
+            
